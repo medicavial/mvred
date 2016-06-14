@@ -1,0 +1,28 @@
+<md-content class="md-whiteframe-2dp">
+  <md-tabs md-selected="selectedIndex" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+    <md-tab id="tab1" ng-disabled="rg.step1block">
+      <md-tab-label>Selecciona Compañia</md-tab-label>
+      <md-tab-body>
+        <div ng-include="rg.paso1"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab2" ng-disabled="rg.step2block">
+      <md-tab-label>Selecciona Producto</md-tab-label>
+      <md-tab-body> 
+        <div ng-include="rg.paso2"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab3" ng-disabled="rg.step3block">
+      <md-tab-label>Guarda Datos</md-tab-label>
+      <md-tab-body>
+        <div ng-include="rg.paso3"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab3" ng-disabled="rg.step4block">
+      <md-tab-label>Resumen</md-tab-label>
+      <md-tab-body>
+        <div ng-include="rg.paso4"></div>
+      </md-tab-body>
+    </md-tab>
+  </md-tabs>
+</md-content>

@@ -1,0 +1,72 @@
+<div layout="column">
+    
+    <md-data-table-toolbar class="md-whiteframe-z1 animated fadeInUp">
+      <md-input-container md-no-float flex class="no-padding">
+        <md-icon>
+          <ng-md-icon icon="search"></ng-md-icon> 
+        </md-icon>
+        <input ng-model="query" type="text" placeholder="Buscar Perfil" flex>
+      </md-input-container>
+      <md-button class="md-icon-button" aria-label="limpiar" ng-show="query" ng-click="query = ''">
+        <ng-md-icon icon="close"></ng-md-icon> 
+      </md-button>
+    </md-data-table-toolbar>
+    <br>
+    <md-data-table-container class="md-whiteframe-z1 animated fadeInUp">
+      <table md-data-table>
+        <thead md-order="perfiles.order" md-trigger="perfiles.onOrderChange">
+          <tr>
+            <th name="ID"  order-by="USU_clave"></th>
+            <th name="Usuario" order-by="USU_login"></th>
+            <th name="Nombre" order-by="USU_nombrecompleto"></th>
+            <th name="Fecha Alta"  order-by="created_at"></th>
+            <th name="Activo"  order-by="USU_activo"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="usuario in usuarios.info |filter:query | orderBy: perfiles.order | limitTo: perfiles.limit: (perfiles.page - 1) * perfiles.limit">
+            <td>{{usuario.USU_clave}}</td>
+            <td>{{usuario.USU_login}}</td>
+            <td>{{usuario.USU_nombrecompleto}}</td>
+            <td>{{usuario.created_at}}</td>
+            <td>
+              <div ng-show="usuario.USU_activo">SI</div>
+              <div ng-hide="usuario.USU_activo">NO</div>
+            </td>
+            <td class="option-table">
+                <md-menu md-position-mode="target-right target" >
+                  <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
+                    <md-icon md-menu-origin>
+                      <ng-md-icon icon="more_vert"></ng-md-icon> 
+                    </md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button ng-click="usuarios.editaUsuario($event,$index)">
+                        <p>Modificar</p>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-click="usuarios.confirmacion($event,$index)">
+                        <p ng-show="usuario.USU_activo" >Desactivar</p>
+                        <p ng-hide="usuario.USU_activo" >Activar</p>
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+    <br>
+    <md-data-table-pagination class="animated fadeInUp" md-label="usuarios.texto" md-row-select="usuarios.paginacion" md-limit="usuarios.limit" md-page="usuarios.page" md-total="{{usuarios.info.length}}"></md-data-table-pagination>
+
+</div>
+
+<md-button id="nuevo" class="animated bounceInUp md-fab md-fab-bottom-right" ng-click="usuarios.nuevoUsuario($event)" aria-label="Nuevo Estado">
+    <md-tooltip md-direction="top">
+      Nuevo
+    </md-tooltip>
+    <ng-md-icon icon="add" style="fill:white"></ng-md-icon> 
+</md-button>

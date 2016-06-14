@@ -1,0 +1,71 @@
+/*.sub-menu.ng-enter, .sub-menu.ng-leave {
+  	transition:all linear 0.5s;
+}
+
+.sub-menu.ng-enter,
+.sub-menu.ng-leave.ng-leave-active {
+	line-height: 0;
+	height: 0;
+  	opacity:0;
+}
+
+.sub-menu.ng-leave,
+.sub-menu.ng-enter.ng-enter-active {
+  	opacity:1;
+}*/
+
+
+.paginas.ng-leave {
+
+    animation: fadeOut 0.5s;
+
+}
+
+.paginas.ng-enter{
+    
+    animation: fadeIn 0.5s;
+
+}
+
+.muestras.ng-hide-add {
+
+    animation: fadeOutDown 0.9s;
+
+}
+
+.muestras.ng-hide-remove{
+    
+    animation: fadeInUp 0.9s;
+
+}
+
+
+.boton.ng-hide-add {
+
+    animation: fadeOutDown 0.5s;
+
+}
+
+.boton.ng-hide-remove{
+    
+    animation: fadeIn 0.5s;
+
+}
+
+.boton.ng-enter{
+
+    animation: fadeInUp 0.5s;
+
+}
+
+.boton.ng-leave{
+    
+    animation: fadeOutDown 0.5s;
+
+}
+
+/*.animaitem.ng-enter{
+	animation:;
+}*/
+
+
