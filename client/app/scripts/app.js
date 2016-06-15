@@ -2,17 +2,6 @@
 
 	'use strict';
 
-	// var hoy = new Date(); 
-	// var dd = hoy.getDate(); 
-	// var mm = hoy.getMonth()+1;//enero es 0! 
-	// if (mm < 10) { mm = '0' + mm; }
-	// if (dd < 10) { dd = '0' + dd; }
-
-	// var yyyy = hoy.getFullYear();
-
-	// //armamos fecha para los datepicker
-	// var FechaAct = dd + '/' + mm + '/' + yyyy;
-
 
 	angular.module('app', [
 		'ui.router',

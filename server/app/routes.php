@@ -31,6 +31,8 @@ Route::group(array('prefix' => 'api'), function()
     Route::group(array('prefix' => 'busqueda'), function(){
 
         Route::get('clientes', array('uses' => 'BusquedasController@clientes'));
+        Route::get('productos', array('uses' => 'BusquedasController@productos'));
+        Route::get('productos/{cliente}/{unidad}', array('uses' => 'BusquedasController@productosConvenio'));
 
     });
 

@@ -7,9 +7,9 @@
 	angular.module('app')
 	.controller('registroCtrl',registroCtrl)
 
-	registroCtrl.$inject = ['$rootScope','datos'];
+	registroCtrl.$inject = ['$rootScope','datos','busqueda'];
 
-	function registroCtrl($rootScope,datos){
+	function registroCtrl($rootScope,datos,busqueda){
 
 		// se inciliza el objeto del controlador y la vista
 		var vm = this;
@@ -23,6 +23,9 @@
 		vm.step3block = true;
 		vm.step4block = true;
 
+		vm.consultando = false;
+		vm.tabActual = 0;
+
 		vm.paso1 = 'views/registroPaso1.html';
 		vm.paso2 = 'views/registroPaso2.html';
 		vm.paso3 = 'views/registroPaso3.html';
@@ -33,6 +36,17 @@
 
 		// funciones del controlador
 		function verificaProducto(cliente){
+
+			console.log(cliente);
+			vm.consultando = true;
+
+			busqueda.productos().success(function(data){
+				vm.productos = data;
+				vm.tabActual = 1;
+				vm.step2block = false;
+				vm.consultando = false;
+
+			});
 
 		}
 

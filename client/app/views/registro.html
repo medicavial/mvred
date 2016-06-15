@@ -1,5 +1,6 @@
 <md-content class="md-whiteframe-2dp">
-  <md-tabs md-selected="selectedIndex" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+  <md-progress-linear ng-if="rg.consultando" md-mode="indeterminate"></md-progress-linear>
+  <md-tabs md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
     <md-tab id="tab1" ng-disabled="rg.step1block">
       <md-tab-label>Selecciona Compañia</md-tab-label>
       <md-tab-body>
