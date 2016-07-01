@@ -13,13 +13,15 @@
 		'ngAnimate',
 		'md.data.table',
 		'ngFileUpload',
-		'angular.filter'
+		'angular.filter',
+		'mdPickers',
+		'ui.utils.masks'
 	])
 	
 	.constant('api', 'http://localhost/mvred/server/public/api/')
 	// .constant('api', 'http://api.medicavial.mx/api/')
 
-	.constant('publicfiles','http://localhost/mvred/server/public/exports/');
+	.constant('publicfiles','http://localhost/mvred/server/public/');
 	// .constant('publicfiles','http://api.medicavial.mx/exports/')
 	
 

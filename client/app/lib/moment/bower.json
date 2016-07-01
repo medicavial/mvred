@@ -1,6 +1,9 @@
 {
   "name": "moment",
-  "main": "moment.js",
+  "main": [
+    "moment.js",
+    "locale/es.js"
+  ],
   "ignore": [
     "**/.*",
     "benchmarks",

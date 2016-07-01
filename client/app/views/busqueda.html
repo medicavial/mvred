@@ -1,0 +1,128 @@
+<div layout="column" ng-init="bs.inicio()">
+    
+    <form ng-submit="bs.buscar()">
+    <md-content layout-gt-sm="row" layout="column" layout-padding layout-wrap class="md-whiteframe-2dp">
+        
+        <md-input-container flex>
+          <label>Lesionado</label>
+          <input name="lesionado" ng-model="bs.datos.lesionado" mayusculas>          
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Folio</label>
+          <input name="folio" ng-model="bs.datos.folio" folio>          
+        </md-input-container>
+        
+        <div layout="column" layout-align="center center" flex>
+          <md-progress-circular md-mode="indeterminate" ng-if="bs.consultando"></md-progress-circular>
+          <md-button type="submit" class="md-raised md-primary" ng-if="!bs.consultando">Buscar</md-button>
+        </div>
+        
+    </md-content>
+    </form>
+    <br>
+    <div flex ng-if="bs.registros.length > 0">
+      <!-- <p>Busqueda: {{ bs.datos.lesionado }} {{ bs.datos.folio }} </p> -->
+      <!-- <md-data-table-container class="md-whiteframe-2dp">
+        <table md-data-table>
+          <thead md-order="bs.order">
+            <tr>
+              <th name="Cliente"  order-by="Cia_clave"></th>
+              <th name="Folio" order-by="Exp_folio"></th>
+              <th name="Lesionado"  order-by="Exp_completo"></th>
+              <th name="Registro"  order-by="Exp_fecreg"></th>
+              <th name="Observaciones" order-by="Exp_obs"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat-star="registro in bs.registros |filter:query | orderBy: bs.order | limitTo: limite: (pagina - 1) * limite" ng-click="bs.muestraDetalle($index)">
+
+              <td class="imagen"> <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> </td>
+              <td>{{registro.Exp_folio}}</td>
+              <td>{{registro.Exp_completo}}</td>
+              <td>{{registro.Exp_fecreg}}</td>
+              <td>{{registro.Exp_obs}}</td>
+              <td class="option-table">
+                  <md-menu md-position-mode="target-right target" >
+                    <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
+                      <md-icon md-menu-origin>
+                        <ng-md-icon icon="more_vert"></ng-md-icon> 
+                      </md-icon>
+                    </md-button>
+                    <md-menu-content width="2">
+                      <md-menu-item>
+                        <md-button ng-click="equivalencias.editaDocumentos(registro)">
+                          <p>Editar Documentos</p>
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="equivalencias.editaTipo($event,registro)">
+                          <p>Cancelar</p>
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
+              </td>
+
+            </tr>
+            <tr ng-repeat-end ng-show="bs.detalle[$index]">
+              <td>
+                <div>
+                  <h3>Pet details</h3>
+                  <p>some details about this pet.</p>                
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-data-table-container>
+      <br>
+      <md-data-table-pagination md-label="texto" md-row-select="paginacion" md-limit="limite" md-page="pagina" md-total="{{bs.registros.length}}"></md-data-table-pagination> -->
+      
+      <md-table-container>
+
+        <table md-table class="md-primary md-data-table">
+         <thead md-head md-order="bs.order">
+         <tr md-row>
+             <th md-column><span>Folio</span></th>
+             <th md-column><span>Lesionado</span></th>
+             <th md-column><span>Registro</span></th>
+         </tr>
+         </thead>
+         <tbody md-body>
+         <tr md-row ng-click="bs.ShowDetailed($index)" ng-repeat-star="registro in bs.registros |filter:query | orderBy: bs.order | limitTo: limite: (pagina - 1) * limite">
+            <td md-cell>{{ registro.Exp_folio }}</td>
+            <td md-cell>{{ registro.Exp_completo }}</td>
+            <td md-cell>{{ registro.Exp_fecreg }}</td>
+         </tr>
+         <tr ng-show="bs.detailedShow[$index]" ng-repeat-end>
+            <td> </td>
+            <td colspan="2"> 
+                 <table md-table ng-show="vm.detailedShow[$index]"> 
+               <thead md-head>
+                  <tr md-row>
+                  <th md-column><span>Project Name</span></th>
+                  <th md-column><span>District</span></th>
+                  <th md-column><span>City</span></th>
+                  </tr>
+               </thead>
+               <tbody md-body>
+                  <tr md-row>
+                      <td md-cell>Prueba</td>
+                      <td md-cell>De</td>
+                      <td md-cell>Contenido</td>
+                  </tr>
+               </tbody md-body>
+            </table>
+            </td>
+         </tr>
+         </tbody>
+        </table>
+      </md-table-container>
+
+    <br>
+
+  
+</div>
+
+

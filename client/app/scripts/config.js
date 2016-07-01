@@ -16,6 +16,7 @@
 		$mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago','Sep','Oct','Nov','Dic'];
 		$mdDateLocaleProvider.days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes','Sabado'];
 		$mdDateLocaleProvider.shortDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi' ,'Sa'];
+		moment.locale('es');
 
 	  	$mdDateLocaleProvider.formatDate = function(date) {
 		    return date ? moment(date).format('DD/MM/YYYY') : '';
@@ -43,6 +44,18 @@
 			templateUrl: 'views/base.html'
 		})
 
+		.state('index.busqueda',{
+			url:'busqueda',
+			templateUrl :'views/busqueda.html',
+			controller:'busquedaCtrl',
+			controllerAs:'bs',
+			resolve:{
+				datos : function(busqueda){
+					return busqueda.registros();
+				}
+			}
+		})
+
 		.state('index.home',{
 			url:'home',
 			templateUrl :'views/home.html',
@@ -55,8 +68,28 @@
 			controller:'registroCtrl',
 			controllerAs:'rg',
 			resolve: {
-				datos : function(busqueda){
-					return busqueda.clientes();
+				datos : function(busqueda,$q){
+
+					var promesa  	= $q.defer(),
+						clientes 	= busqueda.clientes(),
+						tipos	 	= busqueda.tipos(),
+						riesgos  	= busqueda.riesgos(),
+						ajustadores = busqueda.ajustadores();
+					
+					$q.all([clientes,tipos,riesgos,ajustadores]).then(function (data){
+						var datos = {
+							clientes:data[0].data,
+							tipos:data[1].data,
+							riesgos:data[2].data,
+							ajustadores:data[3].data
+						}
+
+						promesa.resolve(datos);
+					},function(error){
+						promesa.reject('error en consulta');
+					});
+
+					return promesa.promise;
 				}
 			}
 		});

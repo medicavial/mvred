@@ -17,7 +17,8 @@ class CreateReferenciaProductoTable extends Migration {
 			$table->integer('Cia_clave')->unsigned();
 			$table->foreign('Cia_clave')->references('Cia_clave')->on('Compania');
 
-			$table->string('REF_localidad');
+			$table->string('REF_condicion');
+			$table->string('REF_clave');
 
 			$table->integer('Pro_clave')->unsigned();
 			$table->foreign('Pro_clave')->references('Pro_clave')->on('Producto');

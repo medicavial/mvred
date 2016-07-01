@@ -14,10 +14,23 @@
 		var url = '';
 		$rootScope.atras = false;
 
+		$rootScope.limite = 30;
+		$rootScope.pagina = 1;
+		$rootScope.paginacion = [10,20,30,40,50];
+		$rootScope.texto = {
+			text: 'Resultados por pagina:',
+			of: 'de'
+	    };
+
 		//parametros globales tomados del localStorage
 		$rootScope.username = webStorage.session.get('username');
-		$rootScope.nombre = webStorage.session.get('nombre');
-		$rootScope.id = webStorage.session.get('id');
+        $rootScope.nombre = webStorage.session.get('nombre');
+        $rootScope.id = webStorage.session.get('id');
+        $rootScope.localidad = webStorage.session.get('localidad');
+        $rootScope.unidad = webStorage.session.get('unidad');
+        $rootScope.nombreUni = webStorage.session.get('nombreUni');
+        
+        $rootScope.permisos = JSON.parse( webStorage.session.get('permisos') );
 
 
 		$rootScope.toggleSidenav = function(menuId) {

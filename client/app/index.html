@@ -2,7 +2,7 @@
 <html lang="es-MX" ng-app="app">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	<title>Registro MV 2.0</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"/>
@@ -35,22 +35,24 @@
 	<!-- build:js js/vendor.min.js -->
 	<!-- bower:js -->
 	<script src="lib/angular/angular.js"></script>
-	<script src="lib/angular-filter/dist/angular-filter.min.js"></script>
 	<script src="lib/angular-animate/angular-animate.js"></script>
 	<script src="lib/angular-aria/angular-aria.js"></script>
+	<script src="lib/angular-messages/angular-messages.js"></script>
 	<script src="lib/angular-material/angular-material.js"></script>
 	<script src="lib/angular-material-data-table/dist/md-data-table.min.js"></script>
 	<script src="lib/angular-material-icons/angular-material-icons.min.js"></script>
-	<script src="lib/angular-messages/angular-messages.js"></script>
 	<script src="lib/angular-resource/angular-resource.js"></script>
 	<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="lib/angular-webstorage/angular-webstorage.js"></script>
+	<script src="lib/angular-filter/dist/angular-filter.min.js"></script>
 	<script src="lib/jspdf/dist/jspdf.min.js"></script>
-	<script src="lib/material-design-lite/material.min.js"></script>
-	<script src="lib/moment/moment.js"></script>
-	<script src="lib/mdPickers/dist/mdPickers.min.js"></script>
 	<script src="lib/ng-file-upload/ng-file-upload.js"></script>
 	<script src="lib/svg-morpheus/compile/minified/svg-morpheus.js"></script>
+	<script src="lib/material-design-lite/material.min.js"></script>
+	<script src="lib/moment/moment.js"></script>
+	<script src="lib/moment/locale/es.js"></script>
+	<script src="lib/mdPickers/dist/mdPickers.js"></script>
+	<script src="lib/angular-input-masks/angular-input-masks-standalone.js"></script>
 	<!-- endbower --> 
 	<!-- endbuild -->
 	
@@ -59,6 +61,7 @@
 	<script src="/scripts/app.js"></script>    
 	<script src="/scripts/config.js"></script>    
 	<script src="/scripts/run.js"></script>    
+	<script src="/scripts/controllers/busquedaCtrl.js"></script>    
 	<script src="/scripts/controllers/homeCtrl.js"></script>    
 	<script src="/scripts/controllers/loginCtrl.js"></script>    
 	<script src="/scripts/controllers/registroCtrl.js"></script>    
@@ -72,6 +75,7 @@
 	<script src="/scripts/services/authService.js"></script>    
 	<script src="/scripts/services/busquedaService.js"></script>    
 	<script src="/scripts/services/mensajeService.js"></script>    
+	<script src="/scripts/services/operacionService.js"></script>    
 	<script src="/scripts/services/usuarioService.js"></script>    
 	<!-- endinject -->
 	<!-- endbuild -->

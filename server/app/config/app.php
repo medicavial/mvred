@@ -122,7 +122,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Barryvdh\Cors\CorsServiceProvider',
-
+		'Barryvdh\DomPDF\ServiceProvider',
+		'Milon\Barcode\BarcodeServiceProvider',
 	),
 
 	/*
@@ -189,7 +190,9 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-
+		'PDF' 			  => 'Barryvdh\DomPDF\Facade',
+		'DNS1D' 		  => 'Milon\Barcode\Facades\DNS1DFacade',
+    	'DNS2D' 		  => 'Milon\Barcode\Facades\DNS2DFacade',
 	),
 
 );

@@ -40,7 +40,7 @@
 
           <md-list-item ng-click="ir('index.home')">
             <md-icon>
-              <ng-md-icon icon="home" style="fill:#3F51B5"></ng-md-icon>
+              <ng-md-icon icon="home"></ng-md-icon>
             </md-icon>
             <p> Inicio </p>
           </md-list-item>
@@ -49,11 +49,19 @@
 
           <md-list-item ng-click="ir('index.registro')">
             <md-icon>
-              <ng-md-icon icon="assignment" style="fill:#3F51B5"></ng-md-icon>
+              <ng-md-icon icon="assignment"></ng-md-icon>
             </md-icon>
             <p> Registro de Paciente </p>
           </md-list-item>
-
+          
+          <md-divider></md-divider>
+          
+          <md-list-item ng-click="ir('index.busqueda')">
+            <md-icon>
+              <ng-md-icon icon="search"></ng-md-icon> 
+            </md-icon>
+            <p> Busqueda </p>
+          </md-list-item>
           <!-- <md-list-item ng-click="abrirMenu(1)">
             <md-icon>
               <ng-md-icon icon="dashboard" style="fill:rgb(255, 87, 34)"></ng-md-icon>
@@ -75,12 +83,6 @@
                 <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
               </md-icon>
               <p> Perfiles </p>
-            </md-list-item>
-            <md-list-item ng-click="ir('index.tiposmovimiento')">
-              <md-icon>
-                <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-              </md-icon>
-              <p> Tipos Movimiento </p>
             </md-list-item>
             <md-list-item ng-click="ir('index.tiposajuste')">
               <md-icon>

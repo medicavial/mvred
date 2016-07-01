@@ -20,10 +20,18 @@
                     webStorage.session.add('username',data.Usu_login);
                     webStorage.session.add('nombre',data.Usu_nombre);
                     webStorage.session.add('id',data.Usu_login);
+                    webStorage.session.add('localidad',data.LOC_claveint);
+                    webStorage.session.add('unidad',data.Uni_clave);
+                    webStorage.session.add('nombreUni',data.Uni_nombrecorto);
+                    webStorage.session.add('permisos',JSON.stringify(data))
 
                     $rootScope.username = webStorage.session.get('username');
                     $rootScope.nombre = webStorage.session.get('nombre');
                     $rootScope.id = webStorage.session.get('id');
+                    $rootScope.localidad = webStorage.session.get('localidad');
+                    $rootScope.unidad = webStorage.session.get('unidad');
+                    $rootScope.nombreUni = webStorage.session.get('nombreUni');
+                    $rootScope.permisos = JSON.parse( webStorage.session.get('permisos') );
 
                     if (credenciales.guardar) {
                         webStorage.local.add('usuario',JSON.stringify(data));

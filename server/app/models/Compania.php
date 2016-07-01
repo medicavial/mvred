@@ -12,6 +12,7 @@ class Compania extends Eloquent {
     {
         return $query->where('Cia_activa','S')
         			 ->where('Cia_red',1)
+                     ->orderBy('Cia_nombrecorto')
                      ->get();
     }
     
