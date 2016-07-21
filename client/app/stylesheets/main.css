@@ -28,8 +28,25 @@ h1,h2,h3,h4{
   font-weight: 300;
 }
 
+
+
+md-tabs.noTabPanel md-tabs-wrapper {
+    display: none !important;
+}
+
+md-tabs.TabPanel md-tabs-wrapper {
+    display: block !important;
+}
+
 md-grid-list md-grid-tile md-grid-tile-footer {
     background-color: rgba(0, 0, 0, 0.77);
+}
+
+
+.notify{
+  background-color: red;
+  color:white;
+  padding: 5px;
 }
 
 .spinner-hide .loading{
@@ -87,6 +104,89 @@ md-grid-tile:hover{
 
 .content{
   position: relative;
+}
+
+.detalle{
+
+}
+.no-margin{
+  margin: 0 !important;
+}
+
+.no-padding{
+  padding: 0 !important;
+}
+
+.darkBlue {
+  background-color: #80d8ff !important; 
+}
+
+.deepBlue {
+  background-color: #448aff !important; 
+}
+
+.yellowG {
+  background-color: #FABC07 !important; 
+}
+
+.greenG {
+  background-color: #34A853 !important; 
+}
+
+.green600{
+  background-color: #43A047 !important;
+}
+
+.blueG {
+  background-color: #4285F4 !important; 
+}
+
+.blueGray400{
+  background-color: #78909C !important;
+}
+
+.redG{
+  background-color: #EA4335 !important;
+}
+
+.red400 {
+  background-color: #EF5350 !important;
+}
+
+.indigoG{
+  background-color: #3F51B5 !important;
+}
+
+.indigo400{
+  background-color: #5C6BC0 !important;
+}
+
+.grayG{
+  background-color: #757575 !important;
+}
+
+.orangeG{
+  background-color: #FF5722 !important;
+}
+
+.purpleG{
+  background-color: #673AB7 !important;
+}
+
+.purple400{
+  background-color: #AB47BC !important;
+}
+
+.azul{
+  background:rgb(130, 177, 255);
+}
+
+.teal{
+  background-color: #009688 !important;
+}
+
+.bg-transparent{
+  background-color: transparent !important;
 }
 
 .bottomSheetdemoBasicUsage .md-inline-list-icon-label {
@@ -201,10 +301,6 @@ md-tooltip{
   line-height: 0; 
 }
 
-/*::-webkit-scrollbar {
-    width: 5px;
-    position: absolute;
-}*/
 
 .margin-right{
   margin-right: 0.5em;
@@ -221,6 +317,7 @@ md-tooltip{
 .gris{
   background-color: #EBEFF2 !important;
 }
+
 .padding-views{
   padding: 1em;
 }
@@ -242,7 +339,11 @@ md-tooltip{
 }
 
 .padding-right{
-  padding: 0 2em 0 0;
+  padding-right: 2em;
+}
+
+.padding-left{
+  padding-left: 2em;
 }
 
 .text-center{
@@ -378,15 +479,7 @@ md-toast.info .md-toast-content {
   transition: background 0.15s linear;
   display: block; 
 }
-/*.md-chip .md-chip-remove-container button.vegetablechip ng-md-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0) scale(0.7);
-  color: white;
-  fill: white; 
-}
-*/
+
 
 .drop-box {
     background: #F8F8F8;
@@ -458,6 +551,7 @@ md-toast.info .md-toast-content {
   /*margin-right: 1em;*/
 }
 
+
 .categoria:hover, .categoria:active, .categoria:focus{
   outline: 0;
   border: 0; 
@@ -480,30 +574,88 @@ md-toast.info .md-toast-content {
   text-align: right;
 }
 
-/*.md-input.ng-invalid.ng-dirty {
-    border-color: #FA787E;
+.estatus{
+  padding: 2em;
+  border-right: 1px solid lightgray;
+  font-size: 16px;
 }
-.md-input.ng-valid.ng-dirty {
-    border-color: #78FA89;
+
+.estatus:last-child{
+  border-right: none;
 }
-*/
+
+.imagen-lista{
+  height: 40px;
+  width: 100px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 20px;
+  box-sizing: content-box;
+}
 
 @media (max-width: 960px) {
   .padding-views{
     padding: 0 !important;
   }
+
+  .estatus{
+    padding: 2em;
+    border-right: none;
+  }
 }
 
 #centro {
-   width: 30%;
-   height: 30%;
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   margin-top: -15%;
-   margin-left: -15%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index:5;
 } 
 
 #mayusculas{
   text-transform:uppercase;
+}
+
+.menuItem{
+  transition: 0.5s;
+}
+
+.menuItem:hover{
+  
+  transform: scale(1.005);
+  box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 12px 17px 2px rgba(0,0,0,.14),0 5px 22px 4px rgba(0,0,0,.12);
+  z-index: 5;
+}
+
+.box{
+    background: red;
+    border-radius: 50%;
+    height: 100%;
+    left: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: absolute;
+    transition:all 0.5s ease-in-out;
+    width: 100%;
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+}
+
+.box.active{
+  transform: scale(30);
+  z-index: 5;
+}
+
+.menuItem ng-md-icon{
+  height: auto;
+  width: auto;
+}
+
+.menuItem md-grid-tile-footer{
+  height: auto !important;
+}
+
+.margin-right{
+  margin-left: 1em;
 }

@@ -19,5 +19,8 @@
     "jshint-stylish": "^1.0.1",
     "nib": "^1.1.0",
     "wiredep": "^2.2.2"
+  },
+  "dependencies": {
+    "angular-adaptive-backgrounds": "^0.2.3"
   }
 }

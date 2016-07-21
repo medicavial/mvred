@@ -1,4 +1,4 @@
-<div layout="column" ng-init="bs.inicio()">
+<div class="padding-views" layout="column" ng-init="bs.inicio()">
     
     <form ng-submit="bs.buscar()">
     <md-content layout-gt-sm="row" layout="column" layout-padding layout-wrap class="md-whiteframe-2dp">
@@ -21,28 +21,30 @@
     </md-content>
     </form>
     <br>
-    <div flex ng-if="bs.registros.length > 0">
-      <!-- <p>Busqueda: {{ bs.datos.lesionado }} {{ bs.datos.folio }} </p> -->
-      <!-- <md-data-table-container class="md-whiteframe-2dp">
-        <table md-data-table>
-          <thead md-order="bs.order">
-            <tr>
-              <th name="Cliente"  order-by="Cia_clave"></th>
-              <th name="Folio" order-by="Exp_folio"></th>
-              <th name="Lesionado"  order-by="Exp_completo"></th>
-              <th name="Registro"  order-by="Exp_fecreg"></th>
-              <th name="Observaciones" order-by="Exp_obs"></th>
+    <div flex>
+      
+      <md-table-container class="md-whiteframe-2dp white">
+        <table md-table md-progress="bs.consulta">
+          <thead md-head md-order="bs.datos.order" md-on-reorder="bs.buscar">
+            <tr md-row>
+              <th md-column md-order-by="Cia_clave">Cliente</th>
+              <th md-column md-order-by="Exp_folio">Folio</th>
+              <th md-column md-order-by="Exp_completo">Lesionado</th>
+              <th md-column md-order-by="Exp_fecreg">Registro</th>
+              <th md-column md-order-by="Exp_obs">Observaciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr ng-repeat-star="registro in bs.registros |filter:query | orderBy: bs.order | limitTo: limite: (pagina - 1) * limite" ng-click="bs.muestraDetalle($index)">
-
-              <td class="imagen"> <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> </td>
-              <td>{{registro.Exp_folio}}</td>
-              <td>{{registro.Exp_completo}}</td>
-              <td>{{registro.Exp_fecreg}}</td>
-              <td>{{registro.Exp_obs}}</td>
-              <td class="option-table">
+          <tbody md-body>
+            <tr md-row ng-click="bs.muestraDetalle($index,registro)" class="fila" ng-repeat="registro in bs.registros">
+              
+              <td md-cell class="imagen"> 
+                <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> 
+              </td>
+              <td md-cell>{{registro.Exp_folio}}</td>
+              <td md-cell>{{registro.Exp_completo}}</td>
+              <td md-cell>{{registro.Exp_fecreg}}</td>
+              <td md-cell>{{registro.Exp_obs}}</td>
+              <td md-cell>
                   <md-menu md-position-mode="target-right target" >
                     <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
                       <md-icon md-menu-origin>
@@ -51,74 +53,37 @@
                     </md-button>
                     <md-menu-content width="2">
                       <md-menu-item>
-                        <md-button ng-click="equivalencias.editaDocumentos(registro)">
-                          <p>Editar Documentos</p>
+                        <md-button ui-sref="index.detalle({folio:registro.Exp_folio})">
+                          <p>Ver. Detalle</p>
                         </md-button>
                       </md-menu-item>
                       <md-menu-item>
-                        <md-button ng-click="equivalencias.editaTipo($event,registro)">
-                          <p>Cancelar</p>
+                        <md-button ng-click="ir.editaTipo($event,registro)">
+                          <p>Solicitar Cancelación</p>
                         </md-button>
                       </md-menu-item>
                     </md-menu-content>
                   </md-menu>
-              </td>
-
+              </td>              
             </tr>
-            <tr ng-repeat-end ng-show="bs.detalle[$index]">
-              <td>
-                <div>
-                  <h3>Pet details</h3>
-                  <p>some details about this pet.</p>                
-                </div>
-              </td>
-            </tr>
+            
           </tbody>
         </table>
-      </md-data-table-container>
-      <br>
-      <md-data-table-pagination md-label="texto" md-row-select="paginacion" md-limit="limite" md-page="pagina" md-total="{{bs.registros.length}}"></md-data-table-pagination> -->
-      
-      <md-table-container>
-
-        <table md-table class="md-primary md-data-table">
-         <thead md-head md-order="bs.order">
-         <tr md-row>
-             <th md-column><span>Folio</span></th>
-             <th md-column><span>Lesionado</span></th>
-             <th md-column><span>Registro</span></th>
-         </tr>
-         </thead>
-         <tbody md-body>
-         <tr md-row ng-click="bs.ShowDetailed($index)" ng-repeat-star="registro in bs.registros |filter:query | orderBy: bs.order | limitTo: limite: (pagina - 1) * limite">
-            <td md-cell>{{ registro.Exp_folio }}</td>
-            <td md-cell>{{ registro.Exp_completo }}</td>
-            <td md-cell>{{ registro.Exp_fecreg }}</td>
-         </tr>
-         <tr ng-show="bs.detailedShow[$index]" ng-repeat-end>
-            <td> </td>
-            <td colspan="2"> 
-                 <table md-table ng-show="vm.detailedShow[$index]"> 
-               <thead md-head>
-                  <tr md-row>
-                  <th md-column><span>Project Name</span></th>
-                  <th md-column><span>District</span></th>
-                  <th md-column><span>City</span></th>
-                  </tr>
-               </thead>
-               <tbody md-body>
-                  <tr md-row>
-                      <td md-cell>Prueba</td>
-                      <td md-cell>De</td>
-                      <td md-cell>Contenido</td>
-                  </tr>
-               </tbody md-body>
-            </table>
-            </td>
-         </tr>
-         </tbody>
-        </table>
+        <md-table-pagination md-limit="bs.datos.limit" md-limit-options="bs.paginacion" md-page="bs.datos.page" md-total="{{bs.total}}" md-on-paginate="bs.buscar" md-label="{page: 'Página:', rowsPerPage: 'Resultados por página:', of: 'de'}"></md-table-pagination  md-page-select="bs.pageSelect">
       </md-table-container>
+
+      <!-- <md-list>
+        <md-list-item class="md-whiteframe-3dp white" ng-repeat-start="registro in bs.registros |filter:query" ng-click="bs.muestraDetalle($index,registro)">
+          <img alt="{{registro.Cia_clave}}" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" class="imagen-lista" />
+          <p>{{registro.Exp_folio}}</p>
+          <p>{{registro.Exp_completo}}</p>
+          <p>{{registro.Exp_fecreg}}</p>
+        </md-list-item>
+        <md-list-item ng-repeat-end ng-if="bs.detalle[$index]">
+            contenido
+        </md-list-item>
+      </md-list> -->
+      
 
     <br>
 

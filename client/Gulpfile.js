@@ -62,7 +62,7 @@ gulp.task('wiredep', function () {
 gulp.task('watch', function() { 
 	gulp.watch(['./app/**/*.html'], ['html']);  
 	gulp.watch(['./app/stylesheets/**/*.styl'], ['css','inject']);  
-	gulp.watch(['./app/scripts/**/*.js', './Gulpfile.js'], ['jshint','inject']);  
+	gulp.watch(['./app/scripts/**/*.js', './Gulpfile.js'], ['inject']);  
 	gulp.watch(['./bower.json'],['wiredep']); 
 	watch('./app').pipe(connect.reload());
 });

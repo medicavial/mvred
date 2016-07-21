@@ -10,10 +10,12 @@
 
 	<!-- bower:css -->
 	<link rel="stylesheet" href="lib/angular-material/angular-material.css" />
-	<link rel="stylesheet" href="lib/angular-material-data-table/dist/md-data-table.min.css" />
+	<link rel="stylesheet" href="lib/angular-material-data-table/dist/md-data-table.css" />
+	<link rel="stylesheet" href="lib/angular-material-icons/angular-material-icons.css" />
 	<link rel="stylesheet" href="lib/animate.css/animate.css" />
 	<link rel="stylesheet" href="lib/material-design-lite/material.min.css" />
 	<link rel="stylesheet" href="lib/mdPickers/dist/mdPickers.min.css" />
+	<link rel="stylesheet" href="lib/angular-material-expansion-panel/dist/md-expansion-panel.css" />
 	<!-- endbower -->  
 	
 	<!-- inject:css -->    
@@ -22,6 +24,7 @@
 	<link rel="stylesheet" href="/stylesheets/colores.css">    
 	<link rel="stylesheet" href="/stylesheets/main.css">    
 	<link rel="stylesheet" href="/stylesheets/minicharts.css">    
+	<link rel="stylesheet" href="/stylesheets/timeline.css">    
 	<link rel="stylesheet" href="/stylesheets/wishitems.css">    
 	<!-- endinject --> 
 	
@@ -30,7 +33,7 @@
 </head>
 <body>
 
-	<ui-view class="base" layout="column" md-theme="{{ tema }}" md-theme-watch></ui-view>
+	<ui-view class="base central" layout="column" md-theme="{{ tema }}" md-theme-watch></ui-view>
 	
 	<!-- build:js js/vendor.min.js -->
 	<!-- bower:js -->
@@ -39,7 +42,7 @@
 	<script src="lib/angular-aria/angular-aria.js"></script>
 	<script src="lib/angular-messages/angular-messages.js"></script>
 	<script src="lib/angular-material/angular-material.js"></script>
-	<script src="lib/angular-material-data-table/dist/md-data-table.min.js"></script>
+	<script src="lib/angular-material-data-table/dist/md-data-table.js"></script>
 	<script src="lib/angular-material-icons/angular-material-icons.min.js"></script>
 	<script src="lib/angular-resource/angular-resource.js"></script>
 	<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
@@ -50,33 +53,41 @@
 	<script src="lib/svg-morpheus/compile/minified/svg-morpheus.js"></script>
 	<script src="lib/material-design-lite/material.min.js"></script>
 	<script src="lib/moment/moment.js"></script>
-	<script src="lib/moment/locale/es.js"></script>
 	<script src="lib/mdPickers/dist/mdPickers.js"></script>
-	<script src="lib/angular-input-masks/angular-input-masks-standalone.js"></script>
+	<script src="lib/angular-material-expansion-panel/dist/md-expansion-panel.js"></script>
+	<script src="lib/ngMorph/dist/angular-morph.min.js"></script>
 	<!-- endbower --> 
 	<!-- endbuild -->
 	
 	<!-- build:js js/app.min.js --> 
-	<!-- inject:js -->    
-	<script src="/scripts/app.js"></script>    
-	<script src="/scripts/config.js"></script>    
-	<script src="/scripts/run.js"></script>    
-	<script src="/scripts/controllers/busquedaCtrl.js"></script>    
-	<script src="/scripts/controllers/homeCtrl.js"></script>    
-	<script src="/scripts/controllers/loginCtrl.js"></script>    
-	<script src="/scripts/controllers/registroCtrl.js"></script>    
-	<script src="/scripts/directives/arrastrar.js"></script>    
-	<script src="/scripts/directives/atras.js"></script>    
-	<script src="/scripts/directives/folioMV.js"></script>    
-	<script src="/scripts/directives/imagenes.js"></script>    
-	<script src="/scripts/directives/mayuscula.js"></script>    
-	<script src="/scripts/directives/money.js"></script>    
-	<script src="/scripts/directives/numero.js"></script>    
-	<script src="/scripts/services/authService.js"></script>    
-	<script src="/scripts/services/busquedaService.js"></script>    
-	<script src="/scripts/services/mensajeService.js"></script>    
-	<script src="/scripts/services/operacionService.js"></script>    
-	<script src="/scripts/services/usuarioService.js"></script>    
+	<!-- inject:js -->       
+	<script src="/scripts/app.js"></script>       
+	<script src="/scripts/config.js"></script>       
+	<script src="/scripts/run.js"></script>       
+	<script src="/scripts/animations/inicial.js"></script>       
+	<script src="/scripts/components/menu.js"></script>       
+	<script src="/scripts/components/toolbar.js"></script>       
+	<script src="/scripts/controllers/busquedaCtrl.js"></script>       
+	<script src="/scripts/controllers/detalleCtrl.js"></script>       
+	<script src="/scripts/controllers/homeCtrl.js"></script>       
+	<script src="/scripts/controllers/loginCtrl.js"></script>       
+	<script src="/scripts/controllers/registroCtrl.js"></script>       
+	<script src="/scripts/directives/arrastrar.js"></script>       
+	<script src="/scripts/directives/atras.js"></script>       
+	<script src="/scripts/directives/expand.js"></script>       
+	<script src="/scripts/directives/folioMV.js"></script>       
+	<script src="/scripts/directives/imagenes.js"></script>       
+	<script src="/scripts/directives/mayuscula.js"></script>       
+	<script src="/scripts/directives/money.js"></script>       
+	<script src="/scripts/directives/morph.js"></script>       
+	<script src="/scripts/directives/numero.js"></script>       
+	<script src="/scripts/services/authService.js"></script>       
+	<script src="/scripts/services/busquedaService.js"></script>       
+	<script src="/scripts/services/mensajeService.js"></script>       
+	<script src="/scripts/services/operacionService.js"></script>       
+	<script src="/scripts/services/registrosGlobalesService.js"></script>       
+	<script src="/scripts/services/registrosService.js"></script>       
+	<script src="/scripts/services/usuarioService.js"></script>       
 	<!-- endinject -->
 	<!-- endbuild -->
 </body>

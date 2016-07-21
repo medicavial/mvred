@@ -1,0 +1,143 @@
+
+<md-content class="md-whiteframe-2dp" ng-init="dt.inicio()">
+    
+    <div layout="row">
+      <md-subheader class="md-no-sticky">Datos Generales</md-subheader>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.muestraPanel()">
+          <ng-md-icon icon="{{dt.iconPanel}}" options='{"rotation": "Clockwise","duration":"250"}'></ng-md-icon> 
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+
+    <div ng-show="dt.detalle" class="detalle">
+      
+      <section layout-gt-xs="row" layout="column"  layout-align="center center" layout-margin>
+
+          <div class="text-center" flex>
+            <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ dt.dato.Cia_logo }}" class="img-registro" alt="cliente">
+          </div>
+
+          <div class="text-center" flex>
+            <img ng-src="{{ dt.codigo }}" class="img-registro" alt="folio">
+          </div>
+
+          <div class="text-center" flex>
+            <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ dt.dato.Pro_img }}" class="img-registro" alt="producto">
+          </div>
+
+      </section>
+
+      <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
+
+          <div class="text-center" flex>                      
+              Folio: {{ dt.dato.Exp_folio }} <br>
+              Lesionado: {{ dt.dato.Exp_nombre }} {{ dt.dato.Exp_apaterno }} {{ dt.dato.Exp_amaterno }}  <br>
+              Póliza: {{ dt.dato.Exp_poliza }}  <br>
+              Riesgo: {{ dt.dato.RIE_nombre }} <br>
+          </div>
+          <div class="text-center" flex>
+              Compañia: {{ dt.dato.Cia_nombre }} <br>
+              Siniestro: {{ dt.dato.Exp_siniestro }} <br>
+              Registro: {{ dt.dato.Exp_fecreg }} <br>
+              Reporte: {{ dt.dato.Exp_reporte }} <br>
+          </div>
+          <div class="text-center" flex>
+              Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
+              Usuario: {{ dt.dato.Usu_registro }} <br>
+          </div>
+        
+      </section>
+      
+      <section layout="row" layout-align="center center">
+        <md-button>Imprimir Portada</md-button>
+      </section>
+      
+      <md-divider></md-divider>
+      
+      <section layout-gt-sm="row" layout="column"  layout-align="center center">
+        
+        <md-content flex class="text-center estatus">
+          <span>Triage: Ambulatorio</span>
+        </md-content>
+        <md-content flex class="text-center estatus">
+          <span>Alertas</span>
+        </md-content>
+        <md-content flex class="text-center estatus">
+          <span>Estatus: Abierto</span>
+        </md-content>
+        <md-content flex class="text-center estatus">
+          <span>Problemas: 1</span>
+        </md-content>
+
+      </section>
+
+    </div>
+
+</md-content>
+
+
+<div class="padding-views">
+
+
+  <br>
+  
+  <section ng-if="!dt.seccion" class="seccion">
+    
+    <md-grid-list
+          md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"
+          md-row-height-gt-md="1:1" md-row-height="4:3"
+          md-gutter="8px" md-gutter-gt-sm="8px" >
+      <md-grid-tile ng-repeat="seccion in dt.secciones"
+                    md-rowspan-gt-sm="{{seccion.row}}"
+                    md-colspan-gt-sm="{{seccion.col}}"
+                    md-rowspan="1"
+                    md-colspan="1"
+                    ng-click="dt.muestraSeccion( seccion.page , seccion.icon, seccion.background )"
+                    ng-class="seccion.background" 
+                    class="menuItem"
+                    md-ink-ripple>
+        <ng-md-icon icon="{{seccion.icon}}" style="fill:white" size="{{seccion.size}}"></ng-md-icon>
+        <md-grid-tile-footer><h3>{{seccion.nombre}}</h3></md-grid-tile-footer>
+      </md-grid-tile>
+    </md-grid-list>
+
+  </section>
+
+  <section ng-if="dt.seccion" class="seccion">
+      <div ng-include="dt.page"></div>
+  </section>
+
+  
+  
+</div>
+
+
+<!-- <md-fab-speed-dial md-open="dt.isOpen" md-direction="up"
+                   class="md-scale md-fab-bottom-right"
+                   ng-class="{ 'md-hover-full': dt.hover }"
+                   ng-mouseenter="dt.isOpen=true" ng-mouseleave="dt.isOpen=false">
+  <md-fab-trigger>
+    <md-button aria-label="menu" class="md-fab md-warn">
+      <ng-md-icon icon="add" style="fill: white"></ng-md-icon> 
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button aria-label="Autorización" class="md-fab md-raised md-mini">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                    md-autohide="true">
+          Nueva Autorización
+      </md-tooltip>
+      <ng-md-icon icon="my_library_add" style="fill: black"></ng-md-icon> 
+    </md-button>
+    <md-button aria-label="Subsecuencia" class="md-fab md-raised md-mini">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                    md-autohide="true">
+          Nueva Subsecuencia
+      </md-tooltip>
+      <ng-md-icon icon="create" style="fill: black"></ng-md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial> -->
+
+

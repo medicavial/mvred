@@ -1,4 +1,4 @@
-<md-card>
+<!-- <md-card>
   <md-card-title layout="column">
     <md-card-title-text>
       <span class="md-headline">Cabina MedicaVial</span>
@@ -18,5 +18,27 @@
         </div>
     </md-card-content>
   </md-card-title>
-</md-card>
+</md-card> -->
+
+
+<md-grid-list
+      md-cols="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+      md-row-height-gt-md="1:1" md-row-height="4:3"
+      md-gutter="8px" md-gutter-gt-sm="8px" >
+  <md-grid-tile ng-repeat="seccion in hm.secciones"
+                md-rowspan-gt-sm="{{seccion.row}}"
+                md-colspan-gt-sm="{{seccion.col}}"
+                md-rowspan="1"
+                md-colspan="1"
+                ng-class="seccion.background" 
+                ui-sref="{{seccion.url}}"
+                class="menuItem"
+                ng-if="seccion.permiso"
+                md-ink-ripple>
+    <!-- <div class="box"></div> -->
+    <ng-md-icon icon="{{seccion.icon}}" style="fill:white" size="{{seccion.size}}"></ng-md-icon>
+    <md-grid-tile-footer><h3>{{seccion.nombre}}</h3></md-grid-tile-footer>
+  </md-grid-tile>
+</md-grid-list>
+
 

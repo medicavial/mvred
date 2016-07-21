@@ -1,0 +1,57 @@
+{
+  "name": "angular-material-expansion-panel",
+  "version": "0.4.5",
+  "description": "Material Design Expansion Panels.",
+  "main": [
+    "dist/md-expansion-panel.js",
+    "dist/md-expansion-panel.css"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/B-3PO/angular-material-expansion-panel.git"
+  },
+  "authors": [
+    "Ben Rubin"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "material",
+    "material-design",
+    "design",
+    "angular",
+    "component",
+    "expansion",
+    "panel",
+    "panels"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app",
+    "src",
+    "gulp"
+  ],
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-messages": "^1.5.7",
+    "angular-aria": "^1.5.7",
+    "angular-material": "^1.1.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.7",
+    "angular-route": "^1.5.7"
+  },
+  "homepage": "https://github.com/B-3PO/angular-material-expansion-panel",
+  "_release": "0.4.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.4.5",
+    "commit": "98892d58c6535ec2aa7219d159546d583a7bb073"
+  },
+  "_source": "https://github.com/B-3PO/angular-material-expansion-panel.git",
+  "_target": "^0.4.5",
+  "_originalSource": "angular-material-expansion-panel",
+  "_direct": true
+}

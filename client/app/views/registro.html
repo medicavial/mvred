@@ -1,85 +1,89 @@
-<md-content class="md-whiteframe-2dp" ng-init="rg.inicio()">
+<section class="padding-views">
 
-  <md-progress-linear ng-if="rg.consultando" md-mode="indeterminate"></md-progress-linear>
-  <md-tabs md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
-    <md-tab id="tab1" ng-disabled="rg.step1block">
-      <md-tab-label>Selecciona Cliente</md-tab-label>
-      <md-tab-body>
-        <div ng-include="rg.paso1"></div>
-      </md-tab-body>
-    </md-tab>
-    <md-tab id="tab2" ng-disabled="rg.step2block">
-      <md-tab-label>Selecciona Producto</md-tab-label>
-      <md-tab-body> 
-        <div ng-include="rg.paso2"></div>
-      </md-tab-body>
-    </md-tab>
-    <md-tab id="tab3" ng-disabled="rg.step3block">
-      <md-tab-label>Apertura de Expediente</md-tab-label>
-      <md-tab-body>
-        <div ng-include="rg.paso3"></div>
-      </md-tab-body>
-    </md-tab>
-    <md-tab id="tab4" ng-disabled="rg.step4block">
-      <md-tab-label>Datos del Siniestro</md-tab-label>
-      <md-tab-body>
-        <div ng-include="rg.paso4"></div>
-      </md-tab-body>
-    </md-tab>
-    <md-tab id="tab5">
-      <md-tab-label>Resumen</md-tab-label>
-      <md-tab-body layout-padding>
-        <br><br>
-        <md-content flex-offset-gt-sm="10" flex-gt-sm="80" flex>
-          <md-card class="md-whiteframe-8dp">
-            <md-card-title>
-              <md-card-title-text layout-align="center center">
-                <span class="md-headline">Resumen de Información</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
+  <md-content class="md-whiteframe-2dp" ng-init="rg.inicio()">
 
-              <section layout-gt-sm="row" layout="column"  layout-align="space-between center" layout-margin>
+    <md-progress-linear ng-if="rg.consultando" md-mode="indeterminate"></md-progress-linear>
+    <md-tabs md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+      <md-tab id="tab1" ng-disabled="rg.step1block">
+        <md-tab-label>Selecciona Cliente</md-tab-label>
+        <md-tab-body>
+          <div ng-include="rg.paso1"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab2" ng-disabled="rg.step2block">
+        <md-tab-label>Atención derivada de:</md-tab-label>
+        <md-tab-body> 
+          <div ng-include="rg.paso2"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab3" ng-disabled="rg.step3block">
+        <md-tab-label>Apertura de Expediente</md-tab-label>
+        <md-tab-body>
+          <div ng-include="rg.paso3"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab4" ng-disabled="rg.step4block">
+        <md-tab-label>Datos del Siniestro</md-tab-label>
+        <md-tab-body>
+          <div ng-include="rg.paso4"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab5" ng-disabled="rg.step5block">
+        <md-tab-label>Resumen</md-tab-label>
+        <md-tab-body layout-padding>
+          <br><br>
+          <md-content flex-offset-gt-sm="10" flex-gt-sm="80" flex>
+            <md-card class="md-whiteframe-8dp">
+              <md-card-title>
+                <md-card-title-text layout-align="center center">
+                  <span class="md-headline">Resumen de Información</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-content>
 
-                  <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ rg.imagenCliente }}" class="img-registro" alt="cliente">
+                <section layout-gt-sm="row" layout="column"  layout-align="space-between center" layout-margin>
 
-                  <img ng-src="{{ publicfiles +  rg.imagenFolio }}" class="img-registro" alt="folio">
+                    <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ rg.imagenCliente }}" class="img-registro" alt="cliente">
 
-                  <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ rg.imagenProducto }}" class="img-registro" alt="producto">
+                    <img ng-src="{{ publicfiles +  rg.imagenFolio }}" class="img-registro" alt="folio">
 
-              </section>
+                    <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ rg.imagenProducto }}" class="img-registro" alt="producto">
 
-              <section layout-gt-sm="row" layout="column" layout-padding layout-align="center start">
+                </section>
 
-                  <div flex>                      
-                      Folio: {{ rg.datoSiniestro.folio }} <br>
-                      Póliza: {{ rg.datoSiniestro.poliza }}  <br>
-                      Riesgo: R.C. Autopista <br>
-                      Lesionado: {{ rg.datos.nombre }} {{ rg.datos.apaterno }} {{ rg.datos.amaterno }}  <br>
-                      Usuario: {{ username }} <br>
-                  </div>
-                  <div flex>
-                      Compañia: {{ rg.compania }} <br>
-                      Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
-                      Registro: {{ rg.registro }} <br>
-                  </div>
-                  <div flex>
-                      Unidad Médica: {{ nombreUni }} <br>
-                      Reporte: {{ rg.datoSiniestro.reporte }} <br>
-                  </div>
+                <section layout-gt-sm="row" layout="column" layout-padding layout-align="center start">
+
+                    <div flex>                      
+                        Folio: {{ rg.datoSiniestro.folio }} <br>
+                        Póliza: {{ rg.datoSiniestro.poliza }}  <br>
+                        Riesgo: R.C. Autopista <br>
+                        Lesionado: {{ rg.datos.nombre }} {{ rg.datos.apaterno }} {{ rg.datos.amaterno }}  <br>
+                        Usuario: {{ username }} <br>
+                    </div>
+                    <div flex>
+                        Compañia: {{ rg.compania }} <br>
+                        Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
+                        Registro: {{ rg.registro }} <br>
+                    </div>
+                    <div flex>
+                        Unidad Médica: {{ nombreUni }} <br>
+                        Reporte: {{ rg.datoSiniestro.reporte }} <br>
+                    </div>
+                  
+                </section>
                 
-              </section>
-              
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="center center">
-              <md-button ng-click="rg.resetForms()">Nuevo Registro</md-button>
-              <md-button>Imprimir</md-button>
-            </md-card-actions>
-          </md-card>
-        </md-content>
-        <br><br>
+              </md-card-content>
+              <md-card-actions layout="row" layout-align="center center">
+                <md-button ng-click="rg.resetForms()">Nuevo Registro</md-button>
+                <md-button>Imprimir</md-button>
+              </md-card-actions>
+            </md-card>
+          </md-content>
+          <br><br>
 
-      </md-tab-body>
-    </md-tab>
-  </md-tabs>
-</md-content>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+  
+</section>

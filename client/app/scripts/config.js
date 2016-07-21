@@ -48,18 +48,21 @@
 			url:'busqueda',
 			templateUrl :'views/busqueda.html',
 			controller:'busquedaCtrl',
-			controllerAs:'bs',
-			resolve:{
-				datos : function(busqueda){
-					return busqueda.registros();
-				}
-			}
+			controllerAs:'bs'
+		})
+
+		.state('index.busquedaGeneral',{
+			url:'busquedaGeneral',
+			templateUrl :'views/busqueda.html',
+			controller:'busquedaGeneralCtrl',
+			controllerAs:'bs'
 		})
 
 		.state('index.home',{
 			url:'home',
 			templateUrl :'views/home.html',
-			controller:'homeCtrl'
+			controller:'homeCtrl',
+			controllerAs:'hm'
 		})
 
 		.state('index.registro',{
@@ -71,20 +74,15 @@
 				datos : function(busqueda,$q){
 
 					var promesa  	= $q.defer(),
-						clientes 	= busqueda.clientes(),
-						tipos	 	= busqueda.tipos(),
-						riesgos  	= busqueda.riesgos(),
-						ajustadores = busqueda.ajustadores();
+						clientes 	= busqueda.clientes();
 					
-					$q.all([clientes,tipos,riesgos,ajustadores]).then(function (data){
+					$q.all([clientes]).then(function (data){
+						
 						var datos = {
-							clientes:data[0].data,
-							tipos:data[1].data,
-							riesgos:data[2].data,
-							ajustadores:data[3].data
+							clientes:data[0].data
 						}
-
 						promesa.resolve(datos);
+						
 					},function(error){
 						promesa.reject('error en consulta');
 					});
@@ -92,7 +90,32 @@
 					return promesa.promise;
 				}
 			}
+		})
+
+		.state('index.detalle',{			
+			url:'detalle?folio',
+			templateUrl :'views/detalle.html',
+			controller:'detalleCtrl',
+			controllerAs:'dt',
+			resolve: {
+				datos : function(busqueda,$stateParams){
+					return busqueda.detalleFolio($stateParams.folio);
+				}
+			},
+			reload:true
 		});
+
+		// .state('detalle', {
+		// 	url: '/detalle?folio',
+		// 	templateUrl :'views/detalle.html',
+		// 	controller:'detalleCtrl',
+		// 	controllerAs:'dt',
+		// 	resolve: {
+		// 		datos : function(busqueda,$stateParams){
+		// 			return busqueda.detalleFolio($stateParams.folio);
+		// 		}
+		// 	}
+		// })
 
 
 		$locationProvider.html5Mode(true);

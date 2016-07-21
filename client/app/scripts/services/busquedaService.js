@@ -11,6 +11,7 @@
         var servicio = {
             ajustadores:ajustadores,
             clientes: clientes,
+            detalleFolio : detalleFolio,
             productos: productos,
             productosCliente : productosCliente,
             registros : registros,
@@ -30,6 +31,11 @@
         //consulta de clientes activos
         function clientes(){
             return $http.get(api + 'busqueda/clientes',{timeout: 10000});
+        };
+
+        //consulta el detalle del folio
+        function detalleFolio(folio){
+            return $http.get(api + 'busqueda/detalleFolio/' + folio,{timeout: 10000});
         };
 
         //consulta de productos activos

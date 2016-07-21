@@ -14,14 +14,6 @@
 		var url = '';
 		$rootScope.atras = false;
 
-		$rootScope.limite = 30;
-		$rootScope.pagina = 1;
-		$rootScope.paginacion = [10,20,30,40,50];
-		$rootScope.texto = {
-			text: 'Resultados por pagina:',
-			of: 'de'
-	    };
-
 		//parametros globales tomados del localStorage
 		$rootScope.username = webStorage.session.get('username');
         $rootScope.nombre = webStorage.session.get('nombre');
@@ -31,35 +23,11 @@
         $rootScope.nombreUni = webStorage.session.get('nombreUni');
         
         $rootScope.permisos = JSON.parse( webStorage.session.get('permisos') );
-
-
-		$rootScope.toggleSidenav = function(menuId) {
-			if ($rootScope.atras) {
-				$window.history.back();
-			}else{
-				$mdSidenav(menuId).toggle();
-			}
-		};
+		
 
 		$rootScope.muestra = function(ruta) {
 		    $state.go(ruta);
 		};
-
-
-		$rootScope.logout = function(){
-			$mdBottomSheet.hide();
-			auth.logout();
-		};
-
-		$rootScope.ir = function(ruta){
-
-			if ($mdSidenav('left').isOpen()) {
-				$mdSidenav('left').toggle();
-			}
-
-			$state.go(ruta);
-		};
-
 
 		$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){ 
 	        
@@ -93,15 +61,7 @@
             $state.go('index.home');
 		});
 
-		$rootScope.verificaVista = function(){
-			if (!$mdMedia('gt-md')) {
-				return true;
-			}else if($rootScope.atras){
-				return true;
-			}else{
-				return false;
-			}
-		};
+		
 
 	}
 

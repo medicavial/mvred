@@ -12,6 +12,19 @@ class BusquedasController extends BaseController {
 		return Compania::activos();
 	}
 
+	public function detalleFolio($folio){
+		return Expediente::join('Unidad','Unidad.Uni_clave','=','Expediente.Uni_clave')
+					     ->join('Producto','Producto.Pro_clave','=','Expediente.Pro_clave')
+					     ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+					     ->join('RiesgoAfectado','RiesgoAfectado.RIE_clave','=','Expediente.RIE_clave')
+						 ->where('Exp_folio',$folio)
+						 ->first();
+	}
+
+	public function documentos(){
+		return Documento::activos();
+	}
+
 	public function productos(){
 		return Producto::activos();
 	}
@@ -70,46 +83,82 @@ class BusquedasController extends BaseController {
 
 	public function registros(){
 
+
+		$query = Expediente::query();
+
+		$limite = Input::get('limit');
+		$order = Input::get('order');
 		$unidad = Input::get('unidad');
 
-		if ( Input::has('folio') ) {
+		$pos = strpos($order, '-');
 
-			$folio = Input::get('folio');
-
-			return Expediente::join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-							 ->where('Exp_folio',$folio)
-							 ->where('Uni_clave',$unidad)
-							 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
-							 ->orderBy('Exp_fecreg','DESC')
-							 ->get();
-
-		}elseif ( Input::has('lesionado') ) {
-
-			$lesionado = Input::get('lesionado');
-
-			return Expediente::join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-							 ->where('Exp_completo','LIKE','%' . $lesionado . '%')
-							 ->where('Uni_clave',$unidad)
-							 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
-							 ->orderBy('Exp_fecreg','DESC')
-							 ->get();
-
+		if ($pos === false) {
+			$tipo = 'ASC';
 		}else{
-
-			return Expediente::join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-							 ->where('Uni_clave',$unidad)
-							 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
-							 ->orderBy('Exp_fecreg','DESC')
-							 ->take(30)->get();
-
+			$tipo = 'DESC';
+			$order = substr($order, 1);
 		}
 
-		// return Input::all();
+
+	 	if (Input::has('folio')) {
+	 		$query->where( 'Exp_folio', Input::get('folio'));
+		}
+		if (Input::has('lesionado')) {									
+			$query->where( 'Exp_completo','LIKE','%' . Input::get('lesionado') . '%');
+		}								
+
+		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+					 ->where('Uni_clave',$unidad)
+					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
+					 ->orderBy($order,$tipo)
+					 ->paginate($limite);
+
+
+	}
+
+	public function registrosGlobales(){
+
+
+		$query = Expediente::query();
+
+		$limite = Input::get('limit');
+		$order = Input::get('order');
+
+		$pos = strpos($order, '-');
+
+		if ($pos === false) {
+			$tipo = 'ASC';
+		}else{
+			$tipo = 'DESC';
+			$order = substr($order, 1);
+		}
+
+
+	 	if (Input::has('folio')) {
+	 		$query->where( 'Exp_folio', Input::get('folio'));
+		}
+		if (Input::has('lesionado')) {									
+			$query->where( 'Exp_completo','LIKE','%' . Input::get('lesionado') . '%');
+		}								
+
+		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
+					 ->orderBy($order,$tipo)
+					 ->paginate($limite);
+
 
 	}
 
 	public function riesgos(){
 		return Riesgo::activos();
+	}
+
+	public function tickets($folio){
+		return Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
+					 ->leftJoin('TicketCat','TicketCat.TCat_clave','=','TicketSeguimiento.TCat_clave')
+					 ->leftJoin('TicketStatus','TicketStatus.TStatus_clave','=','TicketSeguimiento.TStatus_clave')
+					 ->where('Exp_folio',$folio)
+					 ->get();
 	}
 
 	public function tipos(){

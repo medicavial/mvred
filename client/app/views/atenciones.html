@@ -1,0 +1,380 @@
+
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+    <h2>
+      <span>Atenciones</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="close"></ng-md-icon> 
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+<md-content class="md-whiteframe-2dp">
+    <md-subheader class="md-no-sticky">Primera Atención</md-subheader>
+    <md-divider></md-divider>
+    <md-tabs md-selected="dt.tabPrimera" md-dynamic-height class="TabPanel">
+      <md-tab id="tab1">
+
+        <md-tab-label>Nota Médica</md-tab-label>
+        <md-tab-body>
+            <br>
+            <section layout="row" layout-align="center center">
+                <md-button>Llenar Nota Medica.</md-button>
+            </section>
+            <br>           
+        </md-tab-body>
+
+      </md-tab>
+
+      <md-tab id="tab2">
+
+        <md-tab-label>Documentos Digitales</md-tab-label>
+        <md-tab-body> 
+            
+          <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Subir Archivos</md-subheader>
+              <md-divider></md-divider>
+              <div class="drop-box"  ngf-drop ngf-drag-over-class="{pattern: 'image/*', accept:'dragover', reject:'rejectClass', delay:100}" ngf-multiple="true" ngf-change="dt.subirDigitalesEt1($files)" ngf-pattern="'image/*'" flex>
+                  <md-button type="button" class="md-raised" 
+                    ngf-select="dt.subirDigitalesEt1($files)" 
+                    ngf-change="dt.subirDigitalesEt1($files)" 
+                    ngf-multiple="true" 
+                    ngf-pattern="'image/*'"
+                    ngf-accept="'image/*'" 
+                    ng-model-options="{allowInvalid: false}"
+                    >Subir Imagenes</md-button><br>
+                  Arrastra tus archivos aqui
+              </div>
+              
+            </div>
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
+              <md-divider></md-divider>
+            
+              <md-list>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+
+                  <md-checkbox ng-model="dt.seleccionado" disabled></md-checkbox>
+
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+
+                  <p class="padding-left">Pase Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Aviso de privacidad</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Informe Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+              </md-list>
+
+            </div>
+          </md-content>
+
+
+        </md-tab-body>
+
+      </md-tab>
+
+      <md-tab id="tab3">
+
+        <md-tab-label>Facturación</md-tab-label>
+        <md-tab-body>
+          <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Subir Archivos</md-subheader>
+              <md-divider></md-divider>
+              <div class="drop-box"  ngf-drop accept="image/*" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'image/*" ngf-change="dt.upload($files, $file, $event)" flex>
+                  <md-button type="button" class="md-raised" accept="image/*" ngf-select="dt.upload($files)" ngf-change="dt.upload($files, $file, $event)" multiple="multiple">Subir XML/PDF</md-button><br>
+                  Arrastra tus archivos aqui
+              </div>
+              
+            </div>
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
+              <md-divider></md-divider>
+            
+              <md-list>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="dt.seleccionado" disabled></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Pase Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+              </md-list>
+
+            </div>
+          </md-content>
+        </md-tab-body>
+
+      </md-tab>
+      
+    </md-tabs>
+</md-content>
+
+<br>
+
+<md-content class="md-whiteframe-2dp">
+    <div layout="row">
+      <md-subheader class="md-no-sticky">Subsecuencias</md-subheader>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="detalle" ng-click="dt.muestraSegundas = !dt.muestraSegundas">
+          <ng-md-icon icon="chevron_right"></ng-md-icon> 
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+    <md-tabs md-selected="dt.tabSegunda" md-dynamic-height class="TabPanel detalle" ng-show="dt.muestraSegundas">
+
+      <md-tab id="tab1">
+
+        <md-tab-label>Documentos Digitales</md-tab-label>
+        <md-tab-body> 
+
+          <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Subir Archivos</md-subheader>
+              <md-divider></md-divider>
+              <div class="drop-box"  ngf-drop accept="image/*" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'image/*" ngf-change="dt.upload($files, $file, $event)" flex>
+                  <md-button type="button" class="md-raised" accept="image/*" ngf-select="dt.upload($files)" ngf-change="dt.upload($files, $file, $event)" multiple="multiple" ngf-pattern="'image/*">Subir Imagenes</md-button><br>
+                  Arrastra tus archivos aqui
+              </div>
+              
+            </div>
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
+              <md-divider></md-divider>
+            
+              <md-list>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Pase Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Aviso de privacidad</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Informe Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+              </md-list>
+
+            </div>
+          </md-content>
+
+        </md-tab-body>
+
+      </md-tab>
+
+      <md-tab id="tab2">
+
+        <md-tab-label>Facturación</md-tab-label>
+        <md-tab-body>
+        
+        </md-tab-body>
+
+      </md-tab>
+      
+    </md-tabs>
+</md-content>
+
+<br>
+
+<md-content class="md-whiteframe-2dp">
+    <div layout="row">
+      <md-subheader class="md-no-sticky">Rehabilitaciones</md-subheader>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="detalle" ng-click="dt.muestraTerceras = !dt.muestraTerceras">
+          <ng-md-icon icon="chevron_right"></ng-md-icon> 
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+    <md-tabs md-selected="dt.tabTercera" md-dynamic-height class="TabPanel detalle" ng-show="dt.muestraTerceras">
+
+      <md-tab id="tab1">
+
+        <md-tab-label>Documentos Digitales</md-tab-label>
+        <md-tab-body> 
+          <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Subir Archivos</md-subheader>
+              <md-divider></md-divider>
+              <div class="drop-box"  ngf-drop accept="image/*" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'image/*" ngf-change="dt.upload($files, $file, $event)" flex>
+                  <md-button type="button" class="md-raised" accept="image/*" ngf-select="dt.upload($files)" ngf-change="dt.upload($files, $file, $event)" multiple="multiple" ngf-pattern="'image/*">Subir Imagenes</md-button><br>
+                  Arrastra tus archivos aqui
+              </div>
+              
+            </div>
+            
+            <div flex>
+
+              <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
+              <md-divider></md-divider>
+            
+              <md-list>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Pase Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Aviso de privacidad</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item ng-click="navigateTo('data usage', $event)">
+                  <md-checkbox ng-model="message.selected"></md-checkbox>
+                  <md-icon>
+                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  </md-icon>
+                  <p class="padding-left">Informe Médico</p>
+
+                  <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Eliminar">
+                    <ng-md-icon icon="delete"></ng-md-icon>
+                  </md-icon>
+                    
+                </md-list-item>
+
+                <md-divider></md-divider>
+              </md-list>
+
+            </div>
+          </md-content>
+        </md-tab-body>
+
+      </md-tab>
+
+      <md-tab id="tab2">
+
+        <md-tab-label>Facturación</md-tab-label>
+        <md-tab-body>
+        
+        </md-tab-body>
+
+      </md-tab>
+      
+    </md-tabs>
+</md-content>

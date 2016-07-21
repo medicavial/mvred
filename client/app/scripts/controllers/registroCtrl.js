@@ -23,20 +23,16 @@
 
 		// titulo en variable global
 		$rootScope.titulo = 'Registro de Paciente';
+		$rootScope.atras = true;
+		$rootScope.menu = 'arrow_back';
 
 		// inicializacion de variables
 		vm.clientes = datos.clientes;
-		vm.tipos    = datos.tipos;
-		vm.riesgos    = datos.riesgos;
-		vm.ajustadores    = datos.ajustadores;
 
 		vm.paso1 = 'views/registroPaso1.html';
 		vm.paso2 = 'views/registroPaso2.html';
 		vm.paso3 = 'views/registroPaso3.html';
 		vm.paso4 = 'views/registroPaso4.html';
-
-		
-
 
 		// se definen las funciones
 		vm.inicio = inicio; //funcion para limpiar todos los campos
@@ -49,6 +45,7 @@
 		vm.verificaProducto = verificaProducto; // funcion que consulta los productos disponibles segun el usuario
 		vm.detalleAjustador = detalleAjustador; // si elijen a alguien de la lista de ajustadores rellena campos
 		vm.resetForms		= resetForms;
+		vm.consultaInfo		= consultaInfo;
 
 		// funciones del controlador
 		function agregaTelefono(ev){
@@ -86,12 +83,37 @@
 		function confirmaProducto(producto){
 
 			// console.log(producto);
-			vm.tabActual = 2;
-			vm.step1block = true;
-			vm.step2block = true;
-			vm.step3block = false;
-			vm.imagenProducto = producto.Pro_img;
-			vm.datos.producto = producto.Pro_clave;
+
+			if (vm.errorInfo) {
+				mensajes.alerta(error,'error','top right','alert');
+				consultaInfo();
+			}else{
+				vm.tabActual = 2;
+				vm.step1block = true;
+				vm.step2block = true;
+				vm.step3block = false;
+				vm.imagenProducto = producto.Pro_img;
+				vm.datos.producto = producto.Pro_clave;
+			}
+
+		}
+
+		function consultaInfo(){
+
+			
+			var tipos 	= busqueda.tipos(),
+			riesgos  	= busqueda.riesgos(),
+			ajustadores = busqueda.ajustadores();
+
+			$q.all([tipos,riesgos,ajustadores]).then(function (data){
+
+				vm.tipos    = data[0].data;
+				vm.riesgos    = data[1].data;
+				vm.ajustadores    = data[2].data;
+				
+			},function(error){
+				vm.errorInfo = true;
+			});
 
 		}
 
@@ -187,6 +209,7 @@
 			vm.consultando = false;
 			vm.guardando = false;
 			vm.ajustadorExiste = false;
+			vm.errorInfo = false;
 
 			vm.tabActual = 0;
 			vm.telefonos = [];
@@ -237,6 +260,8 @@
 				observacionesDeducible: ''
 			}
 
+			consultaInfo();
+
 		}
 
 		function resetForms(){
@@ -252,6 +277,11 @@
 			vm.consultando = true;
 			vm.tabActual = 1;
 			vm.step2block = false;
+
+			// en caso de que se tenga error
+			if (vm.errorInfo) {
+				consultaInfo();
+			};
 
 			busqueda.productosCliente(cliente.Cia_clave,vm.datos.localidad).success(function(data){
 				vm.productos = data;

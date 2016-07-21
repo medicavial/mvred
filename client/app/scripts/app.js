@@ -15,7 +15,7 @@
 		'ngFileUpload',
 		'angular.filter',
 		'mdPickers',
-		'ui.utils.masks'
+		'material.components.expansionPanels'
 	])
 	
 	.constant('api', 'http://localhost/mvred/server/public/api/')

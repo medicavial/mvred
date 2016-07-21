@@ -1,0 +1,120 @@
+<md-content class="md-whiteframe-2dp">
+    
+    <md-subheader class="md-no-sticky">Datos Generales</md-subheader>
+    <div layout="row">
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Notificaciones">
+          <ng-md-icon icon="notifications"></ng-md-icon> 
+      </md-button>
+    </div>
+    <md-divider></md-divider>
+
+    <section layout-gt-sm="row" layout="column"  layout-align="center center" layout-margin>
+
+        <div class="text-center" flex>
+          <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ dt.dato.Cia_logo }}" class="img-registro" alt="cliente">
+        </div>
+
+        <div class="text-center" flex>
+          <img ng-src="{{ dt.codigo }}" class="img-registro" alt="folio">
+        </div>
+
+        <div class="text-center" flex>
+          <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ dt.dato.Pro_img }}" class="img-registro" alt="producto">
+        </div>
+
+    </section>
+
+    <section layout-gt-sm="row" layout="column" layout-padding layout-align="center center">
+
+        <div class="text-center" flex>                      
+            Folio: {{ dt.dato.Exp_folio }} <br>
+            Lesionado: {{ dt.dato.Exp_nombre }} {{ dt.dato.Exp_apaterno }} {{ dt.dato.Exp_amaterno }}  <br>
+            Póliza: {{ dt.dato.Exp_poliza }}  <br>
+            Riesgo: {{ dt.dato.RIE_nombre }} <br>
+        </div>
+        <div class="text-center" flex>
+            Compañia: {{ dt.dato.Cia_nombre }} <br>
+            Siniestro: {{ dt.dato.Exp_siniestro }} <br>
+            Registro: {{ dt.dato.Exp_fecreg }} <br>
+            Reporte: {{ dt.dato.Exp_reporte }} <br>
+        </div>
+        <div class="text-center" flex>
+            Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
+            Usuario: {{ dt.dato.Usu_registro }} <br>
+        </div>
+      
+    </section>
+    
+    <section layout="row" layout-align="center center">
+      <md-button>Imprimir Portada</md-button>
+    </section>
+    
+    <md-divider></md-divider>
+    
+    <section layout-gt-sm="row" layout="column"  layout-align="center center">
+      
+      <md-content flex class="text-center estatus">
+        <span>Triage: Ambulatorio</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Alertas</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Estatus: Abierto</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Problemas: 1</span>
+      </md-content>
+
+    </section>
+
+</md-content>
+
+<br>
+
+<md-card class="no-margin" flex="30">
+  <img src="img/card-bg.jpg" class="md-card-image" alt="Fondo">
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button class="md-icon-button" aria-label="Favorite">
+      <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Settings">
+      <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Share">
+      <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+    </md-button>
+  </md-card-actions>
+</md-card>
+
+<br>
+
+<md-content class="md-whiteframe-2dp">
+  <md-tabs md-selected="dt.tabActual" md-align-tabs="'bottom'" md-dynamic-height md-border-bottom>
+    <md-tab id="tab1">
+      <md-tab-label>Primera Atención</md-tab-label>
+      <md-tab-body>
+        <div ng-include="dt.paso1"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab2">
+      <md-tab-label>Subsecuencias</md-tab-label>
+      <md-tab-body> 
+        <div ng-include="dt.paso2"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab3">
+      <md-tab-label>Rehabilitaciones</md-tab-label>
+      <md-tab-body>
+        <div ng-include="dt.paso3"></div>
+      </md-tab-body>
+    </md-tab>
+    <md-tab id="tab4">
+      <md-tab-label>Estudios Especiales</md-tab-label>
+      <md-tab-body>
+        <div ng-include="dt.paso4"></div>
+      </md-tab-body>
+    </md-tab>
+  </md-tabs>
+</md-content>

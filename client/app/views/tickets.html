@@ -1,0 +1,73 @@
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+    <h2>
+      <span>Problemas del Expediente</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="close"></ng-md-icon> 
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+<md-content class="md-whiteframe-2dp" layout="column" layout-padding>
+
+	<div layout="column" layout-gt-sm="row">
+
+		<md-input-container flex>
+			<label>Ticket #</label>
+			<input type="text" ng-model="ticket.folio">
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>Fecha de Registro</label>
+			<input type="text" ng-model="ticket.folio">
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>Motivo</label>
+			<input type="text" ng-model="ticket.folio">
+		</md-input-container>
+
+		<md-input-container flex>
+			<label>Descripcion</label>
+			<input type="text" ng-model="ticket.folio">
+		</md-input-container>
+		
+	</div>
+
+	<div>
+		<md-input-container class="md-block">
+          <label>Observaciones Iniciales</label>
+          <textarea ng-model="user.biography" rows="5"></textarea>
+        </md-input-container>
+	</div>
+
+</md-content>
+<br>
+<md-content class="md-whiteframe-2dp">
+
+	<section id="timeline" class="timeline-outer" layout="column">
+	    <div class="container" id="content">
+
+	        <div flex>
+	          <h1 class="blue-text lighten-1 header">Historial de Notas</h1>
+	          <ul class="timeline">
+	            <li class="event" data-date="2016-01-01">
+					<h3>SE ANEXA NOTA DE MÉDICO AUDITOR.</h3>
+	            </li>
+	          </ul>
+	        </div>
+
+	    </div>
+	</section>
+
+</md-content>

@@ -1,0 +1,31 @@
+<md-toolbar layout="row" layout-align="center center">
+	<div class="md-toolbar-tools">
+		<md-button ng-click="tb.menuSwitch('left')" class="md-icon-button">
+			<ng-md-icon icon="{{tb.menu}}" style="fill:white" aria-label="Menu"></ng-md-icon> 
+		</md-button>
+	  	<h1>{{ tb.titulo }}</h1>
+	  	<span flex></span>
+		<md-button class="md-icon-button" aria-label="Inicio" ui-sref="index.home">
+	  		<ng-md-icon icon="home" style="fill:white"></ng-md-icon> 
+		</md-button>
+	  	<md-menu md-position-mode="target-right target">
+		    <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+	      		<ng-md-icon md-menu-origin icon="more_vert" style="fill:white"></ng-md-icon> 
+		    </md-button>
+		    <md-menu-content width="3" >
+				<md-menu-item>
+					<md-button ui-sref="index.configuraciones">
+					    <ng-md-icon icon="settings" style="fill:gray"></ng-md-icon>
+					    Configuración
+					</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button ng-click="tb.logout()">
+					    <ng-md-icon icon="logout" style="fill:gray"></ng-md-icon>
+					    Salir
+					</md-button>
+				</md-menu-item>
+		    </md-menu-content>
+	  	</md-menu>
+	</div>
+</md-toolbar>
