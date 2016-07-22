@@ -154,11 +154,12 @@ class BusquedasController extends BaseController {
 	}
 
 	public function tickets($folio){
-		$datos = Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
+		return Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
 					 ->leftJoin('TicketCat','TicketCat.TCat_clave','=','TicketSeguimiento.TCat_clave')
 					 ->leftJoin('TicketStatus','TicketStatus.TStatus_clave','=','TicketSeguimiento.TStatus_clave')
 					 ->where('Exp_folio',$folio)
 					 ->get();
+
 		
 	}
 
