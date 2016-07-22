@@ -92,14 +92,6 @@
 		dt.muestraPanel = muestraPanel;
 
 
-		dt.example2 = {
-			closeEl: '.close',
-			overlay: {
-			  	templateUrl: 'views/info.html',
-         		scroll: true
-			}
-		};
-
 		function inicio(){
 			// inicializacion de variables
 			dt.dato = datos.data;
@@ -109,6 +101,8 @@
 			dt.seccion = false;
 			dt.detalle = true;
 			dt.iconPanel = 'expand_less';
+
+			cargaDatosFolio(dt.dato.Exp_folio);
 		}
 
 		function muestraSeccion (page,icon,color){
@@ -143,6 +137,15 @@
 				}
 
 			};
+		}
+
+		function cargaDatosFolio (folio) {
+			busqueda.datos(folio).then(function (data){
+
+				dt.tickets = data.tickets;
+				console.log(data);
+			});
+
 		}
 
 

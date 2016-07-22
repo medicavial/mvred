@@ -11,6 +11,7 @@
         var servicio = {
             ajustadores:ajustadores,
             clientes: clientes,
+            datos:datos,
             detalleFolio : detalleFolio,
             productos: productos,
             productosCliente : productosCliente,
@@ -88,6 +89,27 @@
             return promesa.promise;
              
         }
+
+        // tickets del folio
+        function datos(folio){
+
+            var promesa = $q.defer(),
+                tickets = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+            
+            $q.all([tickets]).then(function (data){
+
+                datos = {
+                    tickets : data[0].data
+                }
+                promesa.resolve(datos);
+
+            }, function (error){
+                promesa.reject('error en conexión');
+            });
+
+            return promesa.promise;
+        };
+
 
         //tipos de telefono
         function tipos(){

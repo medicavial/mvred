@@ -18,56 +18,79 @@
 
 <br>
 
-<md-content class="md-whiteframe-2dp" layout="column" layout-padding>
+<div ng-repeat="ticket in dt.tickets">
 
-	<div layout="column" layout-gt-sm="row">
-
-		<md-input-container flex>
-			<label>Ticket #</label>
-			<input type="text" ng-model="ticket.folio">
-		</md-input-container>
-
-		<md-input-container flex>
-			<label>Fecha de Registro</label>
-			<input type="text" ng-model="ticket.folio">
-		</md-input-container>
-
-		<md-input-container flex>
-			<label>Motivo</label>
-			<input type="text" ng-model="ticket.folio">
-		</md-input-container>
-
-		<md-input-container flex>
-			<label>Descripcion</label>
-			<input type="text" ng-model="ticket.folio">
-		</md-input-container>
+	<md-content class="md-whiteframe-2dp" layout="column" layout-gt-xs="row" layout-padding>
 		
-	</div>
 
-	<div>
-		<md-input-container class="md-block">
-          <label>Observaciones Iniciales</label>
-          <textarea ng-model="user.biography" rows="5"></textarea>
-        </md-input-container>
-	</div>
+		<div layout="column" flex>
 
-</md-content>
-<br>
-<md-content class="md-whiteframe-2dp">
+			<md-subheader class="md-no-sticky">Datos del Ticket</md-subheader>
+			<md-divider></md-divider>
+			
+			<br>
+			<div layout="column" layout-gt-xs="row">
+				
+				<md-input-container flex>
+					<label>Ticket #</label>
+					<input type="text" ng-model="ticket.TSeg_clave">
+				</md-input-container>
 
-	<section id="timeline" class="timeline-outer" layout="column">
-	    <div class="container" id="content">
+				<md-input-container flex>
+					<label>Fecha de Registro</label>
+					<input type="text" ng-model="ticket.TSeg_fechareg">
+				</md-input-container>
 
-	        <div flex>
-	          <h1 class="blue-text lighten-1 header">Historial de Notas</h1>
-	          <ul class="timeline">
-	            <li class="event" data-date="2016-01-01">
-					<h3>SE ANEXA NOTA DE MÉDICO AUDITOR.</h3>
-	            </li>
-	          </ul>
-	        </div>
+			</div>
+			
+			<div layout="column" layout-gt-xs="row">
+				
+				<md-input-container flex>
+					<label>Estatus</label>
+					<input type="text" ng-model="ticket.TStatus_nombre">
+				</md-input-container>
 
-	    </div>
-	</section>
+				<md-input-container flex>
+					<label>Fecha de Ultimo Movimiento</label>
+					<input type="text" ng-model="ticket.TSeg_fechaactualizacion">
+				</md-input-container>
 
-</md-content>
+			</div>
+
+			<md-input-container flex>
+				<label>Motivo</label>
+				<input type="text" ng-model="ticket.TCat_nombre">
+			</md-input-container>
+
+			<md-input-container flex>
+				<label>Descripcion</label>
+				<input type="text" ng-model="ticket.TSub_nombre">
+			</md-input-container>
+
+			
+
+			<md-input-container class="md-block">
+	          <label>Observaciones Iniciales</label>
+	          <textarea ng-model="ticket.TSeg_obs" rows="5"></textarea>
+	        </md-input-container>
+			
+		</div>
+
+		<div flex>
+		  	<md-subheader class="md-no-sticky">Historial de Notas</md-subheader>
+		  	<md-divider></md-divider>
+			<br>
+			<md-list ng-if="dt.notas.length > 0">
+			  <md-list-item ng-repeat="nota in dt.ticket.notas">
+			    <p> {{ nota.name }} </p>
+			    <p> {{ nota.name }} </p>
+			  </md-list-item>
+			</md-list>
+		</div>
+
+	</md-content>
+	
+	<br>
+</div>
+
+
