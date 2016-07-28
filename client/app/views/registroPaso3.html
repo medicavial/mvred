@@ -15,26 +15,29 @@
           
           <md-input-container flex>
             <label>Nombre (s)</label>
-            <input type="text" name="nombre" ng-model="rg.datos.nombre" mayusculas required>
+            <input type="text" name="nombre" ng-model="rg.datos.nombre" mayusculas required maxlength="30">
             <div ng-messages="rg.registroForm.nombre.$error" ng-if="rg.registroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>            
+              <div ng-message="required">El campo es requerido</div> 
+              <div ng-message="maxlength">El campo no puede ser mas grande</div>            
             </div>
           </md-input-container>
           <md-input-container flex>
             <label>A. Paterno</label>
-            <input type="text" name="apaterno" ng-model="rg.datos.apaterno" mayusculas required>
+            <input type="text" name="apaterno" ng-model="rg.datos.apaterno" mayusculas required maxlength="30">
             <div ng-messages="rg.registroForm.apaterno.$error" ng-if="rg.registroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>            
+              <div ng-message="required">El campo es requerido</div> 
+              <div ng-message="maxlength">El campo no puede ser mas grande</div>            
             </div>
           </md-input-container>
           <md-input-container flex>
             <label>A. Materno</label>
-            <input type="text" name="amaterno" ng-model="rg.datos.amaterno" mayusculas required>
+            <input type="text" name="amaterno" ng-model="rg.datos.amaterno" mayusculas required maxlength="30">
             <div ng-messages="rg.registroForm.amaterno.$error" ng-if="rg.registroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>            
+              <div ng-message="required">El campo es requerido</div>  
+              <div ng-message="maxlength">El campo no puede ser mas grande</div>           
             </div>
           </md-input-container>
-          <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaNac" class="md-block" flex>
+          <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="rg.fecha" class="md-block" flex>
             <div ng-messages="rg.registroForm.dateFormat.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
               <div ng-message="format">Formato de fecha invalido</div>
@@ -44,15 +47,7 @@
         </section>
 
         <section layout="row" layout-xs="column">
-          
-          <md-input-container  class="md-block" flex>
-            <label>No. Telefono</label>
-            <input type="text" name="telefono" ng-model="rg.datos.telefono" maxlength="12" minlength="6" required numero>
-            <div ng-messages="rg.registroForm.telefono.$error" ng-if="rg.registroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>  
-              <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
-            </div>
-          </md-input-container>
+
           <md-input-container class="md-block" flex>
               <label>Tipo Telefono</label>
               <md-select ng-model="rg.datos.tipotel" name="tipoTel" required>
@@ -62,6 +57,17 @@
                 <div ng-message="required">El campo es requerido</div>
               </div>
           </md-input-container>
+
+          <md-input-container  class="md-block" flex>
+            <label>No. Telefono</label>
+            <input type="text" name="telefono" ng-model="rg.datos.telefono" maxlength="12" minlength="8" required numero>
+            <div ng-messages="rg.registroForm.telefono.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>  
+              <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
+              <div ng-message="minlength">El numero debe ser de 8 o más digitos</div>          
+            </div>
+          </md-input-container>
+          
           <div flex>
             <md-button ng-click="rg.agregaTelefono($event)">Agregar otro telefono</md-button>
           </div>

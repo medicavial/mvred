@@ -2,9 +2,12 @@
 <md-content>
       
   <md-card>
+    <md-button class="md-icon-button p-absolute" style="right: 0;" aria-label="Cerrar" ng-click="mn.ir('index.home')">
+      <ng-md-icon icon="close"></ng-md-icon>
+    </md-button>
     <md-card-header>
       <md-card-avatar>
-        <img class="md-user-avatar md-whiteframe-5dp" src="img/user3.png"/>
+        <img src="img/logomini.png" alt="MedicaVial">
       </md-card-avatar>
     </md-card-header>
     <md-card-title>
@@ -32,83 +35,33 @@
   </md-card>
 
   <md-list>
-    <md-subheader class="md-no-sticky">MENU</md-subheader>
+    <md-subheader class="md-no-sticky">Ligas de Interes</md-subheader>
 
     <md-divider></md-divider>
 
     <md-list-item ng-click="mn.ir('index.home')">
-      <md-icon>
-        <ng-md-icon icon="home"></ng-md-icon>
-      </md-icon>
+      <ng-md-icon icon="home"></ng-md-icon>
       <p> Inicio </p>
     </md-list-item>
 
     <md-divider></md-divider>
 
     <md-list-item ng-click="mn.ir('index.registro')">
-      <md-icon>
-        <ng-md-icon icon="assignment"></ng-md-icon>
-      </md-icon>
+      <ng-md-icon icon="assignment"></ng-md-icon>
       <p> Registro de Paciente </p>
     </md-list-item>
     
     <md-divider></md-divider>
     
     <md-list-item ng-click="mn.ir('index.busqueda')">
-      <md-icon>
-        <ng-md-icon icon="search"></ng-md-icon> 
-      </md-icon>
+      <ng-md-icon icon="search"></ng-md-icon> 
       <p> Busqueda </p>
     </md-list-item>
 
     <md-list-item ng-click="mn.ir('index.busqueda')">
-      <md-icon>
-        <ng-md-icon icon="keyboard_hide"></ng-md-icon> 
-      </md-icon>
+      <ng-md-icon icon="keyboard_hide"></ng-md-icon> 
       <p> Nota Médica Elec. </p>
     </md-list-item>
-    <!-- <md-list-item ng-click="abrirMenu(1)">
-      <md-icon>
-        <ng-md-icon icon="dashboard" style="fill:rgb(255, 87, 34)"></ng-md-icon>
-      </md-icon>
-      <p> Registro de Paciente </p>
-      <md-icon>
-        <ng-md-icon icon="{{iconoAdmin}}" options='{"duration": 375,"rotation": "none"}'></ng-md-icon>
-      </md-icon>
-    </md-list-item>
-    <div ng-if="admin" class="sub-menu">
-      <md-list-item ng-click="ir('index.usuarios')">
-        <md-icon>
-          <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-        </md-icon>
-        <p> Usuarios </p>
-      </md-list-item>
-      <md-list-item ng-click="ir('index.perfiles')">
-        <md-icon>
-          <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-        </md-icon>
-        <p> Perfiles </p>
-      </md-list-item>
-      <md-list-item ng-click="ir('index.tiposajuste')">
-        <md-icon>
-          <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-        </md-icon>
-        <p> Tipos Ajuste </p>
-      </md-list-item>
-      <md-list-item ng-click="ir('index.tiposorden')">
-        <md-icon>
-          <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-        </md-icon>
-        <p> Tipos Orden </p>
-      </md-list-item>
-      <md-list-item ng-click="ir('index.subtipositem')">
-        <md-icon>
-          <ng-md-icon icon="keyboard_arrow_right" style="fill:rgb(255, 87, 34)"></ng-md-icon> 
-        </md-icon>
-        <p> SubTipos item </p>
-      </md-list-item>
-    
-    </div> -->
   </md-list>
 
 </md-content>

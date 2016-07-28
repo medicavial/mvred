@@ -20,10 +20,30 @@
 				background:'blueG',
 				icon:'assignment',
 				col:'2',
-				row:'2',
+				row:'1',
 				size:'104',
 				permiso:true,
 				url:'index.registro'
+			},
+			{
+				nombre:'Formatos',
+				background:'greenG',
+				icon:'insert_drive_file',
+				col:'2',
+				row:'1',
+				size:'84',
+				permiso:true,
+				url:'index.registro'
+			},
+			{
+				nombre:'Ayuda',
+				background:'orangeG',
+				icon:'help',
+				col:'2',
+				row:'1',
+				size:'84',
+				permiso:true,
+				url:'index.ayuda'
 			},
 			{
 				nombre:'Expediente',
@@ -34,26 +54,6 @@
 				size:'84',
 				permiso:true,
 				url:'index.busqueda'
-			},
-			{
-				nombre:'Consulta General',
-				background:'bgm-brown',
-				icon:'search',
-				col:'2',
-				row:'1',
-				size:'84',
-				permiso:true,
-				url:'index.busquedaGeneral'
-			},
-			{
-				nombre:'Formatos',
-				background:'greenG',
-				icon:'insert_drive_file',
-				col:'1',
-				row:'1',
-				size:'84',
-				permiso:true,
-				url:'index.registro'
 			},
 			{
 				nombre:'Conciliación',
@@ -69,21 +69,21 @@
 				nombre:'Estadistica',
 				background:'yellowG',
 				icon:'show_chart',
-				col:'2',
+				col:'1',
 				row:'1',
 				size:'84',
 				permiso:true,
-				url:'index.registro'
+				url:'index.estadisticas'
 			},
 			{
-				nombre:'Ayuda',
-				background:'orangeG',
-				icon:'help',
+				nombre:'Consulta General',
+				background:'bgm-brown',
+				icon:'search',
 				col:'2',
 				row:'1',
 				size:'84',
 				permiso:true,
-				url:'index.registro'
+				url:'index.busquedaGeneral'
 			}
 		];
 

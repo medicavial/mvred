@@ -22,8 +22,14 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/', function()
 	{
 		// return View::make('hello');
-        $pdf = PDF::loadView('registro.caratula');
+        $pdf = PDF2::loadView('registro.caratula');
         return $pdf->stream();
+
+        // PDF::SetTitle('Hello World');
+        // PDF::AddPage();
+        // PDF::Write(0, 'Hello World');
+        // PDF::Output(public_path() . 'hello_world.pdf','FD');
+
     });
 
 
@@ -51,4 +57,11 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
         Route::post('verificaDuplicado', array('uses' => 'OperacionController@verificaDuplicado'));
     });
+
+    Route::group(array('prefix' => 'reportes'), function(){
+        Route::get('atenciones/anio/{unidad}', array('uses' => 'ReportesController@atencionesUnidadAnio'));
+        Route::get('atenciones/mes/{unidad}', array('uses' => 'ReportesController@atencionesUnidadMes'));
+    });
+
+
 });

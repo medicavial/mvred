@@ -54,7 +54,7 @@
                 <section layout-gt-sm="row" layout="column" layout-padding layout-align="center start">
 
                     <div flex>                      
-                        Folio: {{ rg.datoSiniestro.folio }} <br>
+                        <strong>Folio MV: {{ rg.datoSiniestro.folio }}</strong> <br>
                         Póliza: {{ rg.datoSiniestro.poliza }}  <br>
                         Riesgo: R.C. Autopista <br>
                         Lesionado: {{ rg.datos.nombre }} {{ rg.datos.apaterno }} {{ rg.datos.amaterno }}  <br>
@@ -63,7 +63,7 @@
                     <div flex>
                         Compañia: {{ rg.compania }} <br>
                         Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
-                        Registro: {{ rg.registro }} <br>
+                        <strong>Registro: {{ rg.registro }}</strong> <br>
                     </div>
                     <div flex>
                         Unidad Médica: {{ nombreUni }} <br>
@@ -74,7 +74,7 @@
                 
               </md-card-content>
               <md-card-actions layout="row" layout-align="center center">
-                <md-button ng-click="rg.resetForms()">Nuevo Registro</md-button>
+                
                 <md-button>Imprimir</md-button>
               </md-card-actions>
             </md-card>

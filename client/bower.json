@@ -23,6 +23,8 @@
     "moment": "^2.13.0",
     "mdPickers": "^0.7.5",
     "angular-material-expansion-panel": "^0.4.5",
-    "ngMorph": "angular-morph#^0.1.0"
+    "ngMorph": "angular-morph#^0.1.0",
+    "vjs-video": "^0.1.6",
+    "amcharts-angular": "*"
   }
 }

@@ -15,13 +15,15 @@
 		'ngFileUpload',
 		'angular.filter',
 		'mdPickers',
-		'material.components.expansionPanels'
+		'material.components.expansionPanels',
+		'vjs.video',
+		'amChartsDirective'
 	])
 	
-	.constant('api', 'http://localhost/mvred/server/public/api/')
+	.constant('api', 'http://172.17.10.52/mvred/server/public/api/')
 	// .constant('api', 'http://api.medicavial.mx/api/')
 
-	.constant('publicfiles','http://localhost/mvred/server/public/');
+	.constant('publicfiles','http://172.17.10.52/mvred/server/public/');
 	// .constant('publicfiles','http://api.medicavial.mx/exports/')
 	
 

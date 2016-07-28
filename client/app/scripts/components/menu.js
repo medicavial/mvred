@@ -10,11 +10,12 @@
 		controllerAs:'mn'
 	});
 
+	MenuCtrl.$inject = ['$rootScope','$state','$mdSidenav'];
 
 	function MenuCtrl($rootScope,$state,$mdSidenav){
 		var mn = this;
-		mn.nombre = $rootScope.nombre;
 
+		mn.nombre = $rootScope.nombre;
 		mn.ir = ir;
 
 		function ir(ruta){

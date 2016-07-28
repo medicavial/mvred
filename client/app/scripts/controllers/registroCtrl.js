@@ -8,15 +8,18 @@
 	.controller('registroCtrl',registroCtrl)
 	.controller('telefonoCtrl',telefonoCtrl)
 
-	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles'];
+	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles', '$mdpDatePicker'];
 	telefonoCtrl.$inject = ['$mdDialog','tipos','telefonos'];
 
-	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles){
+	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles, $mdpDatePicker){
 
 		// console.log(datos);
 
+
 		// se inciliza el objeto del controlador y la vista
 		var vm = this;
+
+		vm.fecha = moment().subtract(25, "year").format("DD/MM/YYYY");
 
 		//variable de error
 		var mensajeError = 'Ocurrio un error al guardar intentelo nuevamente';
@@ -99,7 +102,6 @@
 		}
 
 		function consultaInfo(){
-
 			
 			var tipos 	= busqueda.tipos(),
 			riesgos  	= busqueda.riesgos(),
@@ -232,7 +234,7 @@
 				nombre:'',
 				apaterno:'',
 				amaterno:'',
-				fechaNac:''
+				fechaNac:vm.fecha
 			}
 
 			vm.datoSiniestro = {
@@ -289,6 +291,12 @@
 				vm.datos.cliente = cliente.Cia_clave;
 				vm.imagenCliente = cliente.Cia_logo;
 				vm.compania = cliente.Cia_nombrecorto;
+
+				// en caso de haber solo un producto seleccion de producto automatico
+				if (vm.productos.length == 1) {
+					var producto = vm.productos[0];
+					confirmaProducto(producto)
+				};
 			});
 
 		}

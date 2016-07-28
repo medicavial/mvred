@@ -21,9 +21,12 @@
 
 		// funciones del controlador
 
+		tb.configSwitch = configSwitch;
 		tb.menuSwitch = menuSwitch;
 		tb.logout = logout;
 		tb.verificaVista = verificaVista;
+		tb.nombre = $rootScope.nombre;
+		tb.unidad = $rootScope.nombreUni;
 
 		function menuSwitch(menuId) {
 			if ($rootScope.atras) {
@@ -31,6 +34,11 @@
 			}else{
 				$mdSidenav(menuId).toggle();
 			}
+		};
+
+		function configSwitch(menuId) {
+			$mdSidenav(menuId).toggle();
+
 		};
 
 		function logout(){

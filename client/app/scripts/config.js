@@ -6,11 +6,16 @@
 	.module('app')
 	.config(config);
 
-	config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider','$mdThemingProvider','$httpProvider','$compileProvider', '$mdDateLocaleProvider'];
+	config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider','$mdThemingProvider','$httpProvider','$compileProvider', '$mdDateLocaleProvider', '$sceDelegateProvider'];
 
-	function config($stateProvider, $urlRouterProvider, $locationProvider,$mdThemingProvider,$httpProvider,$compileProvider, $mdDateLocaleProvider) {
+	function config($stateProvider, $urlRouterProvider, $locationProvider,$mdThemingProvider,$httpProvider,$compileProvider, $mdDateLocaleProvider, $sceDelegateProvider) {
 
 		$compileProvider.debugInfoEnabled(true);
+
+		$sceDelegateProvider.resourceUrlWhitelist([
+	        'self',
+	        'http://medicavial.net/**'
+	    ]);
 
 		$mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 		$mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul', 'Ago','Sep','Oct','Nov','Dic'];
@@ -44,6 +49,13 @@
 			templateUrl: 'views/base.html'
 		})
 
+		.state('index.ayuda',{
+			url:'ayuda',
+			templateUrl :'views/ayuda.html',
+			controller:'ayudaCtrl',
+			controllerAs:'au'
+		})
+
 		.state('index.busqueda',{
 			url:'busqueda',
 			templateUrl :'views/busqueda.html',
@@ -56,6 +68,29 @@
 			templateUrl :'views/busqueda.html',
 			controller:'busquedaGeneralCtrl',
 			controllerAs:'bs'
+		})
+
+		.state('index.estadisticas',{
+			url:'estadisticas',
+			templateUrl :'views/estadisticas.html',
+			controller:'estadisticasCtrl',
+			controllerAs:'et',
+			resolve : {
+				datos : function(reportes,$q){
+					var promesa 		= $q.defer(),
+						atencionesMes 	= reportes.atencionesMes(),
+						atencionesAnio 	= reportes.atencionesAnio();
+
+					$q.all([atencionesMes,atencionesAnio]).then(function (data){
+						promesa.resolve(data);
+					},function (error){
+						promesa.reject('Error');
+					});
+
+					return promesa.promise;
+				}
+			}
+				
 		})
 
 		.state('index.home',{

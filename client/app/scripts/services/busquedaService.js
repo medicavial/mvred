@@ -90,7 +90,7 @@
              
         }
 
-        // tickets del folio
+        // datos del folio
         function datos(folio){
 
             var promesa = $q.defer(),

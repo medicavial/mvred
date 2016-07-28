@@ -108,8 +108,8 @@ class BusquedasController extends BaseController {
 		}								
 
 		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-					 ->where('Uni_clave',$unidad)
 					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
+					 ->where('Uni_clave',$unidad)
 					 ->orderBy($order,$tipo)
 					 ->paginate($limite);
 
@@ -154,13 +154,36 @@ class BusquedasController extends BaseController {
 	}
 
 	public function tickets($folio){
-		return Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
-					 ->leftJoin('TicketCat','TicketCat.TCat_clave','=','TicketSeguimiento.TCat_clave')
-					 ->leftJoin('TicketStatus','TicketStatus.TStatus_clave','=','TicketSeguimiento.TStatus_clave')
-					 ->where('Exp_folio',$folio)
-					 ->get();
+		$datos = Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
+						->leftJoin('TicketCat','TicketCat.TCat_clave','=','TicketSeguimiento.TCat_clave')
+						->leftJoin('TicketStatus','TicketStatus.TStatus_clave','=','TicketSeguimiento.TStatus_clave')
+						->where('Exp_folio',$folio)
+						->get();
 
-		
+		$respuesta = array();
+
+		foreach ($datos as $dato) {
+			$clave = $dato['TSeg_clave'];
+
+			$notas = TicketNotas::where('TSeg_clave',$clave)
+								->where('Exp_folio',$folio)
+								->get();
+
+			$ticket = array(
+				'TSeg_clave' => $clave,
+				'TSeg_fechareg' => $dato['TSeg_fechareg'],
+				'TStatus_nombre' => $dato['TStatus_nombre'],
+				'TSeg_fechaactualizacion' => $dato['TSeg_fechaactualizacion'],
+				'TCat_nombre' => $dato['TCat_nombre'],
+				'TSub_nombre' => $dato['TSub_nombre'],
+				'TSeg_obs' => $dato['TSeg_obs'],
+				'notas' => $notas
+			);
+
+			array_push($respuesta, $ticket);	
+		}
+
+		return $respuesta;
 	}
 
 	public function tipos(){

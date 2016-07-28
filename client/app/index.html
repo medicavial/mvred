@@ -3,9 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-	<title>Registro MV 2.0</title>
+	<title>SACE MV 1.0</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"/>
+	<link rel="icon" type="image/png" href="img/favicon.png" />
+
 	<!-- build:css css/style.min.css -->
 
 	<!-- bower:css -->
@@ -16,6 +18,7 @@
 	<link rel="stylesheet" href="lib/material-design-lite/material.min.css" />
 	<link rel="stylesheet" href="lib/mdPickers/dist/mdPickers.min.css" />
 	<link rel="stylesheet" href="lib/angular-material-expansion-panel/dist/md-expansion-panel.css" />
+	<link rel="stylesheet" href="lib/video.js/dist/video-js.css" />
 	<!-- endbower -->  
 	
 	<!-- inject:css -->    
@@ -56,6 +59,12 @@
 	<script src="lib/mdPickers/dist/mdPickers.js"></script>
 	<script src="lib/angular-material-expansion-panel/dist/md-expansion-panel.js"></script>
 	<script src="lib/ngMorph/dist/angular-morph.min.js"></script>
+	<script src="lib/video.js/dist/video.js"></script>
+	<script src="lib/vjs-video/dist/vjs-video.min.js"></script>
+	<script src="lib/amcharts/dist/amcharts/amcharts.js"></script>
+	<script src="lib/amcharts/dist/amcharts/serial.js"></script>
+	<script src="lib/amcharts/dist/amcharts/pie.js"></script>
+	<script src="lib/amcharts-angular/dist/amChartsDirective.js"></script>
 	<!-- endbower --> 
 	<!-- endbuild -->
 	
@@ -67,8 +76,10 @@
 	<script src="/scripts/animations/inicial.js"></script>       
 	<script src="/scripts/components/menu.js"></script>       
 	<script src="/scripts/components/toolbar.js"></script>       
+	<script src="/scripts/controllers/ayudaCtrl.js"></script>       
 	<script src="/scripts/controllers/busquedaCtrl.js"></script>       
 	<script src="/scripts/controllers/detalleCtrl.js"></script>       
+	<script src="/scripts/controllers/estadisticasCtrl.js"></script>       
 	<script src="/scripts/controllers/homeCtrl.js"></script>       
 	<script src="/scripts/controllers/loginCtrl.js"></script>       
 	<script src="/scripts/controllers/registroCtrl.js"></script>       
@@ -87,6 +98,7 @@
 	<script src="/scripts/services/operacionService.js"></script>       
 	<script src="/scripts/services/registrosGlobalesService.js"></script>       
 	<script src="/scripts/services/registrosService.js"></script>       
+	<script src="/scripts/services/reportesService.js"></script>       
 	<script src="/scripts/services/usuarioService.js"></script>       
 	<!-- endinject -->
 	<!-- endbuild -->
