@@ -22,6 +22,14 @@
               </div>
           </md-input-container>
 
+          <md-input-container flex>
+            <label>Inciso</label>
+            <input type="text" name="inciso" ng-model="rg.datoSiniestro.inciso" maxlength="6" mayusculas>
+            <div ng-messages="rg.siniestroForm.inciso.$error" ng-if="rg.siniestroForm.$submitted">
+                <div ng-message="maxlength">El campo no puede ser mayor de 6</div>
+              </div>
+          </md-input-container>
+
           <md-input-container  class="md-block" flex>
             <label>Poliza</label>
             <input type="text" name="poliza" ng-model="rg.datoSiniestro.poliza" mayusculas required>
@@ -31,14 +39,10 @@
           </md-input-container>
           
           <md-input-container  class="md-block" flex>
-            <label>Folio de  <span ng-if="rg.datoSiniestro.cliente != 19">Derivación</span> <span ng-if="rg.datoSiniestro.cliente == 19">Electronico</span> </label>
+            <label>Folio de  <span ng-if="rg.datoSiniestro.cliente != 19 && rg.datoSiniestro.cliente != 10">Derivación</span> <span ng-if="rg.datoSiniestro.cliente == 19">Electronico</span> <span ng-if="rg.datoSiniestro.cliente == 10">Segmentación</span> </label>
             <input type="text" name="telefono" ng-model="rg.datoSiniestro.folioElec" mayusculas >
           </md-input-container>
 
-          <md-input-container flex>
-            <label>Inciso</label>
-            <input type="text" name="inciso" ng-model="rg.datoSiniestro.inciso" mayusculas>
-          </md-input-container>
 
         </section>
 
@@ -54,6 +58,11 @@
           </md-input-container>
 
           <md-input-container flex>
+            <label>bitacora</label>
+            <input type="text" name="orden" ng-model="rg.datoSiniestro.bitacora">
+          </md-input-container>
+
+          <md-input-container flex>
             <label>Reporte</label>
             <input type="text" name="reporte" ng-model="rg.datoSiniestro.reporte" mayusculas required>
             <div ng-messages="rg.siniestroForm.reporte.$error" ng-if="rg.siniestroForm.$submitted">
@@ -66,10 +75,6 @@
             <input type="text" name="orden" ng-model="rg.datoSiniestro.orden">
           </md-input-container>
           
-          <md-input-container flex>
-            <label>bitacora</label>
-            <input type="text" name="orden" ng-model="rg.datoSiniestro.bitacora">
-          </md-input-container>
 
           <div flex></div>
 
@@ -77,10 +82,6 @@
 
 
         <section layout="row" layout-xs="column">
-          
-          <md-switch ng-model="rg.datoSiniestro.ilejible" aria-label="ilejible" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex-gt-sm="15">
-            Ilegible {{ rg.datoSiniestro.ilejible }}
-          </md-switch>
 
           <md-autocomplete flex
               md-input-name="ajustador"
@@ -108,8 +109,17 @@
           
           <md-input-container flex>
             <label>Telefono del ajustador</label>
-            <input type="text" ng-disabled="rg.ajustadorExiste" name="telAjustador" ng-model="rg.datoSiniestro.telAjustador" numero>
+            <input type="text" ng-disabled="rg.ajustadorExiste" name="telAjustador" ng-model="rg.datoSiniestro.telAjustador" maxlength="12" minlength="8" numero>
+            <div ng-messages="rg.telAjustador.telefono.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>  
+              <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
+              <div ng-message="minlength">El numero debe ser de 8 o más digitos</div>          
+            </div>
           </md-input-container>
+
+          <md-switch ng-model="rg.datoSiniestro.ilejible" aria-label="ilejible" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex>
+            Ajustador Ilegible {{ rg.datoSiniestro.ilejible }}
+          </md-switch>
 
         </section>
 
@@ -135,6 +145,30 @@
               <div ng-message="required">El campo es requerido</div>            
             </div>
           </md-input-container>
+
+        </section>
+
+        <section layout="row" layout-xs="column">
+
+
+          <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex>
+            Folio Extemporaneo {{ rg.datoSiniestro.extemporaneo }}
+          </md-switch>
+
+          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.deducible == 'si' ">
+            <label>Motivo</label>
+            <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="5" required></textarea>
+            <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>            
+            </div>
+          </md-input-container>
+
+          <mdp-date-picker mdp-open-on-click required name="fechaAtn" mdp-placeholder="Fecha de Atención" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaAtencion" class="md-block" flex>
+            <div ng-messages="rg.registroForm.fechaAtn.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+              <div ng-message="format">Formato de fecha invalido</div>
+            </div>
+          </mdp-date-picker>
 
         </section>
 

@@ -35,15 +35,15 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row ng-click="bs.muestraDetalle($index,registro)" class="fila" ng-repeat="registro in bs.registros">
+            <tr md-row class="fila" ng-repeat="registro in bs.registros">
               
-              <td md-cell class="imagen"> 
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell class="imagen"> 
                 <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> 
               </td>
-              <td md-cell>{{registro.Exp_folio}}</td>
-              <td md-cell>{{registro.Exp_completo}}</td>
-              <td md-cell>{{registro.Exp_fecreg}}</td>
-              <td md-cell>{{registro.Exp_obs}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_folio}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_completo}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fecreg}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_obs}}</td>
               <td md-cell>
                   <md-menu md-position-mode="target-right target" >
                     <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
@@ -69,7 +69,7 @@
             
           </tbody>
         </table>
-        <md-table-pagination md-limit="bs.datos.limit" md-limit-options="bs.paginacion" md-page="bs.datos.page" md-total="{{bs.total}}" md-on-paginate="bs.buscar" md-label="{page: 'Página:', rowsPerPage: 'Resultados por página:', of: 'de'}"></md-table-pagination  md-page-select="bs.pageSelect">
+        <md-table-pagination md-limit="bs.datos.limit" md-limit-options="bs.paginacion" md-page="bs.datos.page" md-total="{{bs.total}}" md-on-paginate="bs.buscar" md-label="{page: 'Página:', rowsPerPage: 'Resultados por página:', of: 'de'}" md-page-select></md-table-pagination  md-page-select="bs.pageSelect">
       </md-table-container>
 
       <!-- <md-list>

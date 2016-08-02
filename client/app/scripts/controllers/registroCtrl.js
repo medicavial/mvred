@@ -18,8 +18,10 @@
 
 		// se inciliza el objeto del controlador y la vista
 		var vm = this;
+		vm.fecha = moment().subtract(25, "year");
+		var fecha = new Date(vm.fecha);
+		console.log(fecha);
 
-		vm.fecha = moment().subtract(25, "year").format("DD/MM/YYYY");
 
 		//variable de error
 		var mensajeError = 'Ocurrio un error al guardar intentelo nuevamente';
@@ -234,7 +236,7 @@
 				nombre:'',
 				apaterno:'',
 				amaterno:'',
-				fechaNac:vm.fecha
+				fechaNac:new Date(vm.fecha)
 			}
 
 			vm.datoSiniestro = {
@@ -259,7 +261,10 @@
 				observaciones : '',
 				deducible: 'no',
 				reporte: '',
-				observacionesDeducible: ''
+				observacionesDeducible: '',
+				fechaAtencion:'',
+				extemporaneo:'no',
+				motivoEx:''
 			}
 
 			consultaInfo();

@@ -10,7 +10,8 @@
 		controllerAs:'tb',
 		bindings: {
 		  titulo: '=',
-		  menu: '='
+		  menu: '=',
+		  url:  '='
 		}
 	});
 
@@ -18,6 +19,8 @@
 	function toolbarCtrl($rootScope, auth, $mdSidenav, $mdMedia, $window){
 
 		var tb = this;
+
+		console.log($rootScope.url);
 
 		// funciones del controlador
 

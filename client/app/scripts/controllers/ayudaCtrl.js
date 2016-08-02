@@ -49,11 +49,16 @@
 		au.directorio = function(ev){
 
 			$mdDialog.show({
-		      templateUrl: 'views/directorio.html',
-		      parent: angular.element(document.body),
-		      targetEvent: ev,
-		      clickOutsideToClose:true,
-		      fullscreen: true
+				templateUrl: 'views/directorio.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:true,
+				fullscreen: true,
+				controller:function($scope,$mdDialog){
+					$scope.cerrar = function(){
+						$mdDialog.cancel();
+					}
+				}
 		    });
 
 		}

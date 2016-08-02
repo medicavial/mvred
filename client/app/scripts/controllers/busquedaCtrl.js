@@ -34,11 +34,11 @@
 		bs.ordenar = ordenar; // funcion para ordenar y buscar en query
 
 		bs.detalle = [];
+		bs.selected = [];
 
-		bs.muestraDetalle = function(index,folio){
+		bs.muestraDetalle = function(folio){
 			// bs.detalle = [];
-		   	bs.detalle[index] = !bs.detalle[index];
-		   	bs.dato = folio;
+		   	console.log(folio);
 		}
 
 

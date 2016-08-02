@@ -33,14 +33,14 @@
 	        
 	        $rootScope.atras = false;
 
-	        url = toState.name;
-		    if(url !== 'login' && webStorage.session.get('username') === null)
+	        $rootScope.url = toState.name;
+		    if($rootScope.url !== 'login' && webStorage.session.get('username') === null)
 	        {   
 	        	event.preventDefault();
 	            $state.go('login');
 	        }
 	        //en el caso de que intente acceder al login y ya haya iniciado sesión lo mandamos a la home
-	        if(url === 'login' && webStorage.session.get('username') !== null)
+	        if($rootScope.url === 'login' && webStorage.session.get('username') !== null)
 	        {
 	        	event.preventDefault();
 	            $state.go('index.home');
