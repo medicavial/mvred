@@ -42,15 +42,16 @@
 		// se definen las funciones
 		vm.inicio = inicio; //funcion para limpiar todos los campos
 
-		vm.agregaTelefono 	= agregaTelefono; //funcion que graga mas telefonos disponibles
-		vm.buscaAjustador   = buscaAjustador; // funcion que filtra la busqueda de ajustadores 
-		vm.confirmaProducto = confirmaProducto; //funcion para seleccionar el producto segun el cliente
-		vm.guardaPaciente 	= guardaPaciente; // funcion para guardar en base de datos los datos del paciente
-		vm.guardaSiniestro 	= guardaSiniestro; // funcion para guardar en base de datos los datos del Siniestro
-		vm.verificaProducto = verificaProducto; // funcion que consulta los productos disponibles segun el usuario
-		vm.detalleAjustador = detalleAjustador; // si elijen a alguien de la lista de ajustadores rellena campos
-		vm.resetForms		= resetForms;
-		vm.consultaInfo		= consultaInfo;
+		vm.agregaTelefono 	   = agregaTelefono; //funcion que graga mas telefonos disponibles
+		vm.buscaAjustador      = buscaAjustador; // funcion que filtra la busqueda de ajustadores 
+		vm.confirmaProducto    = confirmaProducto; //funcion para seleccionar el producto segun el cliente
+		vm.guardaPaciente 	   = guardaPaciente; // funcion para guardar en base de datos los datos del paciente
+		vm.guardaSiniestro 	   = guardaSiniestro; // funcion para guardar en base de datos los datos del Siniestro
+		vm.verificaProducto    = verificaProducto; // funcion que consulta los productos disponibles segun el usuario
+		vm.detalleAjustador    = detalleAjustador; // si elijen a alguien de la lista de ajustadores rellena campos
+		vm.resetForms		   = resetForms;
+		vm.consultaInfo		   = consultaInfo;
+		vm.verificaObligatorio = verificaObligatorio;
 
 		// funciones del controlador
 		function agregaTelefono(ev){
@@ -140,6 +141,7 @@
 				vm.datoSiniestro.cveAjustador = '';
 				vm.datoSiniestro.cveAjustadorMv = '';
 			}
+			
 		}
 
 		function guardaPaciente(){
@@ -198,7 +200,7 @@
 					mensajes.alerta(mensajeError,'error','top right','done_all');
 				
 				});
-			};
+			}
 
 		}
 
@@ -236,6 +238,7 @@
 				nombre:'',
 				apaterno:'',
 				amaterno:'',
+				folioInterno:'',
 				fechaNac:new Date(vm.fecha)
 			}
 
@@ -251,7 +254,7 @@
 				reporte : '',
 				orden : '',
 				bitacora : '',
-				ilejible : 'no',
+				ilejible : false,
 				ajustador : '',
 				ajustadorId : '',
 				cveAjustador : '',
@@ -259,11 +262,11 @@
 				telAjustador : '',
 				bitacora : '',
 				observaciones : '',
-				deducible: 'no',
+				deducible: false,
 				reporte: '',
 				observacionesDeducible: '',
 				fechaAtencion:'',
-				extemporaneo:'no',
+				extemporaneo:false,
 				motivoEx:''
 			}
 
@@ -275,6 +278,16 @@
 			vm.registroForm.$setPristine();
 			vm.siniestroForm.$setPristine();
 			inicio();
+		
+		}
+
+		function verificaObligatorio(){
+
+			if (vm.datoSiniestro.siniestro == '' && vm.datoSiniestro.bitacora == '' && vm.datoSiniestro.reporte == '') {
+				return true;
+			}else{
+				return false;
+			}
 		}
 
 		function verificaProducto(cliente){

@@ -70,6 +70,7 @@ class OperacionController extends BaseController {
 		$expediente->Exp_fecreg = $fechaRegistro;
 		$expediente->Cia_clave = Input::get('cliente');
 		$expediente->Pro_clave = Input::get('producto');
+		$expediente->Exp_fq = Input::get('folioInterno');
 		$expediente->Uni_claveActual = $unidad;
 		$expediente->save();
 
@@ -156,6 +157,9 @@ class OperacionController extends BaseController {
         $expediente->Exp_bitacora = Input::get('bitacora');
 		$expediente->Exp_triageOrigen = 1;
         $expediente->Exp_triageActual = 1;
+        $expediente->Exp_extemporaneo = Input::get('extemporaneo');
+        $expediente->Exp_motivo = Input::get('motivoEx');
+        $expediente->Exp_fechaAtn = Input::get('fechaAtencion');
         $expediente->save();
 
 		return Response::json(array('respuesta' => 'Registro Generado Correctamente'));

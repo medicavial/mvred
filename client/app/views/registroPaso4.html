@@ -1,9 +1,13 @@
 <md-content>
 
-    <section layout="row" layout-align="center center" layout-margin>
+    <section layout-gt-sm="row" layout="column"  layout-align="space-between center" layout-margin>
+
+        <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ rg.imagenCliente }}" class="img-registro" alt="cliente">
 
         <img ng-src="{{ rg.imagenFolio }}" class="img-registro" alt="folio">
-        
+
+        <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ rg.imagenProducto }}" class="img-registro" alt="producto">
+
     </section>
 
     <form name="rg.siniestroForm" ng-submit="rg.guardaSiniestro()" novalidate>
@@ -22,20 +26,20 @@
               </div>
           </md-input-container>
 
-          <md-input-container flex>
-            <label>Inciso</label>
-            <input type="text" name="inciso" ng-model="rg.datoSiniestro.inciso" maxlength="6" mayusculas>
-            <div ng-messages="rg.siniestroForm.inciso.$error" ng-if="rg.siniestroForm.$submitted">
-                <div ng-message="maxlength">El campo no puede ser mayor de 6</div>
-              </div>
-          </md-input-container>
-
           <md-input-container  class="md-block" flex>
             <label>Poliza</label>
             <input type="text" name="poliza" ng-model="rg.datoSiniestro.poliza" mayusculas required>
             <div ng-messages="rg.siniestroForm.poliza.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
+          </md-input-container>
+
+          <md-input-container flex>
+            <label>Inciso</label>
+            <input type="text" name="inciso" ng-model="rg.datoSiniestro.inciso" maxlength="6" mayusculas>
+            <div ng-messages="rg.siniestroForm.inciso.$error" ng-if="rg.siniestroForm.$submitted">
+                <div ng-message="maxlength">El campo no puede ser mayor de 6</div>
+              </div>
           </md-input-container>
           
           <md-input-container  class="md-block" flex>
@@ -51,7 +55,7 @@
 
           <md-input-container flex>
             <label>Siniestro</label>
-            <input type="text" name="siniestro" ng-model="rg.datoSiniestro.siniestro" mayusculas required>
+            <input type="text" name="siniestro" ng-model="rg.datoSiniestro.siniestro" mayusculas ng-required=" rg.datoSiniestro.bitacora == '' && rg.datoSiniestro.reporte == '' ">
             <div ng-messages="rg.siniestroForm.siniestro.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
@@ -59,12 +63,15 @@
 
           <md-input-container flex>
             <label>bitacora</label>
-            <input type="text" name="orden" ng-model="rg.datoSiniestro.bitacora">
+            <input type="text" name="bitacora" ng-model="rg.datoSiniestro.bitacora" ng-required=" rg.datoSiniestro.siniestro == ''  && rg.datoSiniestro.reporte == '' ">
+            <div ng-messages="rg.siniestroForm.bitacora.$error" ng-if="rg.siniestroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>            
+            </div>
           </md-input-container>
 
           <md-input-container flex>
             <label>Reporte</label>
-            <input type="text" name="reporte" ng-model="rg.datoSiniestro.reporte" mayusculas required>
+            <input type="text" name="reporte" ng-model="rg.datoSiniestro.reporte" mayusculas ng-required=" rg.datoSiniestro.siniestro == '' && rg.datoSiniestro.bitacora == '' ">
             <div ng-messages="rg.siniestroForm.reporte.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
@@ -92,12 +99,12 @@
               md-item-text="ajustador.AJU_nombre"
               md-input-id="mayusculas"
               md-floating-label="Ajustador"
-              ng-disabled="rg.datoSiniestro.ilejible == 'si' "
-              ng-required=" rg.datoSiniestro.ilejible == 'no' " >
+              ng-disabled="rg.datoSiniestro.ilejible"
+              ng-required="!rg.datoSiniestro.ilejible" >
             <md-item-template>
               <span md-highlight-text="rg.datoSiniestro.ajustador">{{ajustador.AJU_nombre}}</span>
             </md-item-template>
-            <div ng-messages="rg.siniestroForm.ajustador.$error" ng-if="rg.siniestroForm.ajustador.$submitted">
+            <div ng-messages="rg.siniestroForm.ajustador.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
             </div>
           </md-autocomplete>
@@ -109,7 +116,7 @@
           
           <md-input-container flex>
             <label>Telefono del ajustador</label>
-            <input type="text" ng-disabled="rg.ajustadorExiste" name="telAjustador" ng-model="rg.datoSiniestro.telAjustador" maxlength="12" minlength="8" numero>
+            <input type="text" ng-disabled="rg.ajustadorExiste" name="telAjustador" ng-model="rg.datoSiniestro.telAjustador" maxlength="12" minlength="5" numero>
             <div ng-messages="rg.telAjustador.telefono.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>  
               <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
@@ -117,8 +124,8 @@
             </div>
           </md-input-container>
 
-          <md-switch ng-model="rg.datoSiniestro.ilejible" aria-label="ilejible" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex>
-            Ajustador Ilegible {{ rg.datoSiniestro.ilejible }}
+          <md-switch ng-model="rg.datoSiniestro.ilejible" aria-label="ilejible" class="md-warn" flex>
+            Ajustador Ilegible <span ng-if="rg.datoSiniestro.ilejible">Si</span> <span ng-if="!rg.datoSiniestro.ilejible">No</span>
           </md-switch>
 
         </section>
@@ -126,21 +133,21 @@
         <section layout="row" layout-xs="column" ng-if="rg.datos.producto == 2">
 
 
-          <md-switch ng-model="rg.datoSiniestro.deducible" aria-label="ilejible" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex>
-            Deducible {{ rg.datoSiniestro.deducible }}
+          <md-switch ng-model="rg.datoSiniestro.deducible" aria-label="deducible" class="md-warn" flex>
+            Deducible <span ng-if="rg.datoSiniestro.deducible">Si</span> <span ng-if="!rg.datoSiniestro.deducible">No</span> 
           </md-switch>
 
-          <md-input-container class="md-block" flex ng-if="rg.datoSiniestro.deducible == 'si' ">
+          <md-input-container class="md-block" flex ng-if="rg.datoSiniestro.deducible">
             <label>Deducible</label>
-            <input type="text" name="cantidadDeducible" ng-model="rg.datoSiniestro.cantidadDeducible" dinero required>
+            <input type="text" name="cantidadDeducible" ng-model="rg.datoSiniestro.cantidadDeducible" dinero ng-required="rg.datoSiniestro.deducible">
             <div ng-messages="rg.siniestroForm.cantidadDeducible.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
           </md-input-container>
 
-          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.deducible == 'si' ">
+          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.deducible">
             <label>Observaciones al deducible</label>
-            <textarea ng-model="rg.datoSiniestro.observacionesDeducible" name="observacionesDed" rows="5" required></textarea>
+            <textarea ng-model="rg.datoSiniestro.observacionesDeducible" name="observacionesDed" rows="5" ng-required="rg.datoSiniestro.deducible"></textarea>
             <div ng-messages="rg.siniestroForm.observacionesDed.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
@@ -151,19 +158,19 @@
         <section layout="row" layout-xs="column">
 
 
-          <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" ng-true-value="'si'" ng-false-value="'no'" flex>
-            Folio Extemporaneo {{ rg.datoSiniestro.extemporaneo }}
+          <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" flex>
+            Folio Extemporaneo <span ng-if="rg.datoSiniestro.extemporaneo">Si</span> <span ng-if="!rg.datoSiniestro.extemporaneo">No</span> 
           </md-switch>
 
-          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.deducible == 'si' ">
+          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.extemporaneo ">
             <label>Motivo</label>
-            <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="5" required></textarea>
+            <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="5" ng-required="rg.datoSiniestro.extemporaneo"></textarea>
             <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
           </md-input-container>
 
-          <mdp-date-picker mdp-open-on-click required name="fechaAtn" mdp-placeholder="Fecha de Atención" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaAtencion" class="md-block" flex>
+          <mdp-date-picker mdp-open-on-click ng-required="rg.datoSiniestro.extemporaneo" name="fechaAtn" mdp-placeholder="Fecha de Atención" mdp-format="DD/MM/YYYY" ng-model="rg.datoSiniestro.fechaAtencion" class="md-block" ng-if="rg.datoSiniestro.extemporaneo" flex>
             <div ng-messages="rg.registroForm.fechaAtn.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
               <div ng-message="format">Formato de fecha invalido</div>

@@ -33,7 +33,7 @@
 				row:'1',
 				size:'84',
 				permiso:true,
-				url:'index.registro'
+				url:'index.formatos'
 			},
 			{
 				nombre:'Ayuda',

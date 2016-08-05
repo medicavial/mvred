@@ -13,15 +13,7 @@
     <md-dialog-content layout-padding layout-wrap>
 
       <md-content layout-gt-sm="row" layout="column">  
-
-        <md-input-container  class="md-block" flex>
-          <label>No. Telefono</label>
-          <input type="text" name="telefono" ng-model="tel.telefono" maxlength="12" minlength="6" required numero>
-          <div ng-messages="tel.telefonoForm.telefono.$error" ng-if="tel.telefonoForm.$dirty">
-            <div ng-message="required">El campo es requerido</div>  
-            <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
-          </div>
-        </md-input-container>
+        
         <md-input-container class="md-block" flex>
             <label>Tipo Telefono</label>
             <md-select ng-model="tel.tipoTel" required>
@@ -31,6 +23,16 @@
               <div ng-message="required">El campo es requerido</div>
             </div>
         </md-input-container>
+
+        <md-input-container  class="md-block" flex>
+          <label>No. Telefono</label>
+          <input type="text" name="telefono" ng-model="tel.telefono" maxlength="12" minlength="6" required numero>
+          <div ng-messages="tel.telefonoForm.telefono.$error" ng-if="tel.telefonoForm.$dirty">
+            <div ng-message="required">El campo es requerido</div>  
+            <div ng-message="maxlength">El numero no debe ser mayor a 12</div>
+          </div>
+        </md-input-container>
+        
         <div flex>
           <md-button type="submit" ng-disabled="tel.telefonoForm.$invalid">Agregar otro telefono</md-button>
         </div>

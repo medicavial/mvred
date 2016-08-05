@@ -93,6 +93,13 @@
 				
 		})
 
+		.state('index.formatos',{
+			url:'formatos',
+			templateUrl :'views/formatos.html',
+			controller:'formatosCtrl',
+			controllerAs:'fr'
+		})
+
 		.state('index.home',{
 			url:'home',
 			templateUrl :'views/home.html',

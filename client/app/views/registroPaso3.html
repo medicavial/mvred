@@ -88,10 +88,16 @@
           </md-input-container>
           <md-input-container flex>
             <label>Codigo postal</label>
-            <input type="text" ng-model="rg.datos.cp">
+            <input type="text" name="cp" ng-model="rg.datos.cp" maxlength="5" numero>
+            <div ng-messages="rg.registroForm.cp.$error">
+              <div ng-message="maxlength">El numero no debe ser mayor a 5 digitos</div>          
+            </div>
           </md-input-container>
 
-          <span flex></span>
+          <md-input-container flex>
+            <label>Folio Interno</label>
+            <input type="text" ng-model="rg.datos.folioInterno">
+          </md-input-container>
 
         </section>
 
