@@ -43,6 +43,12 @@ md-tabs.TabPanel md-tabs-wrapper {
 }
 
 
+.nombre-unidad{
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 .logo{
   width: 300px;
   height: 100px;

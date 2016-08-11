@@ -31,20 +31,24 @@
       <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
 
           <div class="text-center" flex>                      
-              Folio: {{ dt.dato.Exp_folio }} <br>
-              Lesionado: {{ dt.dato.Exp_nombre }} {{ dt.dato.Exp_apaterno }} {{ dt.dato.Exp_amaterno }}  <br>
+              <strong>Folio MV: {{ dt.dato.Exp_folio }}</strong> <br>
+              Lesionado: {{ dt.dato.Exp_completo }}  <br>
               Póliza: {{ dt.dato.Exp_poliza }}  <br>
               Riesgo: {{ dt.dato.RIE_nombre }} <br>
-          </div>
-          <div class="text-center" flex>
-              Compañia: {{ dt.dato.Cia_nombre }} <br>
-              Siniestro: {{ dt.dato.Exp_siniestro }} <br>
-              Registro: {{ dt.dato.Exp_fecreg }} <br>
-              Reporte: {{ dt.dato.Exp_reporte }} <br>
-          </div>
-          <div class="text-center" flex>
-              Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
               Usuario: {{ dt.dato.Usu_registro }} <br>
+          </div>
+          <div class="text-center" flex>
+              Compañia: {{ dt.dato.Cia_nombrecorto }} <br>
+              Siniestro: {{ dt.dato.Exp_siniestro }} <br>
+              Reporte: {{ dt.dato.Exp_reporte }} <br>
+              <strong>Registro: {{ dt.dato.Exp_fecreg }}</strong> <br>
+              Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
+          </div>
+          <div class="text-center" flex>
+              Observaciones: {{ dt.dato.Exp_obs }} <br>
+              Extemporaneo: <span ng-if="dt.dato.Exp_extemporaneo == '1' ">Si</span> <span ng-if="dt.dato.Exp_extemporaneo == '0' ">No</span> <br>
+              Motivo:  {{ dt.dato.Exp_motivo }}<br>
+              Fecha Atención:  <span ng-hide=" dt.dato.Exp_fechaAtn == '0000-00-00 00:00:00' ">{{ dt.dato.Exp_fechaAtn }}</span> <br>
           </div>
         
       </section>
@@ -67,7 +71,7 @@
           <span>Estatus: Abierto</span>
         </md-content>
         <md-content flex class="text-center estatus">
-          <span>Problemas: 1</span>
+          <span>Expediente Dentro de Paquete</span>
         </md-content>
 
       </section>

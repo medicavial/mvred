@@ -48,9 +48,9 @@
 				page:'views/autorizaciones.html'
 			},
 			{
-				nombre:'Problemas',
+				nombre:'Problemas de Expediente',
 				background:'red400',
-				icon:'sim_card_alert',
+				icon:'warning',
 				col:'1',
 				row:'1',
 				size:'84',

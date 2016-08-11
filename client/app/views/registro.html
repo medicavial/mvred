@@ -63,20 +63,24 @@
                     <div flex>
                         Compañia: {{ rg.compania }} <br>
                         Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
+                        Reporte: {{ rg.datoSiniestro.reporte }} <br>
                         <strong>Registro: {{ rg.registro }}</strong> <br>
+                        Unidad Médica: {{ nombreUni }} <br>
                     </div>
                     <div flex>
-                        Unidad Médica: {{ nombreUni }} <br>
-                        Reporte: {{ rg.datoSiniestro.reporte }} <br>
+                        Observaciones: {{ rg.datoSiniestro.observaciones }} <br>
+                        Extemporaneo: No <br>
+                        Motivo:  <br>
+                        Fecha Atención:  <br>
                     </div>
                   
                 </section>
                 
               </md-card-content>
               <md-card-actions layout="row" layout-align="center center">
-                <md-button>Regresar a Inicio</md-button>
+                <md-button ui-sref="index.home">Regresar a Inicio</md-button>
                 <md-button>Imprimir</md-button>
-                <md-button>Ir al Expediente</md-button>
+                <md-button ui-sref="index.detalle({folio:rg.datoSiniestro.folio})">Ir al Expediente</md-button>
               </md-card-actions>
             </md-card>
           </md-content>

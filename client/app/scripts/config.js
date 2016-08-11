@@ -90,7 +90,6 @@
 					return promesa.promise;
 				}
 			}
-				
 		})
 
 		.state('index.formatos',{

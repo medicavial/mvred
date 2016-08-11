@@ -7,7 +7,7 @@
   "description": "librerias necesarias para la app",
   "license": "MIT",
   "dependencies": {
-    "angular-material": "~1.0",
+    "angular-material": "#master",
     "angular-material-data-table": "~0.10.0",
     "angular-material-icons": "*",
     "angular-messages": "~1.4.4",

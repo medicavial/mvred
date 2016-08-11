@@ -8,7 +8,9 @@
 
     function registrosGlobales($resource, api){
 
-        return $resource( api + 'busqueda/registrosGlobales');
+        return $resource( api + 'busqueda/registrosGlobales',{},{
+                get:  {method:'GET', timeout: 10000 },
+            });
 
     }
 
