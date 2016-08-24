@@ -1,37 +1,29 @@
-<div layout="row" flex>
-    <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-2dp" md-component-id="left" md-is-locked-open="false" style="transition: all 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);">
-      <menu class="no-padding no-margin"></menu>
-
-    </md-sidenav>
-
-    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-      <md-toolbar class="md-warn">
-        <h1 class="md-toolbar-tools">Configuración</h1>
-      </md-toolbar>
-      <md-content layout-padding>
-        <md-list-item>
-          <p> Modo Guiado </p>
-          <md-switch class="md-secondary" ng-model="guiado"></md-switch>
-        </md-list-item>
-
-        <md-button ng-click="close()">
-          Cerrar
-        </md-button>
-      </md-content>
-    </md-sidenav>
-
-
-    <md-content layout="column" class="gris" flex>
-
-      <toolbar titulo="titulo" menu="menu" url="url" md-scroll-shrink></toolbar>
-
-      <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas"></md-content>
-
-      <md-content id="centro" ng-if="cargando" layout-align="center center" class="cargando">
-        <md-progress-circular md-mode="indeterminate" md-diameter="96" class="md-accent"></md-progress-circular>
-      </md-content>
-      
-    </md-content>
-
-    
+<toolbar titulo="titulo" menu="menu" url="url"></toolbar>
+<div class="relative height-full">
+  <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas height-full"></md-content>
+  <md-content id="centro" ng-if="cargando" layout-align="center bottom">
+    <md-progress-circular md-mode="indeterminate" md-diameter="50" class="md-accent"></md-progress-circular>
+  </md-content>
 </div>
+      
+<!-- Menu Izquierdo -->
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-2dp" md-component-id="left" md-is-locked-open="false" style="transition: all 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);">
+  <menu class="no-padding no-margin"></menu>
+
+</md-sidenav>
+
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+  <md-toolbar class="md-warn">
+    <h1 class="md-toolbar-tools">Configuración</h1>
+  </md-toolbar>
+  <md-content layout-padding>
+    <md-list-item>
+      <p> Modo Guiado </p>
+      <md-switch class="md-secondary" ng-model="guiado"></md-switch>
+    </md-list-item>
+
+    <md-button ng-click="close()">
+      Cerrar
+    </md-button>
+  </md-content>
+</md-sidenav>

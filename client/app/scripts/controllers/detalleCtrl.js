@@ -100,6 +100,9 @@
 			dt.seleccionado = true;
 			dt.seccion = false;
 			dt.detalle = true;
+			dt.estatusEt1 = '';
+
+			dt.atencionIcon = "add";
 			dt.iconPanel = 'expand_less';
 
 			cargaDatosFolio(dt.dato.Exp_folio);
@@ -110,6 +113,7 @@
 			dt.icon = icon;
 			dt.bg   = color;
 			dt.seccion = true;
+			dt.isOpen = true;
 			muestraPanel();
 		}
 
@@ -124,7 +128,7 @@
 			dt.detalle == true ? dt.iconPanel = 'expand_less' : dt.iconPanel = 'expand_more';
 		}
 
-		function subirDigitalesEt1(files){
+		function subirDigitalesEt1(files,tipo){
 
 			for (var i = 0;  i < files.length; i++) {
 				
@@ -133,18 +137,42 @@
 				if (!file.$error) {
 					console.log(file);					
 				}else{
-					mensajes.alerta('Formato Invalido','','top right','error');
+					mensajes.alerta('Formato Invalido','error','top right','error');
 				}
 
 			};
+			
 		}
 
 		function cargaDatosFolio (folio) {
-			busqueda.datos(folio).then(function (data){
 
+			busqueda.datosExpediente(folio).then(function (data){
+
+				//verificamos imagenes de cada etapa
+				verificaImagenes(data.imagenes);
+
+				//damos información de tickets
 				dt.tickets = data.tickets;
+
 				console.log(data);
+
 			});
+
+		}
+
+		function verificaImagenes (imagenes){
+
+			if (imagenes.length > 0) {
+
+			}else{
+				dt.estatusEt1 = 'Sin Documentos';
+				dt.imagen1 = 'insert_drive_file';
+				dt.imagen2 = 'insert_drive_file';
+				dt.imagen3 = 'insert_drive_file';
+				dt.imagen4 = 'insert_drive_file';
+				dt.imagen5 = 'insert_drive_file';
+				dt.imagen6 = 'insert_drive_file';
+			}
 
 		}
 

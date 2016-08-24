@@ -3,7 +3,7 @@
   <md-content class="md-whiteframe-2dp" ng-init="rg.inicio()">
 
     <md-progress-linear ng-if="rg.consultando" md-mode="indeterminate"></md-progress-linear>
-    <md-tabs md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+    <md-tabs class="white" md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
       <md-tab id="tab1" ng-disabled="rg.step1block">
         <md-tab-label>Selecciona Cliente</md-tab-label>
         <md-tab-body>
@@ -78,7 +78,7 @@
                 
               </md-card-content>
               <md-card-actions layout="row" layout-align="center center">
-                <md-button ui-sref="index.home">Regresar a Inicio</md-button>
+                <md-button ui-sref="index.home">Regresar a Home</md-button>
                 <md-button>Imprimir</md-button>
                 <md-button ui-sref="index.detalle({folio:rg.datoSiniestro.folio})">Ir al Expediente</md-button>
               </md-card-actions>

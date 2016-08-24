@@ -1,6 +1,6 @@
 {
   "name": "angular-material-expansion-panel",
-  "version": "0.4.5",
+  "version": "0.4.8",
   "description": "Material Design Expansion Panels.",
   "main": [
     "dist/md-expansion-panel.js",
@@ -44,14 +44,13 @@
     "angular-route": "^1.5.7"
   },
   "homepage": "https://github.com/B-3PO/angular-material-expansion-panel",
-  "_release": "0.4.5",
+  "_release": "0.4.8",
   "_resolution": {
     "type": "version",
-    "tag": "v0.4.5",
-    "commit": "98892d58c6535ec2aa7219d159546d583a7bb073"
+    "tag": "v0.4.8",
+    "commit": "16650c026afbf5496eafd6088c3037a4c1666e52"
   },
   "_source": "https://github.com/B-3PO/angular-material-expansion-panel.git",
   "_target": "^0.4.5",
-  "_originalSource": "angular-material-expansion-panel",
-  "_direct": true
+  "_originalSource": "angular-material-expansion-panel"
 }

@@ -162,20 +162,21 @@
             Folio Extemporaneo <span ng-if="rg.datoSiniestro.extemporaneo">Si</span> <span ng-if="!rg.datoSiniestro.extemporaneo">No</span> 
           </md-switch>
 
-          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.extemporaneo ">
-            <label>Motivo</label>
-            <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="5" ng-required="rg.datoSiniestro.extemporaneo"></textarea>
-            <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>            
-            </div>
-          </md-input-container>
-
           <mdp-date-picker mdp-open-on-click ng-required="rg.datoSiniestro.extemporaneo" name="fechaAtn" mdp-placeholder="Fecha de Atención" mdp-format="DD/MM/YYYY" ng-model="rg.datoSiniestro.fechaAtencion" class="md-block" ng-if="rg.datoSiniestro.extemporaneo" flex>
             <div ng-messages="rg.registroForm.fechaAtn.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
               <div ng-message="format">Formato de fecha invalido</div>
             </div>
           </mdp-date-picker>
+
+          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.extemporaneo ">
+            <label>Motivo</label>
+            <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="1" ng-required="rg.datoSiniestro.extemporaneo"></textarea>
+            <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>            
+            </div>
+          </md-input-container>
+
 
         </section>
 
@@ -188,14 +189,14 @@
 
           <md-input-container class="md-block" flex>
             <label>Observaciones</label>
-            <textarea ng-model="rg.datoSiniestro.observaciones" rows="5"></textarea>
+            <textarea ng-model="rg.datoSiniestro.observaciones" rows="1"></textarea>
           </md-input-container>
 
         </section>
 
         <section layout="column" layout-align="center center" layout-wrap>
           
-          <md-progress-circular md-mode="indeterminate" md-diameter="96" ng-if="rg.guardando"></md-progress-circular>
+          <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="rg.guardando"></md-progress-circular>
 
           <md-button id="nuevo" class="md-fab md-primary md-hue-2"  aria-label="Guardar" type="submit" ng-if="!rg.guardando">
               <md-tooltip md-direction="top">

@@ -1,6 +1,6 @@
 /**
  * @license
- * Video.js 5.11.0 <http://videojs.com/>
+ * Video.js 5.11.4 <http://videojs.com/>
  * Copyright Brightcove, Inc. <https://www.brightcove.com/>
  * Available under Apache License Version 2.0
  * <https://github.com/videojs/video.js/blob/master/LICENSE>
@@ -3222,10 +3222,6 @@ var _utilsToTitleCaseJs = _dereq_('./utils/to-title-case.js');
 
 var _utilsToTitleCaseJs2 = _interopRequireDefault(_utilsToTitleCaseJs);
 
-var _objectAssign = _dereq_('object.assign');
-
-var _objectAssign2 = _interopRequireDefault(_objectAssign);
-
 var _utilsMergeOptionsJs = _dereq_('./utils/merge-options.js');
 
 var _utilsMergeOptionsJs2 = _interopRequireDefault(_utilsMergeOptionsJs);
@@ -4450,8 +4446,11 @@ var Component = (function () {
     this.on('touchstart', function (event) {
       // If more than one finger, don't consider treating this as a click
       if (event.touches.length === 1) {
-        // Copy the touches object to prevent modifying the original
-        firstTouch = _objectAssign2['default']({}, event.touches[0]);
+        // Copy pageX/pageY from the object
+        firstTouch = {
+          pageX: event.touches[0].pageX,
+          pageY: event.touches[0].pageY
+        };
         // Record start time so we can detect a tap vs. "touch and hold"
         touchStart = new Date().getTime();
         // Reset couldBeTap tracking
@@ -4747,7 +4746,7 @@ Component.registerComponent('Component', Component);
 exports['default'] = Component;
 module.exports = exports['default'];
 
-},{"./utils/dom.js":142,"./utils/events.js":143,"./utils/fn.js":144,"./utils/guid.js":146,"./utils/log.js":147,"./utils/merge-options.js":148,"./utils/to-title-case.js":151,"global/window":2,"object.assign":45}],68:[function(_dereq_,module,exports){
+},{"./utils/dom.js":142,"./utils/events.js":143,"./utils/fn.js":144,"./utils/guid.js":146,"./utils/log.js":147,"./utils/merge-options.js":148,"./utils/to-title-case.js":151,"global/window":2}],68:[function(_dereq_,module,exports){
 /**
  * @file audio-track-button.js
  */
@@ -5124,10 +5123,11 @@ var _componentJs2 = _interopRequireDefault(_componentJs);
 var FullscreenToggle = (function (_Button) {
   _inherits(FullscreenToggle, _Button);
 
-  function FullscreenToggle() {
+  function FullscreenToggle(player, options) {
     _classCallCheck(this, FullscreenToggle);
 
-    _Button.apply(this, arguments);
+    _Button.call(this, player, options);
+    this.on(player, 'fullscreenchange', this.handleFullscreenChange);
   }
 
   /**
@@ -5142,6 +5142,20 @@ var FullscreenToggle = (function (_Button) {
   };
 
   /**
+   * Handles Fullscreenchange on the component and change control text accordingly
+   *
+   * @method handleFullscreenChange
+   */
+
+  FullscreenToggle.prototype.handleFullscreenChange = function handleFullscreenChange() {
+    if (this.player_.isFullscreen()) {
+      this.controlText('Non-Fullscreen');
+    } else {
+      this.controlText('Fullscreen');
+    }
+  };
+
+  /**
    * Handles click for full screen
    *
    * @method handleClick
@@ -5150,10 +5164,8 @@ var FullscreenToggle = (function (_Button) {
   FullscreenToggle.prototype.handleClick = function handleClick() {
     if (!this.player_.isFullscreen()) {
       this.player_.requestFullscreen();
-      this.controlText('Non-Fullscreen');
     } else {
       this.player_.exitFullscreen();
-      this.controlText('Fullscreen');
     }
   };
 
@@ -11573,7 +11585,8 @@ var Player = (function (_Component) {
   };
 
   /**
-   * Get the length in time of the video in seconds
+   * Normally gets the length in time of the video in seconds;
+   * in all but the rarest use cases an argument will NOT be passed to the method
    * ```js
    *     var lengthOfVideo = myPlayer.duration();
    * ```
@@ -15270,7 +15283,13 @@ var Html5 = (function (_Tech) {
    */
 
   Html5.prototype.play = function play() {
-    this.el_.play();
+    var playPromise = this.el_.play();
+
+    // Catch/silence error when a pause interrupts a play request
+    // on browsers which return a promise
+    if (playPromise !== undefined && typeof playPromise.then === 'function') {
+      playPromise.then(null, function (e) {});
+    }
   };
 
   /**
@@ -21863,7 +21882,7 @@ setup.autoSetupTimeout(1, videojs);
  *
  * @type {String}
  */
-videojs.VERSION = '5.11.0';
+videojs.VERSION = '5.11.4';
 
 /**
  * The global options object. These are the settings that take effect

@@ -41,6 +41,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('ajustadores/{localidad}', array('uses' => 'BusquedasController@ajustadores'));
         Route::get('clientes', array('uses' => 'BusquedasController@clientes'));
         Route::get('detalleFolio/{folio}', array('uses' => 'BusquedasController@detalleFolio'));
+        Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
         Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));
         Route::get('productos', array('uses' => 'BusquedasController@productos'));
         Route::get('productos/{cliente}/{localidad}', array('uses' => 'BusquedasController@productosCliente'));

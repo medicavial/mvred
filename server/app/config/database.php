@@ -54,6 +54,7 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
+			// 'host'      => 'localhost',
 			'host'      => 'www.medicavial.net',
 			'database'  => 'medica_registromv',
 			'username'  => 'medica_webusr',

@@ -1,15 +1,15 @@
 
 <md-toolbar ng-class="dt.bg">
   <div class="md-toolbar-tools">
-    <md-button class="md-icon-button" aria-label="Settings">
-      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon> 
     </md-button>
     <h2>
       <span>Atenciones</span>
     </h2>
     <span flex></span>
-    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
-        <ng-md-icon icon="close"></ng-md-icon> 
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
     </md-button>
   </div>
 </md-toolbar>
@@ -20,7 +20,7 @@
 <br>
 
 <md-content class="md-whiteframe-2dp">
-    <md-subheader class="md-no-sticky">Primera Atención</md-subheader>
+    <md-subheader class="md-no-sticky">Primera Atención - {{ dt.estatusEt1 }} </md-subheader>
     <md-divider></md-divider>
     <md-tabs md-selected="dt.tabPrimera" md-dynamic-height class="TabPanel">
 
@@ -32,23 +32,6 @@
             
           <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
             
-<!--             <div flex>
-
-              <md-subheader class="md-no-sticky">Subir Archivos</md-subheader>
-              <md-divider></md-divider>
-              <div class="drop-box"  ngf-drop ngf-drag-over-class="{pattern: 'image/*', accept:'dragover', reject:'rejectClass', delay:100}" ngf-multiple="true" ngf-change="dt.subirDigitalesEt1($files)" ngf-pattern="'image/*'" flex>
-                  <md-button type="button" class="md-raised" 
-                    ngf-select="dt.subirDigitalesEt1($files)" 
-                    ngf-change="dt.subirDigitalesEt1($files)" 
-                    ngf-multiple="true" 
-                    ngf-pattern="'image/*'"
-                    ngf-accept="'image/*'" 
-                    ng-model-options="{allowInvalid: false}"
-                    >Subir Imagenes</md-button><br>
-                  Arrastra tus archivos aqui
-              </div>
-              
-            </div> -->
             
             <section flex>
 
@@ -56,12 +39,32 @@
               <md-divider></md-divider>
             
               <md-list>
+                
 
                 <md-list-item>
                   <ng-md-icon icon="archive"></ng-md-icon> 
-                  <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
-                  <p class="padding-left">Pase Médico o Todo En 1</p>
-                  <ng-md-icon icon="file_upload" class="md-secondary" ng-click="null"
+                  <ng-md-icon icon="{{ dt.imagen1 }}"></ng-md-icon> 
+                  <p class="padding-left">Todo en Uno</p>
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
+                    ngf-select="dt.subirDigitalesEt1($files,1)" 
+                    ngf-change="dt.subirDigitalesEt1($files,1)" 
+                    ngf-multiple="false" 
+                    ngf-pattern="'.pdf'"
+                    ngf-accept="'.pdf'" 
+                    ng-model-options="{allowInvalid: false}">
+                    <md-tooltip md-direction="top">
+                      Subir Archivo
+                    </md-tooltip>
+                  </ng-md-icon>
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item>
+                  <ng-md-icon icon="archive"></ng-md-icon> 
+                  <ng-md-icon icon="{{ dt.imagen2 }}"></ng-md-icon> 
+                  <p class="padding-left">Pase Médico</p>
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
                     ngf-select="dt.subirDigitalesEt1($files)" 
                     ngf-change="dt.subirDigitalesEt1($files)" 
                     ngf-multiple="true" 
@@ -78,9 +81,9 @@
 
                 <md-list-item>
                   <ng-md-icon icon="archive"></ng-md-icon> 
-                  <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  <ng-md-icon icon="{{ dt.imagen3 }}"></ng-md-icon> 
                   <p class="padding-left">Cuestionario</p>
-                  <ng-md-icon icon="file_upload" class="md-secondary" ng-click="null"
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
                     ngf-select="dt.subirDigitalesEt1($files)" 
                     ngf-change="dt.subirDigitalesEt1($files)" 
                     ngf-multiple="true" 
@@ -97,9 +100,9 @@
 
                 <md-list-item>
                   <ng-md-icon icon="archive"></ng-md-icon> 
-                  <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  <ng-md-icon icon="{{ dt.imagen4 }}"></ng-md-icon> 
                   <p class="padding-left">Identificación</p>
-                  <ng-md-icon icon="file_upload" class="md-secondary" ng-click="null"
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
                     ngf-select="dt.subirDigitalesEt1($files)" 
                     ngf-change="dt.subirDigitalesEt1($files)" 
                     ngf-multiple="true" 
@@ -116,9 +119,28 @@
 
                 <md-list-item>
                   <ng-md-icon icon="archive"></ng-md-icon> 
-                  <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
+                  <ng-md-icon icon="{{ dt.imagen5 }}"></ng-md-icon> 
+                  <p class="padding-left">Nota Médica</p>
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
+                    ngf-select="dt.subirDigitalesEt1($files)" 
+                    ngf-change="dt.subirDigitalesEt1($files)" 
+                    ngf-multiple="true" 
+                    ngf-pattern="'image/*'"
+                    ngf-accept="'image/*'" 
+                    ng-model-options="{allowInvalid: false}">
+                    <md-tooltip md-direction="top">
+                      Subir Archivo
+                    </md-tooltip>
+                  </ng-md-icon>
+                </md-list-item>
+
+                <md-divider></md-divider>
+
+                <md-list-item>
+                  <ng-md-icon icon="archive"></ng-md-icon> 
+                  <ng-md-icon icon="{{ dt.imagen6 }}"></ng-md-icon> 
                   <p class="padding-left">Otro</p>
-                  <ng-md-icon icon="file_upload" class="md-secondary" ng-click="null"
+                  <ng-md-icon aria-label="Subir Archivo" icon="file_upload" class="md-secondary" ng-click="null"
                     ngf-select="dt.subirDigitalesEt1($files)" 
                     ngf-change="dt.subirDigitalesEt1($files)" 
                     ngf-multiple="true" 
@@ -143,7 +165,7 @@
 
       </md-tab>
 
-      <md-tab id="tab3">
+      <md-tab id="tab2" ng-disabled="true">
 
         <md-tab-label>Facturación</md-tab-label>
         <md-tab-body>
@@ -160,7 +182,7 @@
 
 <br>
 
-<md-content class="md-whiteframe-2dp">
+<md-content class="md-whiteframe-2dp" ng-if="subsecuencias">
     <div layout="row">
       <md-subheader class="md-no-sticky">Subsecuencias</md-subheader>
       <span flex></span>
@@ -284,7 +306,7 @@
 
 <br>
 
-<md-content class="md-whiteframe-2dp">
+<md-content class="md-whiteframe-2dp" ng-if="rehabilitaciones">
     <div layout="row">
       <md-subheader class="md-no-sticky">Rehabilitaciones</md-subheader>
       <span flex></span>
@@ -404,3 +426,38 @@
       
     </md-tabs>
 </md-content>
+
+
+<md-fab-speed-dial md-open="false" md-direction="up"
+                   class="md-hover-full md-scale md-fab-bottom-right">
+  <md-fab-trigger>
+    <md-button aria-label="menu" class="md-fab md-warn">
+      <ng-md-icon icon="add" style="fill: white"></ng-md-icon> 
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button aria-label="Autorización" class="md-fab md-raised md-mini">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                    md-autohide="true">
+          Nueva Subsecuencia
+      </md-tooltip>
+      <ng-md-icon icon="add_to_queue" style="fill: black"></ng-md-icon> 
+    </md-button>
+    <md-button aria-label="Subsecuencia" class="md-fab md-raised md-mini">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                    md-autohide="true">
+          Nueva Rehabilitación
+      </md-tooltip>
+      <ng-md-icon icon="directions_walk" style="fill: black"></ng-md-icon>
+    </md-button>
+    <md-button aria-label="Subsecuencia" class="md-fab md-raised md-mini">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible"
+                    md-autohide="true">
+          Estudio Especial
+      </md-tooltip>
+      <ng-md-icon icon="airline_seat_flat" style="fill: black"></ng-md-icon>
+    </md-button>
+
+  </md-fab-actions>
+
+</md-fab-speed-dial>

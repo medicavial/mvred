@@ -25,6 +25,49 @@ class BusquedasController extends BaseController {
 		return Documento::activos();
 	}
 
+
+	// cargamos todas las imagenes del folio
+	public function imagenes($folio){
+		
+		//Iniciamos con etapa 1
+		return Imagenes::where(array(
+			'REG_folio' => $folio,
+			'Exp_etapa' => 1
+		))->get();
+
+		// //etapa 2
+		// $et2 = Imagenes::where(array(
+		// 	'REG_folio' => $folio,
+		// 	'Exp_etapa' => 2
+		// ))
+		// ->orderBy('Exp_entrega')
+		// ->orderBy('Arc_tipo')
+		// ->get();
+
+		// //etapa 3
+		// $et3 = Imagenes::where(array(
+		// 	'REG_folio' => $folio,
+		// 	'Exp_etapa' => 3
+		// ))
+		// ->orderBy('Exp_entrega')
+		// ->orderBy('Arc_tipo')
+		// ->get();
+
+		// //estudios especiales
+		// $et4 = Imagenes::where(array(
+		// 	'REG_folio' => $folio,
+		// 	'Exp_etapa' => 4
+		// ))
+		// ->orderBy('Exp_entrega')
+		// ->orderBy('Arc_tipo')
+		// ->get();
+
+
+		// return array('Et1' => $et1,'Et2' => $et2, 'Et3' => $et3, 'Et4' => $et4);
+
+
+	}
+
 	public function productos(){
 		return Producto::activos();
 	}
@@ -103,12 +146,17 @@ class BusquedasController extends BaseController {
 	 	if (Input::has('folio')) {
 	 		$query->where( 'Exp_folio', Input::get('folio'));
 		}
+
+		if (Input::has('lesionado')) {									
+			$query->where( 'Exp_fq', Input::get('folioInt'));
+		}
+
 		if (Input::has('lesionado')) {									
 			$query->where( 'Exp_completo','LIKE','%' . Input::get('lesionado') . '%');
 		}								
 
 		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
+					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo','Exp_fq')
 					 ->where('Uni_clave',$unidad)
 					 ->orderBy($order,$tipo)
 					 ->paginate($limite);

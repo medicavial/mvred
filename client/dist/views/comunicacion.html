@@ -1,0 +1,161 @@
+
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+    <h2>
+      <span>Interacción</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="close"></ng-md-icon> 
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+<!-- <md-content class="md-whiteframe-2dp" layout="column">
+
+    <md-subheader class="md-primary">Temas Abiertos</md-subheader>
+    <section layout-gt-sm="row" layout="column">
+      
+      <md-list flex>
+
+        <md-list-item ng-click="null">
+            <ng-md-icon icon="info"></ng-md-icon>
+            <p>Como Funciona el sistema</p>
+            <p>Iniciado por: Administrador</p>
+            <p>30-08-2016</p>
+        </md-list-item>
+
+        <md-list-item class="md-2-line" ng-click="null">
+            <ng-md-icon icon="assignment"></ng-md-icon>
+            <div class="md-list-item-text">
+              <h3>Verificar pago del folio</h3>
+              <p>Iniciado por: Usuario1</p>
+            </div>
+        </md-list-item>
+
+        <md-list-item class="md-2-line" ng-click="null">
+            <ng-md-icon icon="my_library_books"></ng-md-icon>
+            <div class="md-list-item-text">
+              <h3>Problema en documento</h3>
+              <p>Iniciado por: Usuario 2</p>
+            </div>
+        </md-list-item>
+
+      </md-list>
+
+    </section>
+
+</md-content> -->
+
+<md-expansion-panel md-component-id="panelOne">
+
+  <md-expansion-panel-collapsed>
+    <div class="md-title">Información</div>
+    <div class="md-summary">Como Funciona El sistema</div>
+    <md-expansion-panel-icon></md-expansion-panel-icon>
+  </md-expansion-panel-collapsed>
+
+
+  <md-expansion-panel-expanded>
+
+    <md-expansion-panel-header>
+      <div class="md-title">Información</div>
+      <div class="md-summary">Como Funciona El sistema</div>
+      <md-expansion-panel-icon></md-expansion-panel-icon>
+    </md-expansion-panel-header>
+
+    <md-expansion-panel-content>
+      <p>Inciado Por: Administrador</p>
+      <h4>Aqui encontraras información para usar el sistema</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium ab officia aspernatur, earum id debitis facere ipsa? Corrupti ducimus quibusdam laudantium eaque voluptate, laborum, labore quo, quis suscipit quae officiis.</p>
+    </md-expansion-panel-content>
+
+    <md-expansion-panel-footer>
+      <div flex></div>
+      <md-button class="md-warn" ng-click="$panel.collapse()">Cerrar</md-button>
+    </md-expansion-panel-footer>
+
+  </md-expansion-panel-expanded>
+
+</md-expansion-panel>
+
+<md-expansion-panel md-component-id="panelTwo">
+
+  <md-expansion-panel-collapsed>
+    <div class="md-title">Problemas</div>
+    <div class="md-summary">Problema en documento</div>
+    <md-expansion-panel-icon></md-expansion-panel-icon>
+  </md-expansion-panel-collapsed>
+
+
+  <md-expansion-panel-expanded>
+
+    <md-expansion-panel-header>
+      <div class="md-title">Problemas</div>
+      <div class="md-summary">Problema en documento</div>
+      <md-expansion-panel-icon></md-expansion-panel-icon>
+    </md-expansion-panel-header>
+
+    <md-expansion-panel-content>
+      <p>Inciado Por: Administrador</p>
+      <h4>Aqui encontraras información para usar el sistema</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium ab officia aspernatur, earum id debitis facere ipsa? Corrupti ducimus quibusdam laudantium eaque voluptate, laborum, labore quo, quis suscipit quae officiis.</p>
+    </md-expansion-panel-content>
+
+    <md-expansion-panel-footer>
+      <div flex></div>
+      <md-button class="md-warn" ng-click="$panel.collapse()">Cerrar</md-button>
+    </md-expansion-panel-footer>
+
+  </md-expansion-panel-expanded>
+
+</md-expansion-panel>
+
+<md-expansion-panel md-component-id="panelThree">
+
+  <md-expansion-panel-collapsed>
+    <div class="md-title">Pagos</div>
+    <div class="md-summary">Verificar pago del folio</div>
+    <md-expansion-panel-icon></md-expansion-panel-icon>
+  </md-expansion-panel-collapsed>
+
+
+  <md-expansion-panel-expanded>
+
+    <md-expansion-panel-header>
+      <div class="md-title">Pagos</div>
+      <div class="md-summary">Verificar pago del folio</div>
+      <md-expansion-panel-icon></md-expansion-panel-icon>
+    </md-expansion-panel-header>
+
+    <md-expansion-panel-content>
+      <p>Inciado Por: Administrador</p>
+      <h4>Aqui encontraras información para usar el sistema</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium ab officia aspernatur, earum id debitis facere ipsa? Corrupti ducimus quibusdam laudantium eaque voluptate, laborum, labore quo, quis suscipit quae officiis.</p>
+    </md-expansion-panel-content>
+
+    <md-expansion-panel-footer>
+      <div flex></div>
+      <md-button class="md-warn" ng-click="$panel.collapse()">Cerrar</md-button>
+    </md-expansion-panel-footer>
+
+  </md-expansion-panel-expanded>
+
+</md-expansion-panel>
+
+
+
+<md-button id="nuevo" class="animated bounceInUp md-fab md-fab-bottom-right" ng-click="dt.nuevo($event)" aria-label="Nuevo Tema">
+    <md-tooltip md-direction="top">
+      Nuevo Tema
+    </md-tooltip>
+    <ng-md-icon icon="add" style="fill:white"></ng-md-icon> 
+</md-button>

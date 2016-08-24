@@ -1,0 +1,68 @@
+    
+<md-content>
+      
+  <md-card>
+    <md-button class="md-icon-button p-absolute" style="right: 0;" aria-label="Cerrar" ng-click="mn.ir('index.home')">
+      <ng-md-icon icon="close"></ng-md-icon>
+    </md-button>
+    <md-card-header>
+      <md-card-avatar>
+        <img src="img/logomini.png" alt="MedicaVial">
+      </md-card-avatar>
+    </md-card-header>
+    <md-card-title>
+      <md-card-title-text layout="row">
+        <span class="md-subhead" flex style="font-size: 12px;">{{mn.nombre}}</span>
+        <md-menu md-position-mode="target-right target">
+            <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
+              <md-icon md-menu-origin>
+                <ng-md-icon icon="arrow_drop_down" style="fill:white"></ng-md-icon> 
+              </md-icon>
+            </md-button>
+            <md-menu-content width="2">
+              <md-menu-item>
+                <md-button ng-click="mn.editaPerfil($event)">
+                  Editar Perfil
+                  <md-icon md-menu-align-target>
+                    <ng-md-icon icon="photo"></ng-md-icon> 
+                  </md-icon>
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+      </md-card-title-text>
+    </md-card-title>
+  </md-card>
+
+  <md-list>
+    <md-subheader class="md-no-sticky">Ligas de Interes</md-subheader>
+
+    <md-divider></md-divider>
+
+    <md-list-item ng-click="mn.ir('index.home')">
+      <ng-md-icon icon="home"></ng-md-icon>
+      <p> Inicio </p>
+    </md-list-item>
+
+    <md-divider></md-divider>
+
+    <md-list-item ng-click="mn.ir('index.registro')">
+      <ng-md-icon icon="assignment"></ng-md-icon>
+      <p> Registro de Paciente </p>
+    </md-list-item>
+    
+    <md-divider></md-divider>
+    
+    <md-list-item ng-click="mn.ir('index.busqueda')">
+      <ng-md-icon icon="search"></ng-md-icon> 
+      <p> Busqueda </p>
+    </md-list-item>
+
+    <md-list-item ng-click="mn.ir('index.busqueda')">
+      <ng-md-icon icon="keyboard_hide"></ng-md-icon> 
+      <p> Nota Médica Elec. </p>
+    </md-list-item>
+  </md-list>
+
+</md-content>
+

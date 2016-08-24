@@ -101,6 +101,11 @@ function expansionPanelDirective() {
     vm.registerHeader = function (ctrl) { headerCtrl = ctrl; };
     vm.registerFooter = function (ctrl) { footerCtrl = ctrl; };
 
+
+    if ($attrs.mdComponentId === undefined) {
+      $attrs.$set('mdComponentId', '_expansion_panel_id_' + $mdUtil.nextUid());
+    }
+
     vm.$element = $element;
     vm.componentId = $attrs.mdComponentId;
     vm.expand = expand;
@@ -297,7 +302,8 @@ function expansionPanelDirective() {
       // listen to window scroll events
       angular.element($window)
         .on('scroll', debouncedUpdateScroll)
-        .on('resize', debouncedUpdateScroll);
+        .on('resize', debouncedUpdateScroll)
+        .on('resize', debouncedUpdateResize);
     }
 
 
@@ -322,7 +328,8 @@ function expansionPanelDirective() {
 
       angular.element($window)
         .off('scroll', debouncedUpdateScroll)
-        .off('resize', debouncedUpdateScroll);
+        .off('resize', debouncedUpdateScroll)
+        .off('resize', debouncedUpdateResize);
     }
 
 
@@ -330,14 +337,25 @@ function expansionPanelDirective() {
     function getTransformParent(el) {
       var parent = el.parentNode;
 
-      while (parent) {
-        if ($mdUtil.hasComputedStyle(angular.element(parent), 'transform')) {
+      while (parent && parent !== document) {
+        if (hasComputedStyle(parent, 'transform')) {
           return parent;
         }
         parent = parent.parentNode;
       }
 
       return undefined;
+    }
+
+    function hasComputedStyle(target, key) {
+      var hasValue = false;
+
+      if (target) {
+        var computedStyles = $window.getComputedStyle(target);
+        hasValue = computedStyles[key] !== undefined && computedStyles[key] !== 'none';
+      }
+
+      return hasValue;
     }
 
 
@@ -361,7 +379,8 @@ function expansionPanelDirective() {
     }
 
 
-    function updateResize(value) {
+    function updateResize() {
+      var value = $element[0].offsetWidth;
       if (footerCtrl && footerCtrl.noSticky === false) { footerCtrl.onResize(value); }
       if (headerCtrl && headerCtrl.noSticky === false) { headerCtrl.onResize(value); }
     }
@@ -1108,7 +1127,7 @@ function expansionPanelHeaderDirective() {
         if (panelbottom < 0) {
           offset += panelbottom;
         }
-        
+
         // set container width because element becomes postion fixed
         container.css('width', element[0].offsetWidth + 'px');
         container.css('top', offset + 'px');
@@ -1126,7 +1145,7 @@ function expansionPanelHeaderDirective() {
 
     function onResize(width) {
       if (isStuck === false) { return; }
-      element.css('width', width + 'px');
+      container.css('width', width + 'px');
     }
 
 

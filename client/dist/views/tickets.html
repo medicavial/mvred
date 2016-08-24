@@ -1,0 +1,96 @@
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+    <h2>
+      <span>Problemas del Expediente</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="close"></ng-md-icon> 
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+<div ng-repeat="ticket in dt.tickets">
+
+	<md-content class="md-whiteframe-2dp" layout="column" layout-gt-xs="row" layout-padding>
+		
+
+		<div layout="column" flex>
+
+			<md-subheader class="md-no-sticky">Datos del Ticket</md-subheader>
+			<md-divider></md-divider>
+			
+			<br>
+			<div layout="column" layout-gt-xs="row">
+				
+				<md-input-container flex>
+					<label>Ticket #</label>
+					<input type="text" ng-model="ticket.TSeg_clave">
+				</md-input-container>
+
+				<md-input-container flex>
+					<label>Fecha de Registro</label>
+					<input type="text" ng-model="ticket.TSeg_fechareg">
+				</md-input-container>
+
+			</div>
+			
+			<div layout="column" layout-gt-xs="row">
+				
+				<md-input-container flex>
+					<label>Estatus</label>
+					<input type="text" ng-model="ticket.TStatus_nombre">
+				</md-input-container>
+
+				<md-input-container flex>
+					<label>Fecha de Ultimo Movimiento</label>
+					<input type="text" ng-model="ticket.TSeg_fechaactualizacion">
+				</md-input-container>
+
+			</div>
+
+			<md-input-container flex>
+				<label>Motivo</label>
+				<input type="text" ng-model="ticket.TCat_nombre">
+			</md-input-container>
+
+			<md-input-container flex>
+				<label>Descripcion</label>
+				<input type="text" ng-model="ticket.TSub_nombre">
+			</md-input-container>
+
+			
+
+			<md-input-container class="md-block">
+	          <label>Observaciones Iniciales</label>
+	          <textarea ng-model="ticket.TSeg_obs" rows="5"></textarea>
+	        </md-input-container>
+			
+		</div>
+
+		<div flex>
+		  	<md-subheader class="md-no-sticky">Historial de Notas</md-subheader>
+		  	<md-divider></md-divider>
+			<br>
+			<md-list ng-if="ticket.notas.length > 0">
+			  <md-list-item ng-repeat="nota in ticket.notas">
+			    <p> Asunto: {{ nota.TN_descripcion }} </p>
+			    <p> Fecha: {{ nota.TN_fechareg }} </p>
+			  </md-list-item>
+			</md-list>
+		</div>
+
+	</md-content>
+	
+	<br>
+</div>
+
+

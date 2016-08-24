@@ -11,7 +11,7 @@
         var servicio = {
             ajustadores:ajustadores,
             clientes: clientes,
-            datos:datos,
+            datosExpediente:datosExpediente,
             detalleFolio : detalleFolio,
             productos: productos,
             productosCliente : productosCliente,
@@ -34,6 +34,28 @@
             return $http.get(api + 'busqueda/clientes',{timeout: 10000});
         };
 
+        // datos del folio
+        function datosExpediente(folio){
+
+            var promesa     = $q.defer(),
+                imagenes    = $http.get(api + 'busqueda/imagenes/' + folio ,{timeout: 10000}),
+                tickets     = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+            
+            $q.all([tickets,imagenes]).then(function (data){
+
+                var datos = {
+                    tickets : data[0].data,
+                    imagenes : data[1].data
+                }
+                promesa.resolve(datos);
+
+            }, function (error){
+                promesa.reject('error en conexión');
+            });
+
+            return promesa.promise;
+        };
+
         //consulta el detalle del folio
         function detalleFolio(folio){
             return $http.get(api + 'busqueda/detalleFolio/' + folio,{timeout: 10000});
@@ -54,6 +76,8 @@
             return $http.get(api + 'busqueda/riesgos',{timeout: 10000});
         };
 
+
+        // consulta de registros
         function registros(datos){
 
             console.log(datos);
@@ -89,26 +113,6 @@
             return promesa.promise;
              
         }
-
-        // datos del folio
-        function datos(folio){
-
-            var promesa = $q.defer(),
-                tickets = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
-            
-            $q.all([tickets]).then(function (data){
-
-                datos = {
-                    tickets : data[0].data
-                }
-                promesa.resolve(datos);
-
-            }, function (error){
-                promesa.reject('error en conexión');
-            });
-
-            return promesa.promise;
-        };
 
 
         //tipos de telefono

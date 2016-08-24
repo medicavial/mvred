@@ -44,6 +44,17 @@
 
 		function buscar(){
 			bs.consultando = true;
+			if (bs.datos.folio != '') {
+				bs.busqueda = 'Folio MV: ' + bs.datos.folio;
+			};
+
+			if (bs.datos.folioInt != '') {
+				bs.busqueda = 'Folio Interno: ' + bs.datos.folioInt;
+			};
+
+			if (bs.datos.lesionado != '') {
+				bs.busqueda = 'Lesionado: ' + bs.datos.lesionado;
+			};
 			bs.consulta = registros.get(bs.datos,muestraDatos).$promise;
 		}
 
@@ -54,10 +65,13 @@
 				unidad:$rootScope.unidad,
 				page:1,
 				folio:'',
+				folioInt:'',
 				lesionado:'',
 				limit:10,
 				order:'-Exp_fecreg'
 			};
+
+			bs.busqueda = 'Ultimos registros';
 			bs.lesionado = '';
 			bs.folio = '';
 			bs.consultando = false;
@@ -114,6 +128,19 @@
 
 		function buscar(){
 			bs.consultando = true;
+
+			if (bs.datos.folio != '') {
+				bs.busqueda = 'Folio MV: ' + bs.datos.folio;
+			};
+
+			if (bs.datos.folioInt != '') {
+				bs.busqueda = 'Folio Interno: ' + bs.datos.folioInt;
+			};
+
+			if (bs.datos.lesionado != '') {
+				bs.busqueda = 'Lesionado: ' + bs.datos.lesionado;
+			};
+
 			bs.consulta = registrosGlobales.get(bs.datos,muestraDatos).$promise;
 		}
 

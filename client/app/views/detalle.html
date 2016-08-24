@@ -1,82 +1,81 @@
-
 <md-content class="md-whiteframe-2dp" ng-init="dt.inicio()">
     
-    <div layout="row">
-      <md-subheader class="md-no-sticky">Datos Generales</md-subheader>
-      <span flex></span>
-      <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.muestraPanel()">
-          <ng-md-icon icon="{{dt.iconPanel}}" options='{"rotation": "Clockwise","duration":"250"}'></ng-md-icon> 
-      </md-button>
-    </div>
+  <div layout="row">
+    <md-subheader class="md-no-sticky">Datos Generales</md-subheader>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.muestraPanel()">
+        <ng-md-icon icon="{{dt.iconPanel}}" options='{"rotation": "Clockwise","duration":"250"}'></ng-md-icon> 
+    </md-button>
+  </div>
+  <md-divider></md-divider>
+
+  <div ng-show="dt.detalle" class="detalle">
+      
+    <section layout-gt-xs="row" layout="column"  layout-align="center center" layout-margin>
+
+        <div class="text-center" flex>
+          <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ dt.dato.Cia_logo }}" class="img-registro" alt="cliente">
+        </div>
+
+        <div class="text-center" flex>
+          <img ng-src="{{ dt.codigo }}" class="img-registro" alt="folio">
+        </div>
+
+        <div class="text-center" flex>
+          <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ dt.dato.Pro_img }}" class="img-registro" alt="producto">
+        </div>
+
+    </section>
+
+    <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
+
+        <div class="text-center" flex>                      
+            <strong>Folio MV: {{ dt.dato.Exp_folio }}</strong> <br>
+            Lesionado: {{ dt.dato.Exp_completo }}  <br>
+            Póliza: {{ dt.dato.Exp_poliza }}  <br>
+            Riesgo: {{ dt.dato.RIE_nombre }} <br>
+            Usuario: {{ dt.dato.Usu_registro }} <br>
+        </div>
+        <div class="text-center" flex>
+            Compañia: {{ dt.dato.Cia_nombrecorto }} <br>
+            Siniestro: {{ dt.dato.Exp_siniestro }} <br>
+            Reporte: {{ dt.dato.Exp_reporte }} <br>
+            <strong>Registro: {{ dt.dato.Exp_fecreg }}</strong> <br>
+            Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
+        </div>
+        <div class="text-center" flex>
+            Observaciones: {{ dt.dato.Exp_obs }} <br>
+            Extemporaneo: <span ng-if="dt.dato.Exp_extemporaneo == '1' ">Si</span> <span ng-if="dt.dato.Exp_extemporaneo == '0' ">No</span> <br>
+            Motivo:  {{ dt.dato.Exp_motivo }}<br>
+            Fecha Atención:  <span ng-hide=" dt.dato.Exp_fechaAtn == '0000-00-00 00:00:00' ">{{ dt.dato.Exp_fechaAtn }}</span> <br>
+        </div>
+      
+    </section>
+    
+    <section layout="row" layout-align="center center">
+      <md-button>Imprimir Portada</md-button>
+    </section>
+    
     <md-divider></md-divider>
-
-    <div ng-show="dt.detalle" class="detalle">
+    
+    <section layout-gt-sm="row" layout="column"  layout-align="center center">
       
-      <section layout-gt-xs="row" layout="column"  layout-align="center center" layout-margin>
+      <md-content flex class="text-center estatus">
+        <span>Triage: Ambulatorio</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Alertas</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Estatus: Abierto</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Expediente Dentro de Paquete</span>
+      </md-content>
 
-          <div class="text-center" flex>
-            <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ dt.dato.Cia_logo }}" class="img-registro" alt="cliente">
-          </div>
+    </section>
 
-          <div class="text-center" flex>
-            <img ng-src="{{ dt.codigo }}" class="img-registro" alt="folio">
-          </div>
-
-          <div class="text-center" flex>
-            <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ dt.dato.Pro_img }}" class="img-registro" alt="producto">
-          </div>
-
-      </section>
-
-      <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
-
-          <div class="text-center" flex>                      
-              <strong>Folio MV: {{ dt.dato.Exp_folio }}</strong> <br>
-              Lesionado: {{ dt.dato.Exp_completo }}  <br>
-              Póliza: {{ dt.dato.Exp_poliza }}  <br>
-              Riesgo: {{ dt.dato.RIE_nombre }} <br>
-              Usuario: {{ dt.dato.Usu_registro }} <br>
-          </div>
-          <div class="text-center" flex>
-              Compañia: {{ dt.dato.Cia_nombrecorto }} <br>
-              Siniestro: {{ dt.dato.Exp_siniestro }} <br>
-              Reporte: {{ dt.dato.Exp_reporte }} <br>
-              <strong>Registro: {{ dt.dato.Exp_fecreg }}</strong> <br>
-              Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
-          </div>
-          <div class="text-center" flex>
-              Observaciones: {{ dt.dato.Exp_obs }} <br>
-              Extemporaneo: <span ng-if="dt.dato.Exp_extemporaneo == '1' ">Si</span> <span ng-if="dt.dato.Exp_extemporaneo == '0' ">No</span> <br>
-              Motivo:  {{ dt.dato.Exp_motivo }}<br>
-              Fecha Atención:  <span ng-hide=" dt.dato.Exp_fechaAtn == '0000-00-00 00:00:00' ">{{ dt.dato.Exp_fechaAtn }}</span> <br>
-          </div>
-        
-      </section>
-      
-      <section layout="row" layout-align="center center">
-        <md-button>Imprimir Portada</md-button>
-      </section>
-      
-      <md-divider></md-divider>
-      
-      <section layout-gt-sm="row" layout="column"  layout-align="center center">
-        
-        <md-content flex class="text-center estatus">
-          <span>Triage: Ambulatorio</span>
-        </md-content>
-        <md-content flex class="text-center estatus">
-          <span>Alertas</span>
-        </md-content>
-        <md-content flex class="text-center estatus">
-          <span>Estatus: Abierto</span>
-        </md-content>
-        <md-content flex class="text-center estatus">
-          <span>Expediente Dentro de Paquete</span>
-        </md-content>
-
-      </section>
-
-    </div>
+  </div>
 
 </md-content>
 
@@ -117,31 +116,7 @@
 </div>
 
 
-<!-- <md-fab-speed-dial md-open="dt.isOpen" md-direction="up"
-                   class="md-scale md-fab-bottom-right"
-                   ng-class="{ 'md-hover-full': dt.hover }"
-                   ng-mouseenter="dt.isOpen=true" ng-mouseleave="dt.isOpen=false">
-  <md-fab-trigger>
-    <md-button aria-label="menu" class="md-fab md-warn">
-      <ng-md-icon icon="add" style="fill: white"></ng-md-icon> 
-    </md-button>
-  </md-fab-trigger>
-  <md-fab-actions>
-    <md-button aria-label="Autorización" class="md-fab md-raised md-mini">
-      <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                    md-autohide="true">
-          Nueva Autorización
-      </md-tooltip>
-      <ng-md-icon icon="my_library_add" style="fill: black"></ng-md-icon> 
-    </md-button>
-    <md-button aria-label="Subsecuencia" class="md-fab md-raised md-mini">
-      <md-tooltip md-direction="left" md-visible="tooltipVisible"
-                    md-autohide="true">
-          Nueva Subsecuencia
-      </md-tooltip>
-      <ng-md-icon icon="create" style="fill: black"></ng-md-icon>
-    </md-button>
-  </md-fab-actions>
-</md-fab-speed-dial> -->
+
+
 
 
