@@ -1,6 +1,6 @@
 /**
  * @license
- * Video.js 5.11.4 <http://videojs.com/>
+ * Video.js 5.11.5 <http://videojs.com/>
  * Copyright Brightcove, Inc. <https://www.brightcove.com/>
  * Available under Apache License Version 2.0
  * <https://github.com/videojs/video.js/blob/master/LICENSE>
@@ -4841,6 +4841,7 @@ var AudioTrackButton = (function (_TrackButton) {
   return AudioTrackButton;
 })(_trackButtonJs2['default']);
 
+AudioTrackButton.prototype.controlText_ = 'Audio Track';
 _componentJs2['default'].registerComponent('AudioTrackButton', AudioTrackButton);
 exports['default'] = AudioTrackButton;
 module.exports = exports['default'];
@@ -4929,9 +4930,7 @@ var AudioTrackMenuItem = (function (_MenuItem) {
     for (var i = 0; i < tracks.length; i++) {
       var track = tracks[i];
 
-      if (track === this.track) {
-        track.enabled = true;
-      }
+      track.enabled = track === this.track;
     }
   };
 
@@ -8887,25 +8886,45 @@ var _objectAssign = _dereq_('object.assign');
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
 /*
- * Custom MediaError to mimic the HTML5 MediaError
+ * Custom MediaError class which mimics the standard HTML5 MediaError class.
  *
- * @param {Number} code The media error code
+ * @param {Number|String|Object|MediaError} value
+ *        This can be of multiple types:
+ *        - Number: should be a standard error code
+ *        - String: an error message (the code will be 0)
+ *        - Object: arbitrary properties
+ *        - MediaError (native): used to populate a video.js MediaError object
+ *        - MediaError (video.js): will return itself if it's already a
+ *          video.js MediaError object.
  */
-var MediaError = function MediaError(code) {
-  if (typeof code === 'number') {
-    this.code = code;
-  } else if (typeof code === 'string') {
+function MediaError(value) {
+
+  // Allow redundant calls to this constructor to avoid having `instanceof`
+  // checks peppered around the code.
+  if (value instanceof MediaError) {
+    return value;
+  }
+
+  if (typeof value === 'number') {
+    this.code = value;
+  } else if (typeof value === 'string') {
     // default code is zero, so this is a custom error
-    this.message = code;
-  } else if (typeof code === 'object') {
-    // object
-    _objectAssign2['default'](this, code);
+    this.message = value;
+  } else if (typeof value === 'object') {
+
+    // We assign the `code` property manually because native MediaError objects
+    // do not expose it as an own/enumerable property of the object.
+    if (typeof value.code === 'number') {
+      this.code = value.code;
+    }
+
+    _objectAssign2['default'](this, value);
   }
 
   if (!this.message) {
     this.message = MediaError.defaultMessages[this.code] || '';
   }
-};
+}
 
 /*
  * The error code that refers two one of the defined
@@ -12476,12 +12495,7 @@ var Player = (function (_Component) {
       return this;
     }
 
-    // error instance
-    if (err instanceof _mediaErrorJs2['default']) {
-      this.error_ = err;
-    } else {
-      this.error_ = new _mediaErrorJs2['default'](err);
-    }
+    this.error_ = new _mediaErrorJs2['default'](err);
 
     // add the vjs-error classname to the player
     this.addClass('vjs-error');
@@ -16739,11 +16753,7 @@ var Tech = (function (_Component) {
 
   Tech.prototype.error = function error(err) {
     if (err !== undefined) {
-      if (err instanceof _mediaErrorJs2['default']) {
-        this.error_ = err;
-      } else {
-        this.error_ = new _mediaErrorJs2['default'](err);
-      }
+      this.error_ = new _mediaErrorJs2['default'](err);
       this.trigger('error');
     }
     return this.error_;
@@ -21878,7 +21888,7 @@ setup.autoSetupTimeout(1, videojs);
  *
  * @type {String}
  */
-videojs.VERSION = '5.11.4';
+videojs.VERSION = '5.11.5';
 
 /**
  * The global options object. These are the settings that take effect

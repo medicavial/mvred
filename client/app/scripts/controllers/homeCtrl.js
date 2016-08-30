@@ -74,7 +74,10 @@
 				size:'84',
 				permiso:true,
 				url:'index.estadisticas'
-			},
+			}
+		];
+
+		hm.seccionesAdmin = [
 			{
 				nombre:'Consulta General',
 				background:'bgm-brown',

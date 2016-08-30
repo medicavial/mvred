@@ -2,8 +2,95 @@
 
 class OperacionController extends BaseController {
 
-
+	private $rutaImagen;
 	//funciones de las rutas
+
+
+	//funcion para elminar imagenes
+	public function eliminaImagen(){
+
+		$folio = Input::get('folio');
+		$clave = Input::get('clave');
+		$tipo  = Input::get('tipo');
+		$archivo = Input::get('archivo');
+
+		$archivo = public_path().'../../../../registro/'. $archivo . '/' .$clave;
+
+		File::delete($archivo);
+
+		Imagenes::where( array('Arc_clave' => $clave, 'REG_folio' => $folio, 'Arc_tipo' => $tipo) )->delete();
+
+		return Response::json(array('flash' => 'Imagen eliminada'));
+		
+	}
+
+	//funcion para subir imagenes del folio
+	public function imagenes(){
+
+		
+		$folio = Input::get('folio');
+		$tipo = Input::get('tipo');
+		$usuario = Input::get('usuario');
+		$etapa = Input::get('etapa');
+		$entrega = Input::get('entrega');
+
+
+		$archivos = Imagenes::where( array('Arc_tipo' => $tipo , 'REG_folio' => $folio) )->count();
+
+		$ruta = $this->verificaRuta($folio,$tipo);
+
+		if ( ($tipo == 1 || $tipo == 15 || $tipo == 16 || $tipo == 26) && $archivos > 0 ) {
+
+			return Response::json(array('flash' => 'No puedes subir mas de un archivo de este tipo, elimina el que tienes para subir nuevamente'),500);
+
+		}else{
+
+
+
+	        if(Input::hasFile('file')) {
+
+	        	//preparamos la constante de la imagen del folio
+				$consecutivo = Imagenes::where('REG_folio',$folio)->max('Arc_cons') + 1;
+
+				// prefijo segun el tipo de imagen
+	        	$prefijo = tipoDocumentos::find($tipo)->TID_prefijo;
+
+	        	//seleccionamos archivo
+	            $file = Input::file('file');
+
+	            //preparamos nombre del archivo
+	        	$nombreArchivo = $consecutivo."_".$prefijo."_".$folio.".". $file->getClientOriginalExtension();
+
+	        	$imagen = new Imagenes;
+
+	        	$imagen->Arc_cons = $consecutivo;
+	        	$imagen->Arc_clave = $nombreArchivo;
+	        	$imagen->REG_folio = $folio;
+	        	$imagen->Arc_archivo = $this->rutaImagen;
+	        	$imagen->Arc_tipo = $tipo;
+	        	$imagen->Arc_desde = 'REGISTRO_RED';
+	        	$imagen->USU_login = $usuario;
+	        	$imagen->Arc_fecreg = date('Y-m-d H:i:s');
+	        	$imagen->Exp_etapa = $etapa;
+	        	$imagen->Exp_entrega = $entrega;
+	        	$imagen->save();
+	            
+	            $file->move($ruta,$nombreArchivo);
+
+				return Imagenes::imagen($folio,$tipo,$consecutivo);
+
+	        }else{
+
+	        	return Response::json(array('flash' => 'Imagen no valida'),500);
+
+	        }
+	        
+		}
+
+
+	}
+
+	//se registra los datos del lesionado y se asigna folio
 	public function registraFolio(){
 	
 
@@ -96,7 +183,7 @@ class OperacionController extends BaseController {
 
 	}
 
-
+	// se registra datos del siniestro pasando el folio y se actualiza
 	public function registraSiniestro(){
 	
 		$cliente = Input::get('cliente');
@@ -166,6 +253,7 @@ class OperacionController extends BaseController {
 
 	}
 
+	//se verifican duplicados acorde al nombre
 	public function verificaDuplicado(){
 
 		$apaterno = Input::get('apaterno');
@@ -187,6 +275,7 @@ class OperacionController extends BaseController {
 		return Expediente::where($parametros)->first();
 
 	}
+
 
 	// Funciones privadas para uso exclusivo del controlador
 	private	function calculaEdad($fechaNac){
@@ -247,6 +336,7 @@ class OperacionController extends BaseController {
 		);
 
 		return $edadCal;
+	
 	}
 
 	private function generaCodigo($folio){
@@ -286,6 +376,32 @@ class OperacionController extends BaseController {
 		}catch(Exeption $e){
 			echo $e;
 		}
+	
+	}
+
+	private function verificaRuta($folio,$tipo){
+
+		// $rutaPrincipal = '../../registro/Digitales';
+
+		$rutaPrincipal = public_path().'../../../../registro/Digitales';
+
+		$fecha = Expediente::find($folio)->Exp_fecreg;
+
+		$dia  = date( "d", strtotime($fecha) );
+		$mes  = date( "F", strtotime($fecha) );
+		$anio = date( "Y", strtotime($fecha) );
+
+		// verificamos la existencia de la ruta
+		$folderAnio  = is_dir($rutaPrincipal ."/". $anio) ? $rutaPrincipal ."/". $anio : mkdir($rutaPrincipal ."/". $anio);
+		$folderMes   = is_dir($rutaPrincipal ."/". $anio ."/". $mes) ? $rutaPrincipal ."/". $anio ."/". $mes : mkdir($rutaPrincipal ."/". $anio ."/". $mes);
+	    $folderFolio = is_dir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio) ? $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio : mkdir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio);
+
+	    $ruta = $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio;
+
+	    $this->rutaImagen = "Digitales/". $anio ."/". $mes ."/". $folio;
+
+		return $ruta;
+
 	}
 
 	

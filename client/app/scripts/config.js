@@ -14,7 +14,8 @@
 
 		$sceDelegateProvider.resourceUrlWhitelist([
 	        'self',
-	        'http://medicavial.net/**'
+	        'http://medicavial.net/**',
+	        'http://localhost/**'
 	    ]);
 
 		$mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre'];

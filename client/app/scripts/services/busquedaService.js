@@ -37,15 +37,21 @@
         // datos del folio
         function datosExpediente(folio){
 
-            var promesa     = $q.defer(),
-                imagenes    = $http.get(api + 'busqueda/imagenes/' + folio ,{timeout: 10000}),
-                tickets     = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+            var promesa         = $q.defer(),
+                historial       = $http.get(api + 'busqueda/historial/' + folio ,{timeout: 10000}),
+                imagenes        = $http.get(api + 'busqueda/imagenes/' + folio ,{timeout: 10000}),
+                autorizaciones  = $http.get(api + 'busqueda/autorizaciones/' + folio ,{timeout: 10000}),
+                tiposDocumentos = tiposDocumento(),
+                tickets         = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
             
-            $q.all([tickets,imagenes]).then(function (data){
+            $q.all([tickets,imagenes,tiposDocumentos,historial,autorizaciones]).then(function (data){
 
                 var datos = {
                     tickets : data[0].data,
-                    imagenes : data[1].data
+                    imagenes : data[1].data,
+                    tiposDocumento : data[2].data,
+                    historial:data[3].data,
+                    autorizaciones:data[4].data
                 }
                 promesa.resolve(datos);
 
@@ -118,6 +124,11 @@
         //tipos de telefono
         function tipos(){
             return $http.get(api + 'busqueda/tipos',{timeout: 10000});
+        };
+
+        //tipos de documentos
+        function tiposDocumento(){
+            return $http.get(api + 'busqueda/tiposDocumento',{timeout: 10000});
         };
 
 

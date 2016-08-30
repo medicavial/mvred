@@ -6,12 +6,13 @@
 
 	angular.module('app')
 	.controller('detalleCtrl',detalleCtrl)
+	.controller('visorCtrl',visorCtrl)
 	
 
-	detalleCtrl.$inject = ['$rootScope','datos','busqueda','mensajes', 'publicfiles'];
-	
+	detalleCtrl.$inject = ['$rootScope','datos','busqueda','mensajes', 'publicfiles','operacion', '$mdDialog'];
+	visorCtrl.$inject = ['$scope','$mdDialog','imagen'];
 
-	function detalleCtrl($rootScope,datos,busqueda, mensajes, publicfiles){
+	function detalleCtrl($rootScope,datos,busqueda, mensajes, publicfiles,operacion, $mdDialog){
 
 		// console.log(datos);
 
@@ -26,6 +27,7 @@
 		$rootScope.atras = true;
 		$rootScope.menu = 'arrow_back';
 
+		dt.folio = datos.data.Exp_folio;
 		// funciones del controlador
 
 		dt.secciones = [
@@ -48,7 +50,7 @@
 				page:'views/autorizaciones.html'
 			},
 			{
-				nombre:'Problemas de Expediente',
+				nombre:'Problemas',
 				background:'red400',
 				icon:'warning',
 				col:'1',
@@ -86,21 +88,27 @@
 		];
 
 		dt.inicio = inicio;
-		dt.muestraSeccion = muestraSeccion;
+		dt.muestraArchivo = muestraArchivo;
 		dt.cierraSeccion = cierraSeccion;
 		dt.subirDigitalesEt1 = subirDigitalesEt1;
+		dt.eliminarDigitalesEt1 = eliminarDigitalesEt1;
 		dt.muestraPanel = muestraPanel;
+		dt.muestraSeccion = muestraSeccion;
 
 
 		function inicio(){
 			// inicializacion de variables
 			dt.dato = datos.data;
+			dt.imagenes = [];
 			dt.codigo = publicfiles + 'codigos/' + dt.dato.Exp_folio + '.png';
 			dt.isOpen = false;
 			dt.seleccionado = true;
 			dt.seccion = false;
 			dt.detalle = true;
+			dt.consultaDetalle = false;
+			dt.tipo = '';
 			dt.estatusEt1 = '';
+			dt.porcentaje = '';
 
 			dt.atencionIcon = "add";
 			dt.iconPanel = 'expand_less';
@@ -113,7 +121,6 @@
 			dt.icon = icon;
 			dt.bg   = color;
 			dt.seccion = true;
-			dt.isOpen = true;
 			muestraPanel();
 		}
 
@@ -130,53 +137,142 @@
 
 		function subirDigitalesEt1(files,tipo){
 
-			for (var i = 0;  i < files.length; i++) {
-				
-				var file = files[i];
-
-				if (!file.$error) {
-					console.log(file);					
-				}else{
-					mensajes.alerta('Formato Invalido','error','top right','error');
+			operacion.subirImagenes(dt.folio,tipo,files,1,1).then(
+				function (data){
+					console.log(data);
+					dt.imagenes.push(data);
+					dt.porcentaje = '';
+				},	
+				function (error){
+					mensajes.alerta(error,'error','top right','error');
+					dt.porcentaje = '';
+				},
+				function (porcentaje){
+					// console.log(porcentaje);
+					dt.porcentaje = porcentaje;
 				}
+			)
+			
+		}
 
-			};
+		function eliminarDigitalesEt1(file,index,ev){
+
+			var confirm = $mdDialog.confirm()
+				.title('Deseas eliminar este archivo?')
+				.textContent('')
+				.ariaLabel('¿Deseas eliminar imagen?')
+				.targetEvent(ev)
+				.ok('SI')
+				.cancel('NO');
+		    $mdDialog.show(confirm).then(function() {
+		      
+				operacion.eliminaImagen(file).then(
+					function (resp){
+
+						mensajes.alerta(resp.data.flash,'success','top right','done_all');
+						dt.imagenes.splice(index, 1);
+					},	
+					function (error){
+						mensajes.alerta(error,'error','top right','error');
+					}
+				)
+
+		    });
+
 			
 		}
 
 		function cargaDatosFolio (folio) {
-
+			dt.consultaDetalle = true;
 			busqueda.datosExpediente(folio).then(function (data){
 
-				//verificamos imagenes de cada etapa
-				verificaImagenes(data.imagenes);
+				console.log(data);
+
+				//imagenes del folio
+				dt.imagenes = data.imagenes;
 
 				//damos información de tickets
 				dt.tickets = data.tickets;
 
-				console.log(data);
+				// se carga la linea del tiempo del folio
+				dt.historial = data.historial;
 
+				//se cargan tipos de documento
+				dt.tiposDocumento = data.tiposDocumento;
+
+				//autorizaciones medicas
+				dt.autorizaciones = data.autorizaciones;
+
+				// console.log(data);
+				dt.consultaDetalle = false;
+
+			},function (error){
+
+				dt.consultaDetalle = false;
+				muestraPanel();
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
 			});
+
+		}
+
+		function muestraArchivo(imagen,ev){
+
+			$mdDialog.show({
+				templateUrl: 'views/visor.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:true,
+				locals:{imagen:imagen},
+				fullscreen: true,
+				controller: visorCtrl
+		    });
 
 		}
 
 		function verificaImagenes (imagenes){
 
-			if (imagenes.length > 0) {
 
-			}else{
-				dt.estatusEt1 = 'Sin Documentos';
-				dt.imagen1 = 'insert_drive_file';
-				dt.imagen2 = 'insert_drive_file';
-				dt.imagen3 = 'insert_drive_file';
-				dt.imagen4 = 'insert_drive_file';
-				dt.imagen5 = 'insert_drive_file';
-				dt.imagen6 = 'insert_drive_file';
-			}
 
 		}
 
 
 	};
+
+
+	function visorCtrl($scope,$mdDialog,imagen){
+
+		$scope.archivo = imagen.archivo;
+		$scope.imagen = imagen.clave;
+
+		$scope.cerrar = function(){
+			$mdDialog.cancel();
+		}
+
+		$scope.picture = function(){
+	        //se obtiene la extension del archivo
+	        var extn = $scope.imagen.split(".").pop();
+
+	        if (extn == 'jpg' || extn == 'jpeg' || extn == 'png' || extn == 'PNG' ) {
+	            return true;
+	        }else{
+	            return false;
+	        }
+	    }
+
+	    $scope.file = function(){
+	        //se obtiene la extension del archivo
+	        var extn = $scope.imagen.split(".").pop();
+	        if (extn == 'pdf' || extn == 'PDF') {
+	            return true;
+	        }else{
+	            return false;
+	        }
+	    }
+
+		$scope.obtenerFrame = function(src) {
+	        // return 'http://medicavial.net/registro/' + $scope.archivo + '/' + $scope.imagen;
+	        return 'http://localhost/registro/' + $scope.archivo + '/' + $scope.imagen;
+	    };
+	}
 
 })();

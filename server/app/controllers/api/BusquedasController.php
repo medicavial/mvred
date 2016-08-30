@@ -8,6 +8,27 @@ class BusquedasController extends BaseController {
 		
 	}
 
+	public function autorizaciones($folio){
+
+		$respuesta = array();
+		// se verifica si tiene autorizaciones el folio
+		$autorizacion = Autorizacion::where('AUM_folioMV',$folio)->first();
+
+		if ($autorizacion) {
+			
+			$movimientos = Movimiento::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','MovimientoAut.TIM_claveint')
+									 ->where('AUM_clave',$autorizacion->AUM_clave)->get();
+
+
+			$respuesta['datos'] = $autorizacion;
+			$respuesta['movimientos'] = $movimientos;
+
+		}
+
+		return $respuesta;
+		
+	}
+
 	public function clientes(){
 		return Compania::activos();
 	}
@@ -26,45 +47,69 @@ class BusquedasController extends BaseController {
 	}
 
 
+	public function historial($folio){
+
+		$historial = array();
+
+		// se carga el registro
+		$expediente = Expediente::find($folio);
+
+		$registro = array('fecha'=> $expediente->Exp_fecreg,'titulo' => 'Registro de Expediente','descripcion' => 'Se registro el paciente '. $expediente->Exp_completo . ' por el usuario ' . $expediente->Usu_registro);
+		array_push($historial,$registro);
+
+
+		// se verifica si tiene autorizaciones el folio
+		$autorizacion = Autorizacion::where('AUM_folioMV',$folio)->first();
+
+		if ($autorizacion) {
+			
+			$aut = array('fecha'=> $autorizacion->AUM_fechaReg,'titulo' => 'Registro de Autorización Médica ' . $autorizacion->AUM_clave,'descripcion' => 'Diagnostico '. $autorizacion->AUM_diagnostico . ' Descripción Médica ' . $autorizacion->AUM_descripcionmedica);
+			array_push($historial,$aut);
+
+			$movimientos = Movimiento::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','MovimientoAut.TIM_claveint')
+									 ->where('AUM_clave',$autorizacion->AUM_clave)->get();
+
+			foreach ($movimientos as $movimiento) {
+				
+				$mov = array('fecha'=> $movimiento->MOA_fecha,'titulo' => 'Se autorizó: '.$movimiento->TIM_nombreE,'descripcion' => $movimiento->MOA_texto);
+				array_push($historial,$mov);
+
+			}
+
+		}
+
+		$imagenesEt1 = Imagenes::join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
+							   ->where( array( 'REG_folio' => $folio,'Exp_etapa' => 1 ) )->get();
+
+		foreach ($imagenesEt1 as $imagen) {
+			$altaImagen = array('fecha'=> $imagen->Arc_fecreg,'titulo' => 'Se ingreso imagen : '.$imagen->TID_nombre,'descripcion' => 'Se ingresó imagen del folio por el usuario ' .$imagen->USU_login);
+			array_push($historial,$altaImagen);
+
+			if ($imagen->Arc_autorizado == 1) {
+				
+				$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se autorizó imagen : '.$imagen->TID_nombre,'descripcion' => 'Se autorizó imagen del folio por el usuario '. $imagen->USU_autorizo);
+				array_push($historial,$imagenAut);
+
+			}
+
+			if ($imagen->Arc_rechazado == 1) {
+				
+				$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se rechazo imagen : '.$imagen->TID_nombre,'descripcion' => 'Se rechazo imagen del folio por el usuario '. $imagen->USU_rechazo . ' Por motivo: ' . $imagen->Arc_motivo);
+				array_push($historial,$imagenAut);
+				
+			}
+		}
+
+		return $historial;
+
+	}
+
+
 	// cargamos todas las imagenes del folio
 	public function imagenes($folio){
 		
 		//Iniciamos con etapa 1
-		return Imagenes::where(array(
-			'REG_folio' => $folio,
-			'Exp_etapa' => 1
-		))->get();
-
-		// //etapa 2
-		// $et2 = Imagenes::where(array(
-		// 	'REG_folio' => $folio,
-		// 	'Exp_etapa' => 2
-		// ))
-		// ->orderBy('Exp_entrega')
-		// ->orderBy('Arc_tipo')
-		// ->get();
-
-		// //etapa 3
-		// $et3 = Imagenes::where(array(
-		// 	'REG_folio' => $folio,
-		// 	'Exp_etapa' => 3
-		// ))
-		// ->orderBy('Exp_entrega')
-		// ->orderBy('Arc_tipo')
-		// ->get();
-
-		// //estudios especiales
-		// $et4 = Imagenes::where(array(
-		// 	'REG_folio' => $folio,
-		// 	'Exp_etapa' => 4
-		// ))
-		// ->orderBy('Exp_entrega')
-		// ->orderBy('Arc_tipo')
-		// ->get();
-
-
-		// return array('Et1' => $et1,'Et2' => $et2, 'Et3' => $et3, 'Et4' => $et4);
-
+		return Imagenes::disponibles($folio,1,1);
 
 	}
 
@@ -147,7 +192,7 @@ class BusquedasController extends BaseController {
 	 		$query->where( 'Exp_folio', Input::get('folio'));
 		}
 
-		if (Input::has('lesionado')) {									
+		if (Input::has('folioInt')) {									
 			$query->where( 'Exp_fq', Input::get('folioInt'));
 		}
 
@@ -236,5 +281,11 @@ class BusquedasController extends BaseController {
 
 	public function tipos(){
 		return TipoTelefono::all();
+	}
+
+	public function tiposDocumento(){
+		return tipoDocumentos::where(array( 'TID_red' => 1 ,'TID_activa' => 1))
+							 ->orderBy('TID_orden')
+							 ->get();
 	}
 }

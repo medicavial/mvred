@@ -28,6 +28,8 @@ h1.header {
 .timeline h2,
 .timeline h3 {
   font-size: 1.4em;
+  padding-top: 1em;
+  margin-bottom: 5px;
 }
 
 .timeline .event {
@@ -51,7 +53,8 @@ h1.header {
 }
 
 .timeline .event:before {
-  left: -177.5px;
+  left: 0.5px;
+  top: 0;
   color: #212121;
   content: attr(data-date);
   text-align: right;
@@ -79,15 +82,17 @@ Responsive Stuff
 @media (max-width: 945px) {
   .timeline .event::before {
     left: 0.5px;
-    top: 20px;
+    top: -10px;
     min-width: 0;
     font-size: 13px;
   }
   .timeline h3 {
+    padding-top: 1em;
+    margin-bottom: 5px;
     font-size: 16px;
   }
   .timeline p {
-    padding-top: 20px;
+    padding-top: 5px;
   }
   section.lab h3.card-title {
     padding: 5px;
@@ -102,7 +107,7 @@ Responsive Stuff
 
 	.timeline .event::before {
 	    left: 0.5px;
-	    top: 0;
+	    top: 0 !important;
 	    min-width: 0;
 	    font-size: 13px;
 	}
@@ -113,9 +118,11 @@ Responsive Stuff
 		top: 90px;
 	}
 	.timeline h3 {
+    padding-top: 1em;
+    margin-bottom: 5px;
 		font-size: 16px;
 	}
 	.timeline p {
-		padding-top: 20px;
+		padding-top: 5px;
 	}
 }
