@@ -49,54 +49,64 @@ class BusquedasController extends BaseController {
 
 	public function historial($folio){
 
-		$historial = array();
 
-		// se carga el registro
-		$expediente = Expediente::find($folio);
-
-		$registro = array('fecha'=> $expediente->Exp_fecreg,'titulo' => 'Registro de Expediente','descripcion' => 'Se registro el paciente '. $expediente->Exp_completo . ' por el usuario ' . $expediente->Usu_registro);
-		array_push($historial,$registro);
+		$historial = Historial::where('Exp_folio',$folio)
+							  ->select('HIS_fecha as fecha','HIS_titulo as titulo','HIS_descripcion as descripcion')
+							  ->get();
 
 
-		// se verifica si tiene autorizaciones el folio
-		$autorizacion = Autorizacion::where('AUM_folioMV',$folio)->first();
 
-		if ($autorizacion) {
+		if (count($historial) == 0) {
 			
-			$aut = array('fecha'=> $autorizacion->AUM_fechaReg,'titulo' => 'Registro de Autorización Médica ' . $autorizacion->AUM_clave,'descripcion' => 'Diagnostico '. $autorizacion->AUM_diagnostico . ' Descripción Médica ' . $autorizacion->AUM_descripcionmedica);
-			array_push($historial,$aut);
+			$historial = array();
 
-			$movimientos = Movimiento::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','MovimientoAut.TIM_claveint')
-									 ->where('AUM_clave',$autorizacion->AUM_clave)->get();
+			// se carga el registro
+			$expediente = Expediente::find($folio);
 
-			foreach ($movimientos as $movimiento) {
+			$registro = array('fecha'=> $expediente->Exp_fecreg,'titulo' => 'Registro de Expediente','descripcion' => 'Se registro el paciente '. $expediente->Exp_completo . ' por el usuario ' . $expediente->Usu_registro);
+			array_push($historial,$registro);
+
+
+			// se verifica si tiene autorizaciones el folio
+			$autorizacion = Autorizacion::where('AUM_folioMV',$folio)->first();
+
+			if ($autorizacion) {
 				
-				$mov = array('fecha'=> $movimiento->MOA_fecha,'titulo' => 'Se autorizó: '.$movimiento->TIM_nombreE,'descripcion' => $movimiento->MOA_texto);
-				array_push($historial,$mov);
+				$aut = array('fecha'=> $autorizacion->AUM_fechaReg,'titulo' => 'Registro de Autorización Médica ' . $autorizacion->AUM_clave,'descripcion' => 'Diagnostico '. $autorizacion->AUM_diagnostico . ' Descripción Médica ' . $autorizacion->AUM_descripcionmedica);
+				array_push($historial,$aut);
+
+				$movimientos = Movimiento::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','MovimientoAut.TIM_claveint')
+										 ->where('AUM_clave',$autorizacion->AUM_clave)->get();
+
+				foreach ($movimientos as $movimiento) {
+					
+					$mov = array('fecha'=> $movimiento->MOA_fecha,'titulo' => 'Se autorizó: '.$movimiento->TIM_nombreE,'descripcion' => $movimiento->MOA_texto);
+					array_push($historial,$mov);
+
+				}
 
 			}
 
-		}
+			$imagenesEt1 = Imagenes::join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
+								   ->where( array( 'REG_folio' => $folio,'Exp_etapa' => 1 ) )->get();
 
-		$imagenesEt1 = Imagenes::join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
-							   ->where( array( 'REG_folio' => $folio,'Exp_etapa' => 1 ) )->get();
+			foreach ($imagenesEt1 as $imagen) {
+				$altaImagen = array('fecha'=> $imagen->Arc_fecreg,'titulo' => 'Se ingreso imagen : '.$imagen->TID_nombre,'descripcion' => 'Se ingresó imagen del folio por el usuario ' .$imagen->USU_login);
+				array_push($historial,$altaImagen);
 
-		foreach ($imagenesEt1 as $imagen) {
-			$altaImagen = array('fecha'=> $imagen->Arc_fecreg,'titulo' => 'Se ingreso imagen : '.$imagen->TID_nombre,'descripcion' => 'Se ingresó imagen del folio por el usuario ' .$imagen->USU_login);
-			array_push($historial,$altaImagen);
+				if ($imagen->Arc_autorizado == 1) {
+					
+					$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se autorizó imagen : '.$imagen->TID_nombre,'descripcion' => 'Se autorizó imagen del folio por el usuario '. $imagen->USU_autorizo);
+					array_push($historial,$imagenAut);
 
-			if ($imagen->Arc_autorizado == 1) {
-				
-				$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se autorizó imagen : '.$imagen->TID_nombre,'descripcion' => 'Se autorizó imagen del folio por el usuario '. $imagen->USU_autorizo);
-				array_push($historial,$imagenAut);
+				}
 
-			}
-
-			if ($imagen->Arc_rechazado == 1) {
-				
-				$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se rechazo imagen : '.$imagen->TID_nombre,'descripcion' => 'Se rechazo imagen del folio por el usuario '. $imagen->USU_rechazo . ' Por motivo: ' . $imagen->Arc_motivo);
-				array_push($historial,$imagenAut);
-				
+				if ($imagen->Arc_rechazado == 1) {
+					
+					$imagenAut = array('fecha'=> $imagen->Arc_fechaAut,'titulo' => 'Se rechazo imagen : '.$imagen->TID_nombre,'descripcion' => 'Se rechazo imagen del folio por el usuario '. $imagen->USU_rechazo . ' Por motivo: ' . $imagen->Arc_motivo);
+					array_push($historial,$imagenAut);
+					
+				}
 			}
 		}
 

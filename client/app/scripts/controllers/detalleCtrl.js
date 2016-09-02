@@ -87,13 +87,15 @@
 			}
 		];
 
-		dt.inicio = inicio;
-		dt.muestraArchivo = muestraArchivo;
 		dt.cierraSeccion = cierraSeccion;
-		dt.subirDigitalesEt1 = subirDigitalesEt1;
 		dt.eliminarDigitalesEt1 = eliminarDigitalesEt1;
+		dt.inicio = inicio;
+		dt.motivo = motivo;
+		dt.muestraArchivo = muestraArchivo;
 		dt.muestraPanel = muestraPanel;
 		dt.muestraSeccion = muestraSeccion;
+		dt.solicitaAutorizacionEt1 = solicitaAutorizacionEt1;
+		dt.subirDigitalesEt1 = subirDigitalesEt1;
 
 
 		function inicio(){
@@ -107,7 +109,6 @@
 			dt.detalle = true;
 			dt.consultaDetalle = false;
 			dt.tipo = '';
-			dt.estatusEt1 = '';
 			dt.porcentaje = '';
 
 			dt.atencionIcon = "add";
@@ -142,6 +143,8 @@
 					console.log(data);
 					dt.imagenes.push(data);
 					dt.porcentaje = '';
+
+					dt.tipo = '';
 				},	
 				function (error){
 					mensajes.alerta(error,'error','top right','error');
@@ -155,6 +158,20 @@
 			
 		}
 
+		function solicitaAutorizacionEt1(){
+			var datos = {
+				folio:dt.folio,
+				usuario:$rootScope.id
+			}
+
+			operacion.solicitaAutorizacion(datos).success(function (data){
+				dt.dato.Exp_estatusSACE = 1;
+				mensajes.alerta(data.respuesta,'success','top right','done_all');
+			}).error(function (error){
+				mensajes.alerta('Ocurrio un error vuelve a intentarlo por favor','error','top right','error');
+			})
+		}
+
 		function eliminarDigitalesEt1(file,index,ev){
 
 			var confirm = $mdDialog.confirm()
@@ -165,7 +182,11 @@
 				.ok('SI')
 				.cancel('NO');
 		    $mdDialog.show(confirm).then(function() {
-		      
+		      	
+		      	file.usuario = $rootScope.id;
+		      	file.etapa = 1;
+		      	file.entrega = 1;
+		      	
 				operacion.eliminaImagen(file).then(
 					function (resp){
 
@@ -180,6 +201,17 @@
 		    });
 
 			
+		}
+
+		function motivo(motivo,ev){
+			var alert = $mdDialog.alert()
+				.title('Motivo de rechazo')
+				.textContent(motivo)
+				.ariaLabel('Motivo de rechazo')
+				.targetEvent(ev)
+				.ok('Cerrar');
+
+		    $mdDialog.show(alert);
 		}
 
 		function cargaDatosFolio (folio) {

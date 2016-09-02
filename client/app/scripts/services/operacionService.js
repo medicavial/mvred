@@ -14,6 +14,7 @@
             eliminaImagen:eliminaImagen,
             registroPaciente:registroPaciente,
             registroSiniestro:registroSiniestro,
+            solicitaAutorizacion:solicitaAutorizacion,
             subirImagenes:subirImagenes
         };
 
@@ -34,6 +35,10 @@
             return $http.post(api + 'operacion/registraSiniestro', datos ,{timeout: 10000});
         };
 
+        function solicitaAutorizacion(datos){
+            return $http.post(api + 'operacion/autorizacion/et1', datos ,{timeout: 10000});
+        };
+
         //function para subir imagenes con el tipo de archivo
         function subirImagenes(folio,tipo,imagenes,etapa,entrega){
 
@@ -52,7 +57,11 @@
                     }).then(function (resp) {
                         promesa.resolve(resp.data);
                     }, function (resp) {
-                        promesa.reject(resp.data.flash);
+                        if (isNaN(resp)) {
+                            promesa.reject('Archivo con problemas');
+                        }else{
+                            promesa.reject(resp.data.flash);                            
+                        }
                     }, function (evt) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                         promesa.notify(progressPercentage);

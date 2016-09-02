@@ -13,13 +13,13 @@ class AuthController extends BaseController {
 
 		if(isset($user)) {
 
-		    if($user->Usu_pwd == md5($psw)) { // If their password is still MD5
+		    if($user->Usu_pwd == md5($psw)) { //si el password es el mismo
 
 		        Auth::login($user);
 
 		        $usuario = User::join('Unidad','Unidad.Uni_clave','=','Usuario.Uni_clave')
 		        			   ->join('Permiso','Permiso.Usu_login','=','Usuario.Usu_login')
-		        			   ->select('Permiso.*','LOC_claveint','Unidad.Uni_clave','Usu_nombre','Uni_nombrecorto')
+		        			   ->select('Permiso.*','LOC_claveint','Unidad.Uni_clave','Usu_nombre','Uni_nombrecorto','Uni_propia')
 		        			   ->where('Usuario.Usu_login',$login)
 		        			   ->first();
 

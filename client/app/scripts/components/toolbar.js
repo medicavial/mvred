@@ -20,10 +20,9 @@
 
 		var tb = this;
 
-		console.log($rootScope.url);
+		// console.log($rootScope.url);
 
 		// funciones del controlador
-
 		tb.configSwitch = configSwitch;
 		tb.menuSwitch = menuSwitch;
 		tb.logout = logout;

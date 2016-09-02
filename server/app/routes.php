@@ -10,6 +10,11 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+
+include(app_path() . '/classes/Historico.php');
+
+
 Route::get('/', function()
 {
 	return View::make('hello');
@@ -70,6 +75,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
+        Route::post('autorizacion/et1', array('uses' => 'OperacionController@solicitaAutorizacionET1'));
         Route::post('verificaDuplicado', array('uses' => 'OperacionController@verificaDuplicado'));
     });
 

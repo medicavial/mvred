@@ -56,22 +56,21 @@
                     <div flex>                      
                         <strong>Folio MV: {{ rg.datoSiniestro.folio }}</strong> <br>
                         Póliza: {{ rg.datoSiniestro.poliza }}  <br>
-                        Riesgo: R.C. Autopista <br>
                         Lesionado: {{ rg.datos.nombre }} {{ rg.datos.apaterno }} {{ rg.datos.amaterno }}  <br>
                         Usuario: {{ username }} <br>
+                        Compañia: {{ rg.compania }} <br>
                     </div>
                     <div flex>
-                        Compañia: {{ rg.compania }} <br>
                         Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
                         Reporte: {{ rg.datoSiniestro.reporte }} <br>
                         <strong>Registro: {{ rg.registro }}</strong> <br>
                         Unidad Médica: {{ nombreUni }} <br>
+                        Observaciones: {{ rg.datoSiniestro.observaciones }} <br>
                     </div>
                     <div flex>
-                        Observaciones: {{ rg.datoSiniestro.observaciones }} <br>
-                        Extemporaneo: No <br>
-                        Motivo:  <br>
-                        Fecha Atención:  <br>
+                        Extemporaneo: {{ rg.datoSiniestro.extemporaneo ? 'SI' : 'NO' }} <br>
+                        Motivo: {{ rg.datoSiniestro.motivoEx }} <br>
+                        Fecha Atención: {{ rg.datoSiniestro.fechaAtn }} <br>
                     </div>
                   
                 </section>

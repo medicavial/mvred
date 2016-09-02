@@ -13,12 +13,26 @@ class OperacionController extends BaseController {
 		$clave = Input::get('clave');
 		$tipo  = Input::get('tipo');
 		$archivo = Input::get('archivo');
+		$usuario = Input::get('usuario');
+		$etapa = Input::get('etapa');
+		$entrega = Input::get('entrega');
 
 		$archivo = public_path().'../../../../registro/'. $archivo . '/' .$clave;
 
 		File::delete($archivo);
 
-		Imagenes::where( array('Arc_clave' => $clave, 'REG_folio' => $folio, 'Arc_tipo' => $tipo) )->delete();
+		Imagenes::where( array('Arc_clave' => $clave, 'REG_folio' => $folio, 'Arc_tipo' => $tipo, 'Exp_etapa' => $etapa, 'Exp_entrega' => $entrega) )->delete();
+
+		$tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
+
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = 'Se eliminó imagen : ' . $tipoNombre;
+		$Historico->descripcion = 'Se eliminó imagen del folio  por el usuario ' . $usuario;
+		$Historico->folio = $folio;
+		$Historico->etapa = $etapa;
+		$Historico->entrega = $entrega;
+		$Historico->guardar();
 
 		return Response::json(array('flash' => 'Imagen eliminada'));
 		
@@ -76,6 +90,18 @@ class OperacionController extends BaseController {
 	        	$imagen->save();
 	            
 	            $file->move($ruta,$nombreArchivo);
+
+
+	            $tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
+
+				$Historico = new Historico;
+				$Historico->usuario = $usuario;
+				$Historico->titulo = 'Se ingresó imagen : ' . $tipoNombre;
+				$Historico->descripcion = 'Se ingresó imagen del folio  por el usuario ' . $usuario;
+				$Historico->folio = $folio;
+				$Historico->etapa = $etapa;
+				$Historico->entrega = $entrega;
+				$Historico->guardar();
 
 				return Imagenes::imagen($folio,$tipo,$consecutivo);
 
@@ -135,13 +161,14 @@ class OperacionController extends BaseController {
 
 		$telefono = $tipoTelefono . '-' . Input::get('telefono');
 
+		$usuario = Input::get('usuario');
 
 		$expediente = new Expediente;
 		$expediente->Exp_folio = $folio;
 		$expediente->Exp_prefijo = $prefijo;
 		$expediente->Exp_cons = $consecutivo;
 		$expediente->Uni_clave = $unidad;
-		$expediente->Usu_registro = Input::get('usuario');
+		$expediente->Usu_registro = $usuario;
 		$expediente->Exp_paterno = $apaterno;
 		$expediente->Exp_materno  = $amaterno;
 		$expediente->Exp_nombre = $nombre;
@@ -178,6 +205,16 @@ class OperacionController extends BaseController {
 			$i++;
 
 		}
+
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = 'Registro de Expediente';
+		$Historico->descripcion = 'Se registro el paciente ' . $nombreCompleto . ' por el usuario ' . $usuario;
+		$Historico->folio = $folio;
+		$Historico->etapa = 1;
+		$Historico->entrega = 1;
+		$Historico->guardar();
+
 
 		return Response::json(array('respuesta' => 'Registro Generado Correctamente','codigo' => $archivo, 'folio' => $folio, 'registro' => $fechaRegistro,'telefono' => $telefono));
 
@@ -221,7 +258,13 @@ class OperacionController extends BaseController {
 	    	$ajustadorMV = $ajustador->AJU_claveint;
 
 	    }else{
+	    	
 	    	$ajustadorMV = Input::get('cveAjustadorMv');
+
+	    	//se gusrda en caso de que haya modificado el telefono
+	    	$ajustador = Ajustador::find($ajustadorMV);
+	    	$ajustador->AJU_tel = Input::get('telAjustador');
+	    	$ajustador->save();
 	    }
 
 	    $expediente = Expediente::find($folio);
@@ -250,6 +293,29 @@ class OperacionController extends BaseController {
         $expediente->save();
 
 		return Response::json(array('respuesta' => 'Registro Generado Correctamente'));
+
+	}
+
+
+	public function solicitaAutorizacionET1(){
+		
+		$folio = Input::get('folio');
+		$usuario = Input::get('usuario');
+		
+		$expediente = Expediente::find($folio);
+		$expediente->Exp_estatusSACE = 1;
+		$expediente->save();
+
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = 'Se solicitó autorizacion del expediente';
+		$Historico->descripcion = 'El usuario ' . $usuario . ' solicitó autorización del expediente';
+		$Historico->folio = $folio;
+		$Historico->etapa = 1;
+		$Historico->entrega = 1;
+		$Historico->guardar();
+
+		return Response::json(array('respuesta' => 'El expediente se envio a solicitud de autorizacion'));
 
 	}
 

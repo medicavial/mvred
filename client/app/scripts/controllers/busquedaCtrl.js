@@ -55,10 +55,14 @@
 			if (bs.datos.lesionado != '') {
 				bs.busqueda = 'Lesionado: ' + bs.datos.lesionado;
 			};
-			bs.consulta = registros.get(bs.datos,muestraDatos).$promise;
+			bs.consulta = registros.get(bs.datos,muestraDatos,error).$promise;
 		}
 
-		bs.paginacion = [10,20,30,40,50];
+		function error(data){
+			bs.consultando = false;
+			mensajes.alerta(mensajeError,'error','top right','error');
+		}
+
 
 		function inicio(){
 			bs.datos = {
@@ -71,6 +75,7 @@
 				order:'-Exp_fecreg'
 			};
 
+			bs.paginacion = [10,20,30,40,50];
 			bs.busqueda = 'Ultimos registros';
 			bs.lesionado = '';
 			bs.folio = '';
@@ -141,10 +146,10 @@
 				bs.busqueda = 'Lesionado: ' + bs.datos.lesionado;
 			};
 
-			bs.consulta = registrosGlobales.get(bs.datos,muestraDatos).$promise;
+			bs.consulta = registrosGlobales.get(bs.datos,muestraDatos,error).$promise;
 		}
 
-		bs.paginacion = [10,20,30,40,50];
+		
 
 		function inicio(){
 			bs.datos = {
@@ -155,6 +160,8 @@
 				limit:10,
 				order:'-Exp_fecreg'
 			};
+
+			bs.paginacion = [10,20,30,40,50];
 			bs.lesionado = '';
 			bs.folio = '';
 			bs.consultando = false;
@@ -167,6 +174,12 @@
 			bs.pagina = response.current_page;
 			bs.total = response.total;
 			bs.consultando = false;
+		}
+
+
+		function error(data){
+			bs.consultando = false;
+			mensajes.alerta(mensajeError,'error','top right','error');
 		}
 
 		function ordenar(order) {

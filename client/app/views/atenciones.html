@@ -20,7 +20,15 @@
 <br>
 
 <md-content class="md-whiteframe-2dp">
-    <md-subheader class="md-no-sticky">Primera Atención - {{ dt.estatusEt1 }} </md-subheader>
+    <md-subheader class="md-no-sticky">
+      Primera Atención - 
+      <span ng-if="dt.imagenes.length == 0">Sin Documentos</span> 
+      <span ng-if="dt.dato.Exp_estatusSACE == 0 && dt.imagenes.length > 0">Sin Solicitar</span> 
+      <span ng-if="dt.dato.Exp_estatusSACE == 1">Solicitado</span>
+      <span ng-if="dt.dato.Exp_estatusSACE == 2">Aprobado</span> 
+      <span ng-if="dt.dato.Exp_estatusSACE == 3">Rechazado</span>  
+      <span ng-if="dt.dato.Exp_estatusSACE == 4">Completo</span> 
+    </md-subheader>
     <md-divider></md-divider>
     <md-tabs md-selected="dt.tabPrimera" md-dynamic-height class="TabPanel">
     
@@ -74,7 +82,7 @@
                   <ng-md-icon icon="{{ imagen.iconEstatus }}"></ng-md-icon> 
                   <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
                   <p class="padding-left">{{ imagen.tipoNombre }} ({{ imagen.estatus }})</p>
-                  <ng-md-icon aria-label="Motivo Rechazo" icon="delete" class="md-secondary" ng-click="dt.eliminarDigitalesEt1(imagen,$index,$event)">
+                  <ng-md-icon aria-label="Motivo Rechazo" icon="description" class="md-secondary" ng-if="imagen.estatus == 'Rechazado' " ng-click="dt.motivo(imagen.motivo,$event)">
                     <md-tooltip md-direction="top">
                       Motivo Rechazo
                     </md-tooltip>
@@ -85,7 +93,8 @@
                     </md-tooltip>
                   </ng-md-icon>
                 </md-list-item>
-                <!-- <md-divider></md-divider> -->
+                <md-divider></md-divider>
+                <md-button aria-label="Terminar" ng-if="dt.imagenes.length" ng-click="dt.solicitaAutorizacionEt1()" ng-disabled="dt.dat.Exp_estatusSACE != 0">Terminar</md-button>
 
               </md-list>
 
@@ -99,7 +108,7 @@
 
       </md-tab>
 
-      <md-tab id="tab2" ng-disabled="true">
+      <md-tab id="tab2" ng-disabled="dt.dato.Exp_estatusSACE != 2">
 
         <md-tab-label>Facturación</md-tab-label>
         <md-tab-body>
@@ -117,15 +126,11 @@
 <br>
 
 <md-content class="md-whiteframe-2dp" ng-if="subsecuencias">
-    <div layout="row">
-      <md-subheader class="md-no-sticky">Subsecuencias</md-subheader>
-      <span flex></span>
-      <md-button class="md-icon-button" aria-label="detalle" ng-click="dt.muestraSegundas = !dt.muestraSegundas">
-          <ng-md-icon icon="chevron_right"></ng-md-icon> 
-      </md-button>
-    </div>
+
+    <md-subheader class="md-no-sticky">Subsecuencias</md-subheader>
     <md-divider></md-divider>
-    <md-tabs md-selected="dt.tabSegunda" md-dynamic-height class="TabPanel detalle" ng-show="dt.muestraSegundas">
+
+    <!-- <md-tabs md-selected="dt.tabSegunda" md-dynamic-height class="TabPanel detalle" ng-show="dt.muestraSegundas">
 
       <md-tab id="tab1">
 
@@ -235,7 +240,7 @@
 
       </md-tab>
       
-    </md-tabs>
+    </md-tabs> -->
 </md-content>
 
 <br>
@@ -353,6 +358,8 @@
 
         <md-tab-label>Facturación</md-tab-label>
         <md-tab-body>
+
+          
         
         </md-tab-body>
 
@@ -363,8 +370,10 @@
 
 
 <md-fab-speed-dial md-open="dt.isOpen" md-direction="up"
+                   style="position: fixed;"
                    class="md-scale md-fab-bottom-right"
-                   ng-mouseenter=" dt.isOpen=true; dt.atencionIcon = 'remove'; " ng-mouseleave=" dt.isOpen=false; dt.atencionIcon = 'add'; ">
+                   ng-mouseenter=" dt.isOpen=true; dt.atencionIcon = 'remove'; " 
+                   ng-mouseleave=" dt.isOpen=false; dt.atencionIcon = 'add'; ">
   <md-fab-trigger>
     <md-button aria-label="menu" class="md-fab md-warn">
       <ng-md-icon icon="{{ dt.atencionIcon }}" style="fill: white"></ng-md-icon> 

@@ -9,7 +9,7 @@
 	.controller('telefonoCtrl',telefonoCtrl)
 
 	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles', '$mdpDatePicker'];
-	telefonoCtrl.$inject = ['$mdDialog','tipos','telefonos'];
+	telefonoCtrl.$inject = ['$mdDialog','tipos','telefonos', 'mensajes'];
 
 	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles, $mdpDatePicker){
 
@@ -20,7 +20,7 @@
 		var vm = this;
 		vm.fecha = moment().subtract(25, "year");
 		var fecha = new Date(vm.fecha);
-		console.log(fecha);
+		// console.log(fecha);
 
 
 		//variable de error
@@ -322,17 +322,18 @@
 	};
 
 
-	function telefonoCtrl($mdDialog,tipos,telefonos){
-		
+	function telefonoCtrl($mdDialog,tipos,telefonos, mensajes){
+
 		var tel = this;
 		tel.tipos = tipos;
 		tel.telefonos = telefonos;
+
+		inicio();
 
 		//funciones
 
 		tel.inicio = inicio;
 		tel.agregaTelefono = agregaTelefono;
-		tel.cancelar = cancelar;
 		tel.ingresa = ingresa;
 
 
@@ -355,12 +356,15 @@
 		}
 
 
-		function cancelar() {
-			$mdDialog.cancel();
-		};
-
 		function ingresa() {
-			$mdDialog.hide(tel.telefonos);
+
+			if (tel.telefono == '') {
+				$mdDialog.hide(tel.telefonos);
+			}else{
+				if(confirm('No has agregado el numero que acabas de escribir ¿deseas salir?')){
+					$mdDialog.hide(tel.telefonos);
+				}
+			}
 		};
 
 	}
