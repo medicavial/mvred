@@ -8,16 +8,16 @@
   "license": "MIT",
   "dependencies": {
     "angular-material": "^1.1.0",
-    "angular-material-data-table": "~0.10.0",
+    "angular-material-data-table": "^0.10.0",
     "angular-material-icons": "*",
     "angular-messages": "~1.4.4",
     "angular-resource": "^1.5.7",
-    "angular-ui-router": "~0.2.15",
-    "angular-webstorage": "~0.11.0",
-    "angular-filter": "~0.5.7",
+    "angular-ui-router": "^0.2.15",
+    "angular-webstorage": "^0.11.0",
+    "angular-filter": "^0.5.11",
     "animate.css": "~3.4.0",
     "jspdf": "1.0.272",
-    "ng-file-upload": "~12.2.0",
+    "ng-file-upload": "^12.2.0",
     "svg-morpheus": "~0.1.8",
     "material-design-lite": "^1.1.3",
     "moment": "^2.13.0",
@@ -25,6 +25,7 @@
     "angular-material-expansion-panel": "^0.4.5",
     "ngMorph": "angular-morph#^0.1.0",
     "vjs-video": "^0.1.6",
-    "amcharts-angular": "*"
+    "amcharts-angular": "*",
+    "abdmob/x2js": "^1.2.0"
   }
 }

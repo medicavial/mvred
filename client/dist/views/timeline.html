@@ -1,14 +1,14 @@
 <md-toolbar ng-class="dt.bg">
   <div class="md-toolbar-tools">
-    <md-button class="md-icon-button" aria-label="Settings">
-      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon> 
     </md-button>
     <h2>
       <span>Historial del Expediente</span>
     </h2>
     <span flex></span>
-    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
-        <ng-md-icon icon="close"></ng-md-icon> 
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
     </md-button>
   </div>
 </md-toolbar>
@@ -25,11 +25,11 @@
 
         <div flex>
           <ul class="timeline white">
-            <li class="event" data-date="2016-01-01">
-				<h3>SE ANEXA NOTA DE MÉDICO AUDITOR.</h3>
-				<p>
-					esto es un texto
-				</p>
+            <li class="event" data-date="{{ historia.fecha }}" ng-repeat="historia in dt.historial | orderBy:'fecha' ">
+      				<h3>{{ historia.titulo }}</h3>
+      				<p>
+      					{{ historia.descripcion }}
+      				</p>
             </li>
           </ul>
         </div>

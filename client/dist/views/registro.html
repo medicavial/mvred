@@ -1,9 +1,9 @@
 <section class="padding-views">
 
-  <md-content class="md-whiteframe-2dp white" ng-init="rg.inicio()">
+  <md-content class="md-whiteframe-2dp" ng-init="rg.inicio()">
 
     <md-progress-linear ng-if="rg.consultando" md-mode="indeterminate"></md-progress-linear>
-    <md-tabs md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+    <md-tabs class="white" md-selected="rg.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
       <md-tab id="tab1" ng-disabled="rg.step1block">
         <md-tab-label>Selecciona Cliente</md-tab-label>
         <md-tab-body>
@@ -56,29 +56,28 @@
                     <div flex>                      
                         <strong>Folio MV: {{ rg.datoSiniestro.folio }}</strong> <br>
                         Póliza: {{ rg.datoSiniestro.poliza }}  <br>
-                        Riesgo: R.C. Autopista <br>
                         Lesionado: {{ rg.datos.nombre }} {{ rg.datos.apaterno }} {{ rg.datos.amaterno }}  <br>
                         Usuario: {{ username }} <br>
+                        Compañia: {{ rg.compania }} <br>
                     </div>
                     <div flex>
-                        Compañia: {{ rg.compania }} <br>
                         Siniestro: {{ rg.datoSiniestro.siniestro }} <br>
                         Reporte: {{ rg.datoSiniestro.reporte }} <br>
                         <strong>Registro: {{ rg.registro }}</strong> <br>
                         Unidad Médica: {{ nombreUni }} <br>
+                        Observaciones: {{ rg.datoSiniestro.observaciones }} <br>
                     </div>
                     <div flex>
-                        Observaciones: {{ rg.datoSiniestro.observaciones }} <br>
-                        Extemporaneo: No <br>
-                        Motivo:  <br>
-                        Fecha Atención:  <br>
+                        Extemporaneo: {{ rg.datoSiniestro.extemporaneo ? 'SI' : 'NO' }} <br>
+                        Motivo: {{ rg.datoSiniestro.motivoEx }} <br>
+                        Fecha Atención: {{ rg.datoSiniestro.fechaAtn }} <br>
                     </div>
                   
                 </section>
                 
               </md-card-content>
               <md-card-actions layout="row" layout-align="center center">
-                <md-button ui-sref="index.home">Regresar a Inicio</md-button>
+                <md-button ui-sref="index.home">Regresar a Home</md-button>
                 <md-button>Imprimir</md-button>
                 <md-button ui-sref="index.detalle({folio:rg.datoSiniestro.folio})">Ir al Expediente</md-button>
               </md-card-actions>

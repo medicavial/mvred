@@ -2,12 +2,43 @@
 
 class BusquedasController extends BaseController {
 
+
+	// funcion para mostrar ajustadores de una localidad
+	public function atenciones($folio){
+
+		return Atencion::where('EXP_folio', $folio)->get();
+		
+	}
+
+	public function detalleAtencion($clave){
+
+		$respuesta = array();
+		$atencion = Atencion::find($clave);
+
+		$folio = $atencion->Exp_folio;
+		$tipoAtn = $atencion->TIA_clave;
+		$producto = Expediente::find($folio)->Pro_clave;
+
+		$tiposDocumento = $this->documentos($tipoAtn,$producto);
+		$imagenes = $this->imagenes($clave);
+
+		$respuesta['info'] = $atencion;
+		$respuesta['tipos'] = $tiposDocumento;
+		$respuesta['imagenes'] = $imagenes;
+
+		return $respuesta;
+		
+	}
+
+	// funcion para mostrar las atenciones de un folio
 	public function ajustadores($localidad){
 
 		return Ajustador::activos($localidad);
 		
 	}
 
+
+	// funcion para mostrar autorizaciones de un folio
 	public function autorizaciones($folio){
 
 		$respuesta = array();
@@ -29,11 +60,16 @@ class BusquedasController extends BaseController {
 		
 	}
 
+
+	//muestra todas las aseguradoras
 	public function clientes(){
 		return Compania::activos();
 	}
 
+
+	//genera un detalle de folio
 	public function detalleFolio($folio){
+
 		return Expediente::join('Unidad','Unidad.Uni_clave','=','Expediente.Uni_clave')
 					     ->join('Producto','Producto.Pro_clave','=','Expediente.Pro_clave')
 					     ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
@@ -42,11 +78,17 @@ class BusquedasController extends BaseController {
 						 ->first();
 	}
 
-	public function documentos(){
-		return Documento::activos();
+
+	// funcion para ver los documentos registrados por producto y tipo de atencion
+	public function documentos($tipoAtn,$producto){
+
+		return AtencionDocumento::join('TipoDocumento','TipoDocumento.TID_claveint','=','AtencionDocumento.TID_clave')
+								->select('TipoDocumento.*')
+								->where(array( 'TIA_clave' => $tipoAtn, 'Pro_clave' => $producto ))->get();
 	}
 
 
+	// muestra el historial del folio
 	public function historial($folio){
 
 
@@ -55,7 +97,7 @@ class BusquedasController extends BaseController {
 							  ->get();
 
 
-
+		// en caso de tener no tener historial en la tabla genera uno segun lo registrado en cada tabla
 		if (count($historial) == 0) {
 			
 			$historial = array();
@@ -115,18 +157,50 @@ class BusquedasController extends BaseController {
 	}
 
 
-	// cargamos todas las imagenes del folio
-	public function imagenes($folio){
+	// cargamos todas las imagenes de la atencion
+	public function imagenes($atencion){
 		
-		//Iniciamos con etapa 1
-		return Imagenes::disponibles($folio,1,1);
+		
+		$imagenes =  Imagenes::disponibles($atencion);
+
+		foreach ($imagenes as $imagen) {
+
+			$tipo = $imagen['tipo'];
+
+			$atencionDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) )->first();
+
+			if ( count($atencionDocumento) > 0 ) {
+				$imagen['estatusGlobal'] = $atencionDocumento->ATD_estatus;
+				$imagen['motivoGlobal'] = $atencionDocumento->ATD_motivo;
+
+				if ($atencionDocumento->ATD_estatus == 0) {
+					$imagen['estatusGlobalIcon'] = 'check_box_outline_blank';	
+				}elseif ($atencionDocumento->ATD_estatus == 1) {
+					$imagen['estatusGlobalIcon'] = 'check_box';	
+				}elseif ($atencionDocumento->ATD_estatus == 2) {
+					$imagen['estatusGlobalIcon'] = 'error';	
+				}
+
+			}else{
+				$imagen['estatusGlobal'] = 0;
+				$imagen['estatusGlobalIcon'] = 'folder';
+				$imagen['motivoGlobal'] = '';
+			}
+
+		}
+
+		return $imagenes;
 
 	}
 
+
+	// muestra toos los producto activos
 	public function productos(){
 		return Producto::activos();
 	}
 
+
+	// muestra los productos activos segun el cliente
 	public function productosCliente($cliente,$localidad){
 
 		$productosDisponibles = array();
@@ -179,6 +253,8 @@ class BusquedasController extends BaseController {
 
 	}
 
+
+	// consulta de registros segun los parametros enviados por unidad
 	public function registros(){
 
 
@@ -219,6 +295,8 @@ class BusquedasController extends BaseController {
 
 	}
 
+
+	// consulta de los registros de cualquier unidad segun los parametros dados
 	public function registrosGlobales(){
 
 
@@ -252,10 +330,13 @@ class BusquedasController extends BaseController {
 
 	}
 
+
+	// consulta los riesgos activos
 	public function riesgos(){
 		return Riesgo::activos();
 	}
 
+	// consulta los tickets de un folio
 	public function tickets($folio){
 		$datos = Ticket::leftJoin('TicketSubcat','TicketSubcat.TSub_clave','=','TicketSeguimiento.TSub_clave')
 						->leftJoin('TicketCat','TicketCat.TCat_clave','=','TicketSeguimiento.TCat_clave')
@@ -289,13 +370,26 @@ class BusquedasController extends BaseController {
 		return $respuesta;
 	}
 
-	public function tipos(){
+
+	//muestra los tipos de atenciones que existen activos
+	public function tiposAtencion(){
+		return TipoAtencion::activos();
+	}
+
+	//muestra los tipos de telefono
+	public function tiposTelefono(){
 		return TipoTelefono::all();
 	}
 
+
+	// muestra los tipos de documentos activos
 	public function tiposDocumento(){
-		return tipoDocumentos::where(array( 'TID_red' => 1 ,'TID_activa' => 1))
-							 ->orderBy('TID_orden')
-							 ->get();
+
+		return tipoDocumentos::where(array(
+				'TID_activa' => 1,
+				'TID_red' => 1
+			))
+			->orderBy('TID_orden')
+			->get();
 	}
 }

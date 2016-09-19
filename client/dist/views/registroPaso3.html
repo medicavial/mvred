@@ -38,12 +38,21 @@
             </div>
           </md-input-container>
 
-          <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaNac" class="md-block" flex>
+          <!-- <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaNac" class="md-block" flex>
             <div ng-messages="rg.registroForm.dateFormat.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
               <div ng-message="format">Formato de fecha invalido</div>
             </div>
-          </mdp-date-picker>
+          </mdp-date-picker> -->
+          <md-input-container flex>
+            <label>Fecha de Nacimiento</label>
+            <md-datepicker name="fechaNac" ng-model="rg.datos.fechaNac" required md-open-on-focus></md-datepicker>
+            <div class="validation-messages" ng-messages="rg.registroForm.fechaNac.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+            </div>
+            
+          </md-input-container>
+
 
         </section>
 
@@ -79,7 +88,7 @@
 
           <md-input-container flex>
             <label>E-mail</label>
-            <input type="email" name="correo" ng-model="rg.datos.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|org$|gob$|me$)/" required>
+            <input type="email" name="correo" ng-model="rg.datos.email" bloqueo="32" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|org$|gob$|me$)/" required>
             <div ng-messages="rg.registroForm.correo.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="pattern">Formato invalido.</div>
               <div ng-message="required">Campo obligatorio.</div>
@@ -105,7 +114,7 @@
 
       <section layout="column" layout-align="center center" layout-wrap>
 
-          <md-progress-circular md-mode="indeterminate" md-diameter="96" ng-if="rg.guardando"></md-progress-circular>
+          <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="rg.guardando"></md-progress-circular>
 
           <md-button id="nuevo" class="md-fab md-primary md-hue-2"  aria-label="Guardar" type="submit" ng-if="!rg.guardando">
               <md-tooltip md-direction="top">

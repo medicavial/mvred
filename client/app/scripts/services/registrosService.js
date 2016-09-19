@@ -8,7 +8,7 @@
 
     function registros($resource, api){
 
-        return $resource( api + 'busqueda/registros');
+        return $resource( api + 'busqueda/registros',{},{'get':{method:'GET',timeout:15000}});
 
     }
 

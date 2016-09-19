@@ -6,32 +6,94 @@ class OperacionController extends BaseController {
 	//funciones de las rutas
 
 
+	//creamos una nueva atencion
+	public function creaAtencion(){
+
+		$tipoAtn = Input::get('tipoAtn');
+		$folio = Input::get('folio');
+		$consecutivo = Input::get('consecutivo');
+		
+		//guardamos los datos de la atencion
+		$atencion = new Atencion;
+
+		$atencion->Exp_folio = $folio;
+		$atencion->TIA_clave = $tipoAtn;
+		$atencion->ATN_cons = $consecutivo;
+		$atencion->ATN_estatus = 0;
+		$atencion->ATN_fecReg = date('Y-m-d H:i:s');
+		$atencion->save();
+
+		$claveAtencion = $atencion->ATN_clave;
+
+
+		$producto = Expediente::find($folio)->Pro_clave;
+
+		//preparamos los documentos necesarios para esta atencion
+		$documentosNecesarios = AtencionDocumento::where( array( 'Pro_clave' => $producto,'TIA_clave' => $tipoAtn, 'ATD_requerido' => 1 ) )->get();
+
+		foreach ($documentosNecesarios as $documento) {
+
+			//registramos la atencion y los documentos que necesita para ser cobrado
+			$documentoNecesario = new AtencionTipoDocumento;
+			$documentoNecesario->ATN_clave = $claveAtencion;
+			$documentoNecesario->TID_clave = $documento['TID_clave'];
+			$documentoNecesario->save();
+
+		}
+
+		return Atencion::find($claveAtencion);
+	}
+
+	//funcion para guardar la relacion entre producto , tipo atencion y documentos
+	public function documentos(){
+
+		$producto = Input::get('producto');
+		$atencion = Input::get('atencion');
+		$documentos  = Input::get('documentos');
+
+		foreach ($documentos as $documento) {
+
+			$claveDoc = $documento['TID_claveint'];
+
+			$atencionDoc = new AtencionDocumento;
+			$atencionDoc->Pro_clave = $producto;
+			$atencionDoc->TIA_clave = $atencion;
+			$atencionDoc->TID_clave = $claveDoc;
+			$atencionDoc->save();
+
+		}
+
+		return Response::json(array('flash' => 'Datos Guardados'));
+		
+	}
+
+
 	//funcion para elminar imagenes
 	public function eliminaImagen(){
 
-		$folio = Input::get('folio');
+		$atencion = Input::get('atencion');
 		$clave = Input::get('clave');
 		$tipo  = Input::get('tipo');
 		$archivo = Input::get('archivo');
 		$usuario = Input::get('usuario');
-		$etapa = Input::get('etapa');
-		$entrega = Input::get('entrega');
 
 		$archivo = public_path().'../../../../registro/'. $archivo . '/' .$clave;
 
 		File::delete($archivo);
 
-		Imagenes::where( array('Arc_clave' => $clave, 'REG_folio' => $folio, 'Arc_tipo' => $tipo, 'Exp_etapa' => $etapa, 'Exp_entrega' => $entrega) )->delete();
+		Imagenes::where( array('Arc_clave' => $clave, 'Arc_tipo' => $tipo, 'ATN_clave' => $atencion) )->delete();
+
 
 		$tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
+		$atn = Atencion::find($atencion);
 
 		$Historico = new Historico;
 		$Historico->usuario = $usuario;
 		$Historico->titulo = 'Se eliminó imagen : ' . $tipoNombre;
 		$Historico->descripcion = 'Se eliminó imagen del folio  por el usuario ' . $usuario;
-		$Historico->folio = $folio;
-		$Historico->etapa = $etapa;
-		$Historico->entrega = $entrega;
+		$Historico->folio = $atn->Exp_folio;
+		$Historico->etapa = $atn->TIA_clave;
+		$Historico->entrega = $atn->ATN_cons;
 		$Historico->guardar();
 
 		return Response::json(array('flash' => 'Imagen eliminada'));
@@ -41,17 +103,17 @@ class OperacionController extends BaseController {
 	//funcion para subir imagenes del folio
 	public function imagenes(){
 
-		
-		$folio = Input::get('folio');
 		$tipo = Input::get('tipo');
 		$usuario = Input::get('usuario');
-		$etapa = Input::get('etapa');
-		$entrega = Input::get('entrega');
+		$atencion = Input::get('atencion');
 
+		$atn = Atencion::find($atencion);
+		$folio = $atn->Exp_folio;
+		$tipoAtn = $atn->TIA_clave;
 
-		$archivos = Imagenes::where( array('Arc_tipo' => $tipo , 'REG_folio' => $folio) )->count();
+		$archivos = Imagenes::where( array('Arc_tipo' => $tipo , 'ATN_clave' => $atencion) )->count();
 
-		$ruta = $this->verificaRuta($folio,$tipo);
+		$ruta = $this->verificaRuta($folio,$tipo,$tipoAtn);
 
 		if ( ($tipo == 1 || $tipo == 15 || $tipo == 16 || $tipo == 26) && $archivos > 0 ) {
 
@@ -85,25 +147,41 @@ class OperacionController extends BaseController {
 	        	$imagen->Arc_desde = 'REGISTRO_RED';
 	        	$imagen->USU_login = $usuario;
 	        	$imagen->Arc_fecreg = date('Y-m-d H:i:s');
-	        	$imagen->Exp_etapa = $etapa;
-	        	$imagen->Exp_entrega = $entrega;
+	        	$imagen->ATN_clave = $atencion;
 	        	$imagen->save();
 	            
 	            $file->move($ruta,$nombreArchivo);
 
 
 	            $tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
+	            $tipoAtnNombre = TipoAtencion::find($tipoAtn)->TIA_nombre;
 
 				$Historico = new Historico;
 				$Historico->usuario = $usuario;
 				$Historico->titulo = 'Se ingresó imagen : ' . $tipoNombre;
-				$Historico->descripcion = 'Se ingresó imagen del folio  por el usuario ' . $usuario;
+				$Historico->descripcion = 'Se ingresó imagen del folio para ' . $tipoAtnNombre . ' por el usuario ' . $usuario;
 				$Historico->folio = $folio;
-				$Historico->etapa = $etapa;
-				$Historico->entrega = $entrega;
+				$Historico->etapa = $tipoAtn;
+				$Historico->entrega = $atn->ATN_cons;
 				$Historico->guardar();
 
-				return Imagenes::imagen($folio,$tipo,$consecutivo);
+				$imagen = Imagenes::imagen($folio,$tipo,$consecutivo);
+
+				$tipo = $imagen['tipo'];
+
+				$atencionDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) )->first();
+
+				if ( count($atencionDocumento) > 0 ) {
+
+					$imagen['estatusGlobal'] = $atencionDocumento->ATD_estatus;
+					$imagen['estatusGlobalIcon'] = 'check_box_outline_blank';	
+
+				}else{
+					$imagen['estatusGlobal'] = 0;
+					$imagen['estatusGlobalIcon'] = 'folder';
+				}
+
+				return $imagen;
 
 	        }else{
 
@@ -297,22 +375,29 @@ class OperacionController extends BaseController {
 	}
 
 
-	public function solicitaAutorizacionET1(){
+	public function solicitaAutorizacion(){
 		
-		$folio = Input::get('folio');
+		$atencion = Input::get('atencion');
 		$usuario = Input::get('usuario');
 		
-		$expediente = Expediente::find($folio);
-		$expediente->Exp_estatusSACE = 1;
-		$expediente->save();
+		$atn = Atencion::find($atencion);
+
+		$folio = $atn->Exp_folio;
+		$etapa = $atn->TIA_clave;
+		$entrega = $atn->ATN_cons;
+
+		$atn->ATN_estatus = 1;
+		$atn->save();
+
+
 
 		$Historico = new Historico;
 		$Historico->usuario = $usuario;
 		$Historico->titulo = 'Se solicitó autorizacion del expediente';
 		$Historico->descripcion = 'El usuario ' . $usuario . ' solicitó autorización del expediente';
 		$Historico->folio = $folio;
-		$Historico->etapa = 1;
-		$Historico->entrega = 1;
+		$Historico->etapa = $etapa;
+		$Historico->entrega = $entrega;
 		$Historico->guardar();
 
 		return Response::json(array('respuesta' => 'El expediente se envio a solicitud de autorizacion'));
@@ -445,7 +530,7 @@ class OperacionController extends BaseController {
 	
 	}
 
-	private function verificaRuta($folio,$tipo){
+	private function verificaRuta($folio,$tipo,$tipoAtn){
 
 		// $rutaPrincipal = '../../registro/Digitales';
 
@@ -458,13 +543,14 @@ class OperacionController extends BaseController {
 		$anio = date( "Y", strtotime($fecha) );
 
 		// verificamos la existencia de la ruta
-		$folderAnio  = is_dir($rutaPrincipal ."/". $anio) ? $rutaPrincipal ."/". $anio : mkdir($rutaPrincipal ."/". $anio);
-		$folderMes   = is_dir($rutaPrincipal ."/". $anio ."/". $mes) ? $rutaPrincipal ."/". $anio ."/". $mes : mkdir($rutaPrincipal ."/". $anio ."/". $mes);
-	    $folderFolio = is_dir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio) ? $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio : mkdir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio);
+		$folderAnio  	= is_dir($rutaPrincipal ."/". $anio) ? $rutaPrincipal ."/". $anio : mkdir($rutaPrincipal ."/". $anio);
+		$folderMes   	= is_dir($rutaPrincipal ."/". $anio ."/". $mes) ? $rutaPrincipal ."/". $anio ."/". $mes : mkdir($rutaPrincipal ."/". $anio ."/". $mes);
+	    $folderFolio 	= is_dir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio) ? $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio : mkdir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio);
+	    $folderAtencion = is_dir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio) ? $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio . "/" . $tipoAtn : mkdir($rutaPrincipal ."/". $anio ."/". $mes ."/". $folio . "/" . $tipoAtn);
 
-	    $ruta = $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio;
+	    $ruta = $rutaPrincipal ."/". $anio ."/". $mes ."/". $folio . "/" . $tipoAtn;
 
-	    $this->rutaImagen = "Digitales/". $anio ."/". $mes ."/". $folio;
+	    $this->rutaImagen = "Digitales/". $anio ."/". $mes ."/". $folio . "/" . $tipoAtn;
 
 		return $ruta;
 

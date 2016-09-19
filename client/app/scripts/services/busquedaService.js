@@ -6,18 +6,22 @@
     angular.module('app')
     .factory('busqueda',busqueda);
 
-    function busqueda($http, $rootScope, api, $q){
+    function busqueda($http, $rootScope, api, $q,$filter){
 
         var servicio = {
             ajustadores:ajustadores,
             clientes: clientes,
             datosExpediente:datosExpediente,
+            detalleAtencion : detalleAtencion,
             detalleFolio : detalleFolio,
+            documentosAtencion:documentosAtencion,
             productos: productos,
             productosCliente : productosCliente,
             registros : registros,
             riesgos:riesgos,
-            tipos: tipos
+            tipos: tipos,
+            tiposDocumento:tiposDocumento,
+            tiposAtencion:tiposAtencion
 
         };
 
@@ -37,22 +41,52 @@
         // datos del folio
         function datosExpediente(folio){
 
-            var promesa         = $q.defer(),
-                historial       = $http.get(api + 'busqueda/historial/' + folio ,{timeout: 10000}),
-                imagenes        = $http.get(api + 'busqueda/imagenes/' + folio ,{timeout: 10000}),
-                autorizaciones  = $http.get(api + 'busqueda/autorizaciones/' + folio ,{timeout: 10000}),
-                tiposDocumentos = tiposDocumento(),
-                tickets         = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+            var promesa        = $q.defer(),
+                //cargamos los datos de la primera atencion
+                atenciones     = $http.get(api + 'busqueda/atenciones/' + folio ,{timeout: 10000}),
+                //consltamos el historial del folio
+                historial      = $http.get(api + 'busqueda/historial/' + folio ,{timeout: 10000}),
+                //consulta autorizaciones
+                autorizaciones = $http.get(api + 'busqueda/autorizaciones/' + folio ,{timeout: 10000}),
+                //consulta tickets
+                tickets        = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
             
-            $q.all([tickets,imagenes,tiposDocumentos,historial,autorizaciones]).then(function (data){
+            $q.all([tickets,historial,autorizaciones,atenciones]).then(function (data){
+
+                var atenciones = data[3].data;
+                var primera = $filter('filter')(atenciones,{TIA_clave:1});
 
                 var datos = {
                     tickets : data[0].data,
-                    imagenes : data[1].data,
-                    tiposDocumento : data[2].data,
-                    historial:data[3].data,
-                    autorizaciones:data[4].data
+                    historial:data[1].data,
+                    autorizaciones:data[2].data,
+                    primera:primera
+                    
                 }
+
+                promesa.resolve(datos);
+
+            }, function (error){
+                promesa.reject('error en conexión');
+            });
+
+            return promesa.promise;
+        };
+
+        //consulta el detalle de la atencion
+        function detalleAtencion(atencion){
+            var promesa  = $q.defer(),
+                detalle  = $http.get( api + 'busqueda/detalleAtencion/' + atencion );
+
+            
+            $q.when(detalle).then(function (datos){
+
+                var datos = {
+                    tipos : datos.data.tipos,
+                    imagenes:datos.data.imagenes,
+                    info:datos.data.info
+                }
+
                 promesa.resolve(datos);
 
             }, function (error){
@@ -65,6 +99,11 @@
         //consulta el detalle del folio
         function detalleFolio(folio){
             return $http.get(api + 'busqueda/detalleFolio/' + folio,{timeout: 10000});
+        };
+
+        //consulta de documentos por producto y tipo de atencion
+        function documentosAtencion(atencion,producto){
+            return $http.get(api + 'busqueda/documentos/' + atencion + '/' + producto,{timeout: 10000});
         };
 
         //consulta de productos activos
@@ -120,15 +159,23 @@
              
         }
 
+        function documentosAtencion(producto,atencion){
+            return $http.get(api + 'busqueda/documentos/' + producto + '/' + atencion,{timeout: 10000});
+        }
 
         //tipos de telefono
         function tipos(){
-            return $http.get(api + 'busqueda/tipos',{timeout: 10000});
+            return $http.get(api + 'busqueda/tiposTelefono',{timeout: 10000});
         };
 
         //tipos de documentos
         function tiposDocumento(){
             return $http.get(api + 'busqueda/tiposDocumento',{timeout: 10000});
+        };
+
+        //tipos de atenciones
+        function tiposAtencion(){
+            return $http.get(api + 'busqueda/tiposAtencion',{timeout: 10000});
         };
 
 

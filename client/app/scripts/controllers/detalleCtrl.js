@@ -9,10 +9,10 @@
 	.controller('visorCtrl',visorCtrl)
 	
 
-	detalleCtrl.$inject = ['$rootScope','datos','busqueda','mensajes', 'publicfiles','operacion', '$mdDialog'];
+	detalleCtrl.$inject = ['$rootScope','datos','busqueda','mensajes', 'publicfiles','operacion', '$mdDialog', '$mdBottomSheet'];
 	visorCtrl.$inject = ['$scope','$mdDialog','imagen'];
 
-	function detalleCtrl($rootScope,datos,busqueda, mensajes, publicfiles,operacion, $mdDialog){
+	function detalleCtrl($rootScope,datos,busqueda, mensajes, publicfiles,operacion, $mdDialog, $mdBottomSheet){
 
 		// console.log(datos);
 
@@ -28,8 +28,9 @@
 		$rootScope.menu = 'arrow_back';
 
 		dt.folio = datos.data.Exp_folio;
-		// funciones del controlador
+		dt.producto = datos.data.Pro_clave;
 
+		// funciones del controlador
 		dt.secciones = [
 			{
 				nombre:'Atenciones',
@@ -88,22 +89,25 @@
 		];
 
 		dt.cierraSeccion = cierraSeccion;
-		dt.eliminarDigitalesEt1 = eliminarDigitalesEt1;
 		dt.inicio = inicio;
-		dt.motivo = motivo;
-		dt.muestraArchivo = muestraArchivo;
 		dt.muestraPanel = muestraPanel;
 		dt.muestraSeccion = muestraSeccion;
-		dt.solicitaAutorizacionEt1 = solicitaAutorizacionEt1;
-		dt.subirDigitalesEt1 = subirDigitalesEt1;
+		dt.nuevaAtencion = nuevaAtencion;
+		dt.nuevaEt1 = nuevaEt1;
+		dt.nuevaEt2 = nuevaEt2;
+		dt.nuevaEt3 = nuevaEt3;
+		dt.subirDigitalesEt2 = subirDigitalesEt2;
 
 
 		function inicio(){
 			// inicializacion de variables
 			dt.dato = datos.data;
 			dt.imagenes = [];
+			dt.subsecuencias = [];
+			dt.rehabilitaciones = [];
 			dt.codigo = publicfiles + 'codigos/' + dt.dato.Exp_folio + '.png';
 			dt.isOpen = false;
+			dt.primera = '';
 			dt.seleccionado = true;
 			dt.seccion = false;
 			dt.detalle = true;
@@ -136,15 +140,19 @@
 			dt.detalle == true ? dt.iconPanel = 'expand_less' : dt.iconPanel = 'expand_more';
 		}
 
-		function subirDigitalesEt1(files,tipo){
+		
 
-			operacion.subirImagenes(dt.folio,tipo,files,1,1).then(
+		function subirDigitalesEt2(index,files,tipo,entrega){
+
+			var subsecuencia = dt.subsecuencias[index];
+
+			operacion.subirImagenes(dt.folio,tipo,files,2,entrega).then(
+
 				function (data){
 					console.log(data);
-					dt.imagenes.push(data);
+					subsecuencia.imagenes.push(data);
 					dt.porcentaje = '';
-
-					dt.tipo = '';
+					dt.tipoEt2 = '';
 				},	
 				function (error){
 					mensajes.alerta(error,'error','top right','error');
@@ -154,89 +162,26 @@
 					// console.log(porcentaje);
 					dt.porcentaje = porcentaje;
 				}
+
 			)
 			
 		}
 
-		function solicitaAutorizacionEt1(){
-			var datos = {
-				folio:dt.folio,
-				usuario:$rootScope.id
-			}
-
-			operacion.solicitaAutorizacion(datos).success(function (data){
-				dt.dato.Exp_estatusSACE = 1;
-				mensajes.alerta(data.respuesta,'success','top right','done_all');
-			}).error(function (error){
-				mensajes.alerta('Ocurrio un error vuelve a intentarlo por favor','error','top right','error');
-			})
-		}
-
-		function eliminarDigitalesEt1(file,index,ev){
-
-			var confirm = $mdDialog.confirm()
-				.title('Deseas eliminar este archivo?')
-				.textContent('')
-				.ariaLabel('¿Deseas eliminar imagen?')
-				.targetEvent(ev)
-				.ok('SI')
-				.cancel('NO');
-		    $mdDialog.show(confirm).then(function() {
-		      	
-		      	file.usuario = $rootScope.id;
-		      	file.etapa = 1;
-		      	file.entrega = 1;
-		      	
-				operacion.eliminaImagen(file).then(
-					function (resp){
-
-						mensajes.alerta(resp.data.flash,'success','top right','done_all');
-						dt.imagenes.splice(index, 1);
-					},	
-					function (error){
-						mensajes.alerta(error,'error','top right','error');
-					}
-				)
-
-		    });
-
-			
-		}
-
-		function motivo(motivo,ev){
-			var alert = $mdDialog.alert()
-				.title('Motivo de rechazo')
-				.textContent(motivo)
-				.ariaLabel('Motivo de rechazo')
-				.targetEvent(ev)
-				.ok('Cerrar');
-
-		    $mdDialog.show(alert);
-		}
+		
 
 		function cargaDatosFolio (folio) {
-			dt.consultaDetalle = true;
+
 			busqueda.datosExpediente(folio).then(function (data){
 
 				console.log(data);
-
-				//imagenes del folio
-				dt.imagenes = data.imagenes;
-
 				//damos información de tickets
 				dt.tickets = data.tickets;
-
 				// se carga la linea del tiempo del folio
 				dt.historial = data.historial;
-
-				//se cargan tipos de documento
-				dt.tiposDocumento = data.tiposDocumento;
-
 				//autorizaciones medicas
 				dt.autorizaciones = data.autorizaciones;
 
-				// console.log(data);
-				dt.consultaDetalle = false;
+				dt.primera = data.primera[0]; 
 
 			},function (error){
 
@@ -247,23 +192,57 @@
 
 		}
 
-		function muestraArchivo(imagen,ev){
-
-			$mdDialog.show({
-				templateUrl: 'views/visor.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
+		function nuevaAtencion(){
+			$mdBottomSheet.show({
+				templateUrl: 'views/opcionesGrid.html',
+				controllerAs: 'opt',
 				clickOutsideToClose:true,
-				locals:{imagen:imagen},
-				fullscreen: true,
-				controller: visorCtrl
-		    });
+				locals:{primera:dt.primera},
+				controller: function(primera){
+					var opt = this;
+					console.log(primera)
+					opt.items = [
+						{icon:'filter_1',name:'Primera Atención',disabled:primera == '' ? false:true},
+						{icon:'add_to_queue',name:'Subsecuencia',disabled:false},
+						{icon:'directions_walk',name:'Rehabiliticación',disabled:false}
+					];
+				}
+		    }).then(function(clickedItem) {
 
+		    });
+		}
+
+		
+		function nuevaEt1 (){
+
+			operacion.creaAtencion({folio:dt.folio,tipoAtn:1,consecutivo:1}).success(function (data){
+				dt.primera = data;
+			}).error(function (error){
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
+			});
+		}
+
+		function nuevaEt2 (){
+
+			dt.subsecuencias.push({
+				etapa:2,
+				entrega:dt.subsecuencias.length + 1,
+				imagenes:[],
+				estatus:'Sin Documentos'
+			});
+		}
+
+		function nuevaEt3 (){
+
+			dt.rehabilitaciones.push({
+				etapa:3,
+				entrega:dt.subsecuencias.length + 1,
+				imagenes:[],
+				estatus:'Sin Documentos'
+			});
 		}
 
 		function verificaImagenes (imagenes){
-
-
 
 		}
 

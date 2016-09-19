@@ -37,7 +37,7 @@ class FullscreenToggle extends Button {
     } else {
       this.controlText('Fullscreen');
     }
-  }  
+  }
   /**
    * Handles click for full screen
    *

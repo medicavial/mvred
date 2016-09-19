@@ -108,7 +108,7 @@
 		var bs = this;
 
 		//variable de error
-		var mensajeError = 'Ocurrio un error al guardar intentelo nuevamente';
+		var mensajeError = 'Ocurrio un error de conexión intentelo nuevamente';
 
 		// titulo en variable global
 		$rootScope.titulo = 'Consulta de registros';

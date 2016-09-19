@@ -16,9 +16,10 @@ class Imagenes extends Eloquent {
                                 WHEN Arc_autorizado = 1 THEN "Autorizado" 
                                 ELSE "En espera de Autorización" END as estatus, 
         			 		 CASE 
-                                WHEN Arc_rechazado = 1 THEN "error"
-                                WHEN Arc_autorizado = 1 THEN "cloud_done" 
-                                ELSE "cloud" END as  iconEstatus, Arc_clave as clave,
+                                WHEN Arc_rechazado = 1 THEN "indeterminate_check_box"
+                                WHEN Arc_autorizado = 1 THEN "check_box" 
+                                ELSE "check_box_outline_blank" END as  iconEstatus, 
+                            Arc_clave as clave,
                             Arc_motivo as motivo'
         			 	 ) )
         			 ->where('REG_folio',$folio)
@@ -27,7 +28,7 @@ class Imagenes extends Eloquent {
         			 ->first();
     }
 
-    public function scopeDisponibles($query,$folio,$etapa,$entrega)
+    public function scopeDisponibles($query,$atencion)
     {
         return $query->join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
         			 ->select( DB::raw(
@@ -37,14 +38,13 @@ class Imagenes extends Eloquent {
                                 WHEN Arc_autorizado = 1 THEN "Autorizado" 
                                 ELSE "En espera de Autorización" END as estatus, 
                              CASE 
-                                WHEN Arc_rechazado = 1 THEN "error"
-                                WHEN Arc_autorizado = 1 THEN "cloud_done" 
-                                ELSE "cloud" END as  iconEstatus, Arc_clave as clave,
+                                WHEN Arc_rechazado = 1 THEN "indeterminate_check_box"
+                                WHEN Arc_autorizado = 1 THEN "check_box" 
+                                ELSE "check_box_outline_blank" END as  iconEstatus, 
+                            Arc_clave as clave,
                             Arc_motivo as motivo'
         			 	 ) )
-        			 ->where('REG_folio',$folio)
-        			 ->where('Exp_etapa',$etapa)
-        			 ->where('Exp_entrega',$entrega)
+        			 ->where('ATN_clave',$atencion)
         			 ->orderBy('TID_orden')
         			 ->orderBy('Arc_cons')
         			 ->get();

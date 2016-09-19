@@ -73,13 +73,15 @@ MediaError.prototype.message = '';
  */
 MediaError.prototype.status = null;
 
+// These errors are indexed by the W3C standard numeric value. The order
+// should not be changed!
 MediaError.errorTypes = [
-  'MEDIA_ERR_CUSTOM',            // = 0
-  'MEDIA_ERR_ABORTED',           // = 1
-  'MEDIA_ERR_NETWORK',           // = 2
-  'MEDIA_ERR_DECODE',            // = 3
-  'MEDIA_ERR_SRC_NOT_SUPPORTED', // = 4
-  'MEDIA_ERR_ENCRYPTED'          // = 5
+  'MEDIA_ERR_CUSTOM',
+  'MEDIA_ERR_ABORTED',
+  'MEDIA_ERR_NETWORK',
+  'MEDIA_ERR_DECODE',
+  'MEDIA_ERR_SRC_NOT_SUPPORTED',
+  'MEDIA_ERR_ENCRYPTED'
 ];
 
 MediaError.defaultMessages = {
@@ -92,7 +94,7 @@ MediaError.defaultMessages = {
 
 // Add types as properties on MediaError
 // e.g. MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED = 4;
-for (var errNum = 0; errNum < MediaError.errorTypes.length; errNum++) {
+for (let errNum = 0; errNum < MediaError.errorTypes.length; errNum++) {
   MediaError[MediaError.errorTypes[errNum]] = errNum;
   // values should be accessible on both the class and instance
   MediaError.prototype[MediaError.errorTypes[errNum]] = errNum;

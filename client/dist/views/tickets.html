@@ -1,14 +1,14 @@
 <md-toolbar ng-class="dt.bg">
   <div class="md-toolbar-tools">
-    <md-button class="md-icon-button" aria-label="Settings">
-      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon> 
     </md-button>
     <h2>
       <span>Problemas del Expediente</span>
     </h2>
     <span flex></span>
-    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
-        <ng-md-icon icon="close"></ng-md-icon> 
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
     </md-button>
   </div>
 </md-toolbar>
@@ -33,12 +33,12 @@
 				
 				<md-input-container flex>
 					<label>Ticket #</label>
-					<input type="text" ng-model="ticket.TSeg_clave">
+					<input type="text" ng-model="ticket.TSeg_clave" disabled>
 				</md-input-container>
 
 				<md-input-container flex>
 					<label>Fecha de Registro</label>
-					<input type="text" ng-model="ticket.TSeg_fechareg">
+					<input type="text" ng-model="ticket.TSeg_fechareg" disabled>
 				</md-input-container>
 
 			</div>
@@ -47,31 +47,31 @@
 				
 				<md-input-container flex>
 					<label>Estatus</label>
-					<input type="text" ng-model="ticket.TStatus_nombre">
+					<input type="text" ng-model="ticket.TStatus_nombre" disabled>
 				</md-input-container>
 
 				<md-input-container flex>
 					<label>Fecha de Ultimo Movimiento</label>
-					<input type="text" ng-model="ticket.TSeg_fechaactualizacion">
+					<input type="text" ng-model="ticket.TSeg_fechaactualizacion" disabled>
 				</md-input-container>
 
 			</div>
 
 			<md-input-container flex>
 				<label>Motivo</label>
-				<input type="text" ng-model="ticket.TCat_nombre">
+				<input type="text" ng-model="ticket.TCat_nombre" disabled>
 			</md-input-container>
 
 			<md-input-container flex>
 				<label>Descripcion</label>
-				<input type="text" ng-model="ticket.TSub_nombre">
+				<input type="text" ng-model="ticket.TSub_nombre" disabled>
 			</md-input-container>
 
 			
 
 			<md-input-container class="md-block">
 	          <label>Observaciones Iniciales</label>
-	          <textarea ng-model="ticket.TSeg_obs" rows="5"></textarea>
+	          <textarea ng-model="ticket.TSeg_obs" disabled></textarea>
 	        </md-input-container>
 			
 		</div>
@@ -92,5 +92,9 @@
 	
 	<br>
 </div>
+
+<md-content class="md-whiteframe-2dp" ng-if="dt.tickets.length == 0">
+  <md-subheader class="md-no-sticky">Sin Tickets registrados</md-subheader>
+</md-content>
 
 

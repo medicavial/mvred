@@ -87,6 +87,16 @@
 				size:'84',
 				permiso:true,
 				url:'index.busquedaGeneral'
+			},
+			{
+				nombre:'Alta Documentos',
+				background:'bgm-indigo',
+				icon:'style',
+				col:'1',
+				row:'1',
+				size:'84',
+				permiso:true,
+				url:'index.documentos'
 			}
 		];
 

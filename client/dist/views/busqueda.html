@@ -9,8 +9,13 @@
         </md-input-container>
 
         <md-input-container flex>
-          <label>Folio</label>
+          <label>Folio MV</label>
           <input name="folio" ng-model="bs.datos.folio" folio>          
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Folio Interno</label>
+          <input name="folio" ng-model="bs.datos.folioInt">          
         </md-input-container>
         
         <div layout="column" layout-align="center center" flex>
@@ -21,14 +26,15 @@
     </md-content>
     </form>
     <br>
-    <div flex>
-      
-      <md-table-container class="md-whiteframe-2dp white">
+    <div class="md-whiteframe-2dp white" flex>
+      <md-subheader class="md-primary md-no-sticky">Resutados de: {{ bs.busqueda }}</md-subheader>
+      <md-table-container>
         <table md-table md-progress="bs.consulta">
           <thead md-head md-order="bs.datos.order" md-on-reorder="bs.buscar">
             <tr md-row>
               <th md-column md-order-by="Cia_clave">Cliente</th>
-              <th md-column md-order-by="Exp_folio">Folio</th>
+              <th md-column md-order-by="Exp_folio">Folio MV</th>
+              <th md-column md-order-by="Exp_fq">Folio Interno</th>
               <th md-column md-order-by="Exp_completo">Lesionado</th>
               <th md-column md-order-by="Exp_fecreg">Registro</th>
               <th md-column md-order-by="Exp_obs">Observaciones</th>
@@ -41,6 +47,7 @@
                 <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> 
               </td>
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_folio}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fq}}</td>
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_completo}}</td>
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fecreg}}</td>
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_obs}}</td>
@@ -72,7 +79,7 @@
         <md-table-pagination md-limit="bs.datos.limit" md-limit-options="bs.paginacion" md-page="bs.datos.page" md-total="{{bs.total}}" md-on-paginate="bs.buscar" md-label="{page: 'Página:', rowsPerPage: 'Resultados por página:', of: 'de'}" md-page-select></md-table-pagination  md-page-select="bs.pageSelect">
       </md-table-container>
       
-
+    </div>
     <br>
 
   

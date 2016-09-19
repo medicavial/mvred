@@ -29,6 +29,26 @@ h1,h2,h3,h4{
 }
 
 
+md-bottom-sheet.md-grid md-list-item .md-grid-item-content {
+    border: 1px solid transparent;
+    height: 90px;
+    padding-top: 10px;
+    width: 160px;
+}
+
+
+
+md-bottom-sheet.md-grid md-list-item .md-grid-item-content ng-md-icon {
+  height: 48px;
+  width: 48px; 
+}
+
+md-bottom-sheet.md-grid md-list-item .md-grid-item-content .md-grid-text {
+  padding-bottom: 5px; 
+  width: 100%;
+}
+
+
 md-content.md-theme1-theme {
     background-color: white;
 }
@@ -438,6 +458,11 @@ md-toast.info .md-toast-content {
   margin-left: auto;
   margin-right: auto;
   left: 0; right: 0;
+}
+
+.imagen-chica{
+  height: 50px;
+  margin-right: 5px;
 }
 
 .right{

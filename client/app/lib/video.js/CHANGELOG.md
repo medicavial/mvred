@@ -6,6 +6,32 @@ _(none)_
 
 --------------------
 
+## 5.13.0 (2016-08-25)
+_(none)_
+
+## 5.12.0 (2016-08-25)
+* @misteroneill, @BrandonOCasey, and @pagarwal123 updates all the code to pass the linter ([view](https://github.com/videojs/video.js/pull/3459))
+* @misteroneill added ghooks to run linter on git push ([view](https://github.com/videojs/video.js/pull/3459))
+* @BrandonOCasey removed unused base-styles.js file ([view](https://github.com/videojs/video.js/pull/3486))
+* @erikyuzwa, @gkatsev updated CSS build to inlcude the IE8-specific CSS from a separate file instead of it being inside of sass ([view](https://github.com/videojs/video.js/pull/3380)) ([view2](https://github.com/erikyuzwa/video.js/pull/1))
+* @gkatsev added null checks around navigator.userAgent ([view](https://github.com/videojs/video.js/pull/3502))
+* greenkeeper updated karma dependencies ([view](https://github.com/videojs/video.js/pull/3523))
+* @BrandonOCasey updated language docs to link to IANA language registry ([view](https://github.com/videojs/video.js/pull/3493))
+* @gkatsev removed unused dependencies ([view](https://github.com/videojs/video.js/pull/3516))
+* @misteroneill enabled and updated videojs-standard and fixed an issue with linting ([view](https://github.com/videojs/video.js/pull/3508))
+* @misteroneill updated tests to qunit 2.0 ([view](https://github.com/videojs/video.js/pull/3509))
+* @gkatsev added slack badge to README ([view](https://github.com/videojs/video.js/pull/3527))
+* @gkatsev reverted back to qunitjs 1.x to unbreak IE8. Added es5-shim to tests ([view](https://github.com/videojs/video.js/pull/3533))
+* @gkatsev updated build system to open es5 folder for bundles and dist folder other users ([view](https://github.com/videojs/video.js/pull/3445))
+* greenkeeper updated uglify ([view](https://github.com/videojs/video.js/pull/3547))
+* greenkeeper updated grunt-concurrent ([view](https://github.com/videojs/video.js/pull/3532))
+* greenkeeper updated karma-chrome-launcher ([view](https://github.com/videojs/video.js/pull/3553))
+* @gkatsev added tests for webpack and browserify bundling and node.js requiring ([view](https://github.com/videojs/video.js/pull/3558))
+* @rlchung fixed tests that weren't disposing players when they finished ([view](https://github.com/videojs/video.js/pull/3524))
+
+## 5.11.6 (2016-08-25)
+* @imbcmdth Added exception handling to event dispatcher ([view](https://github.com/videojs/video.js/pull/3580))
+
 ## 5.11.5 (2016-08-25)
 * @misteroneill fixed wrapping native and emulated MediaErrors ([view](https://github.com/videojs/video.js/pull/3562))
 * @snyderizer fixed switching between audio tracks. Fixes #3510 ([view](https://github.com/videojs/video.js/pull/3538))

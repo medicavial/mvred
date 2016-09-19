@@ -53,10 +53,12 @@ Route::group(array('prefix' => 'api'), function()
     Route::group(array('prefix' => 'busqueda'), function(){
 
         Route::get('ajustadores/{localidad}', array('uses' => 'BusquedasController@ajustadores'));
+        Route::get('atenciones/{folio}', array('uses' => 'BusquedasController@atenciones'));
         Route::get('autorizaciones/{folio}', array('uses' => 'BusquedasController@autorizaciones'));
         Route::get('clientes', array('uses' => 'BusquedasController@clientes'));
+        Route::get('detalleAtencion/{clave}', array('uses' => 'BusquedasController@detalleAtencion'));
         Route::get('detalleFolio/{folio}', array('uses' => 'BusquedasController@detalleFolio'));
-        Route::get('documentos', array('uses' => 'BusquedasController@documentos'));
+        Route::get('documentos/{atencion}/{producto}', array('uses' => 'BusquedasController@documentos'));
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
         Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
         Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));
@@ -65,17 +67,20 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('riesgos', array('uses' => 'BusquedasController@riesgos'));
         Route::get('registros', array('uses' => 'BusquedasController@registros'));
         Route::get('registrosGlobales', array('uses' => 'BusquedasController@registrosGlobales'));
+        Route::get('tiposAtencion', array('uses' => 'BusquedasController@tiposAtencion'));
         Route::get('tiposDocumento', array('uses' => 'BusquedasController@tiposDocumento'));
-        Route::get('tipos', array('uses' => 'BusquedasController@tipos'));
+        Route::get('tiposTelefono', array('uses' => 'BusquedasController@tiposTelefono'));
 
     });
 
     Route::group(array('prefix' => 'operacion'), function(){
-        Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
+        Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
+        Route::post('documentos', array('uses' => 'OperacionController@documentos'));
         Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));
+        Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
-        Route::post('autorizacion/et1', array('uses' => 'OperacionController@solicitaAutorizacionET1'));
+        Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
         Route::post('verificaDuplicado', array('uses' => 'OperacionController@verificaDuplicado'));
     });
 

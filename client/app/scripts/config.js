@@ -50,6 +50,7 @@
 			templateUrl: 'views/base.html'
 		})
 
+
 		.state('index.ayuda',{
 			url:'ayuda',
 			templateUrl :'views/ayuda.html',
@@ -69,6 +70,30 @@
 			templateUrl :'views/busqueda.html',
 			controller:'busquedaGeneralCtrl',
 			controllerAs:'bs'
+		})
+
+		.state('index.documentos',{
+			url:'documentos',
+			templateUrl :'views/documentos.html',
+			controller:'documentosCtrl',
+			controllerAs:'dc',
+			resolve : {
+				datos : function(busqueda,$q){
+					var promesa 		= $q.defer(),
+						documentos 		= busqueda.documentos(),
+						productos 		= busqueda.productos(),
+						tiposAtencion   = busqueda.tiposAtencion(),
+						tiposDocumento 	= busqueda.tiposDocumento();
+
+					$q.all([documentos,tiposDocumento,tiposAtencion,productos]).then(function (data){
+						promesa.resolve(data);
+					},function (error){
+						promesa.reject('Error');
+					});
+
+					return promesa.promise;
+				}
+			}
 		})
 
 		.state('index.estadisticas',{
