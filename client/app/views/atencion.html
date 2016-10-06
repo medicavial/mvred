@@ -1,14 +1,26 @@
 <md-progress-linear md-mode="indeterminate" ng-if="atn.cargando"></md-progress-linear>
 <md-content class="md-whiteframe-2dp" ng-style="atn.opacidad">
-    <md-subheader class="md-no-sticky">
-      Primera Atención - 
-      <span ng-if="atn.imagenes.length == 0">Sin Documentos</span> 
-      <span ng-if="atn.datos.ATN_estatus == 0 && atn.imagenes.length > 0">Sin Solicitar</span> 
-      <span ng-if="atn.datos.ATN_estatus == 1">Solicitado</span>
-      <span ng-if="atn.datos.ATN_estatus == 2">Aprobado</span> 
-      <span ng-if="atn.datos.ATN_estatus == 3">Rechazado</span>  
-      <span ng-if="atn.datos.ATN_estatus == 4">Completo</span> 
-    </md-subheader>
+    
+    <div layout="row">
+      <md-subheader class="md-no-sticky">
+        {{ ::atn.datos.TIA_nombre }} - 
+        <span ng-if="atn.imagenes.length == 0">Sin Documentos</span> 
+        <span ng-if="atn.datos.ATN_estatus == 0 && atn.imagenes.length > 0">Sin Solicitar</span> 
+        <span ng-if="atn.datos.ATN_estatus == 1">Solicitado</span>
+        <span ng-if="atn.datos.ATN_estatus == 2">Aprobado</span> 
+        <span ng-if="atn.datos.ATN_estatus == 3">Rechazado</span>  
+        <span ng-if="atn.datos.ATN_estatus == 4">Completo</span> 
+      </md-subheader>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Actualizar" ng-click="atn.cargaInfo()">
+        <md-tooltip md-direction="top">
+          Actualizar
+        </md-tooltip>
+        <ng-md-icon icon="refresh"></ng-md-icon>
+      </md-button>
+      
+      
+    </div>
     <md-divider></md-divider>
     <md-tabs md-selected="atn.tabPrimera" md-dynamic-height class="TabPanel">
     
@@ -44,9 +56,9 @@
                 
               </div>
               <div layout="row" layout-align="center center" flex>
-                <md-progress-circular md-mode="determinate" md-diameter="40" value="{{ atn.porcentaje }}" ng-if="atn.porcentaje"></md-progress-circular>
+                <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.subiendoImagen"></md-progress-circular>
               </div>
-              <div class="drop-box" ng-if="atn.tipo" ngf-drop accept="'.pdf,image/*'" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'.pdf,image/*'" ngf-change="atn.subirDigitales($files,atn.tipo,$event)" flex>
+              <div class="drop-box" ng-if="atn.tipo" ngf-drop accept="'.pdf,image/*'" ngf-drag-over-class="dragover" ngf-multiple="false" ngf-pattern="'.pdf,image/*'" ngf-change="atn.subirDigitales($files,atn.tipo,$event)" flex>
                   Arrastra tus archivos aqui
               </div>
 
@@ -62,9 +74,9 @@
                 <md-toolbar layout="row" class="md-hue-1">
                   <div class="md-toolbar-tools">
                     <md-button class="md-icon-button" aria-label="Estatus" ng-disabled="true">
-                      <ng-md-icon icon="{{ value[0].estatusGlobalIcon }}" style="fill:white"></ng-md-icon>
+                      <ng-md-icon icon="{{ ::value[0].estatusGlobalIcon }}" style="fill:white"></ng-md-icon>
                     </md-button>
-                    <span>{{ key }}</span>
+                    <span>{{ ::key }}</span>
                     <span flex></span>
                     <md-button class="md-icon-button" aria-label="Motivo" ng-if=" value[0].estatusGlobal == 2 " ng-click="atn.motivo(value[0].motivoGlobal,$event)">
                       <ng-md-icon icon="description"></ng-md-icon>
@@ -74,7 +86,7 @@
                 <md-list>
                   
                   <md-list-item ng-repeat="imagen in value" ng-click="atn.muestraArchivo(imagen,$event)">
-                    <ng-md-icon icon="{{ imagen.iconEstatus }}"></ng-md-icon> 
+                    <ng-md-icon icon="{{ ::imagen.iconEstatus }}"></ng-md-icon> 
                     <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
                     <p class="padding-left">{{ $index + 1 }} ({{ imagen.estatus }})</p>
                     <ng-md-icon aria-label="Motivo Rechazo" icon="description" class="md-secondary" ng-if="imagen.estatus == 'Rechazado' " ng-click="atn.motivo(imagen.motivo,$event)">
@@ -82,7 +94,7 @@
                         Motivo Rechazo
                       </md-tooltip>
                     </ng-md-icon>
-                    <ng-md-icon aria-label="Elminar Archivo" icon="delete" class="md-secondary" ng-click="atn.eliminarDigitales(imagen,$index,$event,1,1)">
+                    <ng-md-icon aria-label="Elminar Archivo" icon="delete" class="md-secondary" ng-click="atn.eliminarDigitales(imagen,$event)">
                       <md-tooltip md-direction="top">
                         Eliminar Archivo
                       </md-tooltip>
@@ -94,14 +106,39 @@
                 </md-list>
 
               </div>
+              
+              <md-content ng-if=" atn.requisitos.length && atn.anotaciones.length == 0 && atn.imagenes.length " layout="column" layout-padding>
 
-              <md-button aria-label="Terminar" ng-if="atn.imagenes.length" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0">Terminar</md-button>
+                <md-toolbar layout="row" class="md-hue-1">
+                  <div class="md-toolbar-tools">
+                    <md-button class="md-icon-button" aria-label="Estatus" ng-disabled="true">
+                      <ng-md-icon icon="text_fields" style="fill:white"></ng-md-icon>
+                    </md-button>
+                    <span>Datos Adicionales</span>
+                  </div>
+                </md-toolbar>
+                
+                <form name="atn.requisitosForm" layout="column" >
+                    
+                  <md-input-container ng-repeat=" requisito in atn.requisitos" flex>
+                    <label>{{ ::requisito.REQ_valor }}</label>
+                    <input ng-model="requisito.valor" ng-required="requisito.REQ_obligatorio == '1' ">
+                  </md-input-container>
+
+                </form>
+                
+                
+              </md-content>
+
+              
+              <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.solicitando"></md-progress-circular>
+              <md-button aria-label="Terminar" ng-if="atn.imagenes.length || !atn.solicitando" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Terminar</md-button>
 
             </section>
 
             <div flex></div>
           </md-content>
-
+          
 
         </md-tab-body>
 
@@ -112,8 +149,6 @@
         <md-tab-label>Facturación</md-tab-label>
         <md-tab-body>
           <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
-            
-            
           </md-content>
         </md-tab-body>
 

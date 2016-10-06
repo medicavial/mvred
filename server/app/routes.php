@@ -13,21 +13,21 @@
 
 
 include(app_path() . '/classes/Historico.php');
+include(app_path() . '/classes/Accion.php');
 
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-
-Route::get('/info', function()
-{
-    phpinfo();
+Route::get('/', function () { 
+    return View::make('hello'); 
 });
 
 
 Route::group(array('prefix' => 'api'), function()
 {
+
+    Route::get('/info', function()
+    {
+        phpinfo();
+    });
 
 	Route::get('/', function()
 	{
@@ -40,8 +40,7 @@ Route::group(array('prefix' => 'api'), function()
         // PDF::Write(0, 'Hello World');
         // PDF::Output(public_path() . 'hello_world.pdf','FD');
 
-        return Imagenes::where('REG_folio','PRMV000116')->max('Arc_cons') + 1;
-
+        // return Expediente::where('Exp_folio' ,'PRMV000121')->select('*')->first()
 
 
     });
@@ -62,6 +61,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
         Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
         Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));
+        Route::get('productoAtencionDocumentos', array('uses' => 'BusquedasController@productoAtencionDocumentos'));
         Route::get('productos', array('uses' => 'BusquedasController@productos'));
         Route::get('productos/{cliente}/{localidad}', array('uses' => 'BusquedasController@productosCliente'));
         Route::get('riesgos', array('uses' => 'BusquedasController@riesgos'));
@@ -74,17 +74,19 @@ Route::group(array('prefix' => 'api'), function()
     });
 
     Route::group(array('prefix' => 'operacion'), function(){
+        Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
         Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));
         Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));
+        Route::get('portada/{folio}', array('uses' => 'OperacionController@generaPortada'));
         Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
-        Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
         Route::post('verificaDuplicado', array('uses' => 'OperacionController@verificaDuplicado'));
     });
 
     Route::group(array('prefix' => 'reportes'), function(){
+        Route::get('atenciones/{unidad}', array('uses' => 'ReportesController@atencionesUnidad'));
         Route::get('atenciones/anio/{unidad}', array('uses' => 'ReportesController@atencionesUnidadAnio'));
         Route::get('atenciones/mes/{unidad}', array('uses' => 'ReportesController@atencionesUnidadMes'));
     });

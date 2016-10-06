@@ -1,0 +1,70 @@
+<div layout="column">
+    
+    <md-data-table-toolbar class="md-whiteframe-z1">
+      <md-input-container md-no-float flex class="no-padding">
+        <md-icon>
+          <ng-md-icon icon="search" style="fill:#3F51B5"></ng-md-icon> 
+        </md-icon>
+        <input ng-model="query" type="text" placeholder="Buscar SubTipo Item" flex>
+      </md-input-container>
+      <md-button class="md-icon-button" aria-label="limpiar" ng-show="query" ng-click="query = ''">
+        <ng-md-icon icon="close" style="fill:#3F51B5"></ng-md-icon> 
+      </md-button>
+    </md-data-table-toolbar>
+    <br>
+    <md-data-table-container class="md-whiteframe-z1">
+      <table md-data-table>
+        <thead md-order="subtipositem.order" md-trigger="subtipositem.onOrderChange">
+          <tr>
+            <th name="ID"  order-by="STI_clave"></th>
+            <th name="Nombre" order-by="STI_nombre"></th>
+            <th name="Fecha Alta"  order-by="created_at"></th>
+            <th name="Activo"  order-by="STI_activo"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="tipo in subtipositem.info |filter:query | orderBy: subtipositem.order | limitTo: subtipositem.limit: (subtipositem.page - 1) * subtipositem.limit">
+            <td>{{tipo.STI_clave}}</td>
+            <td>{{tipo.STI_nombre}}</td>
+            <td>{{tipo.created_at}}</td>
+            <td>
+              <div ng-show="tipo.STI_activo">SI</div>
+              <div ng-hide="tipo.STI_activo">NO</div>
+            </td>
+            <td class="option-table">
+                <md-menu md-position-mode="target-right target" >
+                  <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
+                    <md-icon md-menu-origin>
+                      <ng-md-icon icon="more_vert" style="fill:#3F51B5"></ng-md-icon> 
+                    </md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button ng-click="subtipositem.editaTipo($event,$index)">
+                        <p>Modificar</p>
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button ng-click="subtipositem.confirmacion($event,$index)">
+                        <p ng-show="tipo.STI_activo" >Desactivar</p>
+                        <p ng-hide="tipo.STI_activo" >Activar</p>
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-data-table-container>
+    <br>
+    <md-data-table-pagination md-label="subtipositem.texto" md-row-select="subtipositem.paginacion" md-limit="subtipositem.limit" md-page="subtipositem.page" md-total="{{subtipositem.info.length}}"></md-data-table-pagination>
+
+</div>
+
+<md-button id="nuevo" class="md-fab md-fab-bottom-right" ng-click="subtipositem.nuevoTipo($event)" aria-label="Nuevo Estado">
+    <md-tooltip md-direction="top">
+      Nuevo
+    </md-tooltip>
+    <ng-md-icon icon="add" style="fill:white"></ng-md-icon> 
+</md-button>

@@ -10,10 +10,11 @@ class BusquedasController extends BaseController {
 		
 	}
 
+	//da el detalle de una atencion
 	public function detalleAtencion($clave){
 
 		$respuesta = array();
-		$atencion = Atencion::find($clave);
+		$atencion = Atencion::join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')->find($clave);
 
 		$folio = $atencion->Exp_folio;
 		$tipoAtn = $atencion->TIA_clave;
@@ -22,9 +23,17 @@ class BusquedasController extends BaseController {
 		$tiposDocumento = $this->documentos($tipoAtn,$producto);
 		$imagenes = $this->imagenes($clave);
 
+		//requisitos de una atencion
+		$requisitos = Requisito::where('TIA_clave',$tipoAtn)->get();
+
+		//anotaciones que ya se generaron segun los requisitos
+		$anotaciones = Anotacion::where('ATN_clave',$clave)->get();
+
 		$respuesta['info'] = $atencion;
 		$respuesta['tipos'] = $tiposDocumento;
 		$respuesta['imagenes'] = $imagenes;
+		$respuesta['requisitos'] = $requisitos;
+		$respuesta['anotaciones'] = $anotaciones;
 
 		return $respuesta;
 		
@@ -70,10 +79,16 @@ class BusquedasController extends BaseController {
 	//genera un detalle de folio
 	public function detalleFolio($folio){
 
+		// si no tiene el codigo lo genera 
+		if (! File::exists( public_path() . '/codigos/'. $folio .'.png' )){
+			// mandamos a llamar la accion del controlador para generar codigos
+		    App::make('OperacionController')->generaCodigo($folio);
+		}
+
 		return Expediente::join('Unidad','Unidad.Uni_clave','=','Expediente.Uni_clave')
 					     ->join('Producto','Producto.Pro_clave','=','Expediente.Pro_clave')
 					     ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-					     ->join('RiesgoAfectado','RiesgoAfectado.RIE_clave','=','Expediente.RIE_clave')
+					     ->leftJoin('RiesgoAfectado','RiesgoAfectado.RIE_clave','=','Expediente.RIE_clave')
 						 ->where('Exp_folio',$folio)
 						 ->first();
 	}
@@ -130,7 +145,7 @@ class BusquedasController extends BaseController {
 			}
 
 			$imagenesEt1 = Imagenes::join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
-								   ->where( array( 'REG_folio' => $folio,'Exp_etapa' => 1 ) )->get();
+								   ->where( array( 'REG_folio' => $folio) )->get();
 
 			foreach ($imagenesEt1 as $imagen) {
 				$altaImagen = array('fecha'=> $imagen->Arc_fecreg,'titulo' => 'Se ingreso imagen : '.$imagen->TID_nombre,'descripcion' => 'Se ingresó imagen del folio por el usuario ' .$imagen->USU_login);
@@ -193,6 +208,12 @@ class BusquedasController extends BaseController {
 
 	}
 
+	//funcion que devuelve los documentos disponibles segun el producto y tipo atencion
+	function productoAtencionDocumentos(){
+		$producto = Input::get('producto');
+		$atencion = Input::get('atencion');
+		return AtencionDocumento::where( array( 'Pro_clave' => $producto,'TIA_clave' => $atencion) )->get();
+	}
 
 	// muestra toos los producto activos
 	public function productos(){

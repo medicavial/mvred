@@ -80,12 +80,11 @@
 			resolve : {
 				datos : function(busqueda,$q){
 					var promesa 		= $q.defer(),
-						documentos 		= busqueda.documentos(),
 						productos 		= busqueda.productos(),
 						tiposAtencion   = busqueda.tiposAtencion(),
 						tiposDocumento 	= busqueda.tiposDocumento();
 
-					$q.all([documentos,tiposDocumento,tiposAtencion,productos]).then(function (data){
+					$q.all([tiposDocumento,tiposAtencion,productos]).then(function (data){
 						promesa.resolve(data);
 					},function (error){
 						promesa.reject('Error');

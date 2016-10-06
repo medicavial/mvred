@@ -15,6 +15,7 @@
             detalleAtencion : detalleAtencion,
             detalleFolio : detalleFolio,
             documentosAtencion:documentosAtencion,
+            productoAtencionDocumentos:productoAtencionDocumentos,
             productos: productos,
             productosCliente : productosCliente,
             registros : registros,
@@ -27,11 +28,27 @@
 
         return servicio;
 
+        //funcion que convierte json en parametros get
+        function serializeObj(obj) {
+            var result = [];
+
+            for (var property in obj)
+                result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+
+            return result.join("&");
+        }
+
 
         //tipos de ajustadores por localidad
         function ajustadores(){
             return $http.get(api + 'busqueda/ajustadores/' + $rootScope.localidad ,{timeout: 10000});
         };
+
+        //funcion que busca los documentos dados de alta segun la atencion y el producto
+        function productoAtencionDocumentos(datos){
+            var parametros = serializeObj(datos);
+            return $http.get( api + 'busqueda/productoAtencionDocumentos?' + parametros,{timeout: 10000});
+        }
 
         //consulta de clientes activos
         function clientes(){
@@ -55,13 +72,16 @@
 
                 var atenciones = data[3].data;
                 var primera = $filter('filter')(atenciones,{TIA_clave:1});
+                var subsecuencias = $filter('filter')(atenciones,{TIA_clave:2});
+                var rehabilitaciones = $filter('filter')(atenciones,{TIA_clave:3});
 
                 var datos = {
                     tickets : data[0].data,
                     historial:data[1].data,
                     autorizaciones:data[2].data,
-                    primera:primera
-                    
+                    primera:primera,
+                    subsecuencias:subsecuencias,
+                    rehabilitaciones:rehabilitaciones
                 }
 
                 promesa.resolve(datos);
@@ -84,7 +104,9 @@
                 var datos = {
                     tipos : datos.data.tipos,
                     imagenes:datos.data.imagenes,
-                    info:datos.data.info
+                    info:datos.data.info,
+                    requisitos:datos.data.requisitos,
+                    anotaciones:datos.data.anotaciones
                 }
 
                 promesa.resolve(datos);

@@ -96,7 +96,6 @@
 		dt.nuevaEt1 = nuevaEt1;
 		dt.nuevaEt2 = nuevaEt2;
 		dt.nuevaEt3 = nuevaEt3;
-		dt.subirDigitalesEt2 = subirDigitalesEt2;
 
 
 		function inicio(){
@@ -142,33 +141,6 @@
 
 		
 
-		function subirDigitalesEt2(index,files,tipo,entrega){
-
-			var subsecuencia = dt.subsecuencias[index];
-
-			operacion.subirImagenes(dt.folio,tipo,files,2,entrega).then(
-
-				function (data){
-					console.log(data);
-					subsecuencia.imagenes.push(data);
-					dt.porcentaje = '';
-					dt.tipoEt2 = '';
-				},	
-				function (error){
-					mensajes.alerta(error,'error','top right','error');
-					dt.porcentaje = '';
-				},
-				function (porcentaje){
-					// console.log(porcentaje);
-					dt.porcentaje = porcentaje;
-				}
-
-			)
-			
-		}
-
-		
-
 		function cargaDatosFolio (folio) {
 
 			busqueda.datosExpediente(folio).then(function (data){
@@ -182,6 +154,9 @@
 				dt.autorizaciones = data.autorizaciones;
 
 				dt.primera = data.primera[0]; 
+
+				dt.subsecuencias = data.subsecuencias;
+				dt.rehabilitaciones = data.rehabilitaciones;
 
 			},function (error){
 
@@ -198,17 +173,24 @@
 				controllerAs: 'opt',
 				clickOutsideToClose:true,
 				locals:{primera:dt.primera},
-				controller: function(primera){
+				controller: function(primera,$mdBottomSheet){
 					var opt = this;
 					console.log(primera)
 					opt.items = [
-						{icon:'filter_1',name:'Primera Atención',disabled:primera == '' ? false:true},
-						{icon:'add_to_queue',name:'Subsecuencia',disabled:false},
-						{icon:'directions_walk',name:'Rehabiliticación',disabled:false}
+						{icon:'filter_1',name:'Primera Atención',disabled:primera == undefined ? false:true},
+						{icon:'add_to_queue',name:'Subsecuencia',disabled:primera == undefined ? true:false},
+						{icon:'directions_walk',name:'Rehabiliticación',disabled:primera == undefined ? true:false}
 					];
-				}
-		    }).then(function(clickedItem) {
 
+					opt.opcion = function(index){
+						$mdBottomSheet.hide(index);
+					}
+				}
+		    }).then(function(opcion) {
+
+		    	if (opcion == 0) nuevaEt1();
+		    	if (opcion == 1) nuevaEt2();
+		    	if (opcion == 2) nuevaEt3();
 		    });
 		}
 
@@ -224,25 +206,21 @@
 
 		function nuevaEt2 (){
 
-			dt.subsecuencias.push({
-				etapa:2,
-				entrega:dt.subsecuencias.length + 1,
-				imagenes:[],
-				estatus:'Sin Documentos'
+			operacion.creaAtencion({folio:dt.folio,tipoAtn:2,consecutivo: dt.subsecuencias.length + 1 }).success(function (data){
+				dt.subsecuencias.push(data);
+			}).error(function (error){
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
 			});
+
 		}
 
 		function nuevaEt3 (){
 
-			dt.rehabilitaciones.push({
-				etapa:3,
-				entrega:dt.subsecuencias.length + 1,
-				imagenes:[],
-				estatus:'Sin Documentos'
+			operacion.creaAtencion({folio:dt.folio,tipoAtn:3,consecutivo:dt.rehabilitaciones.length + 1}).success(function (data){
+				dt.rehabilitaciones.push(data);
+			}).error(function (error){
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
 			});
-		}
-
-		function verificaImagenes (imagenes){
 
 		}
 
@@ -281,8 +259,8 @@
 	    }
 
 		$scope.obtenerFrame = function(src) {
-	        // return 'http://medicavial.net/registro/' + $scope.archivo + '/' + $scope.imagen;
-	        return 'http://localhost/registro/' + $scope.archivo + '/' + $scope.imagen;
+	        return 'http://medicavial.net/registro/' + $scope.archivo + '/' + $scope.imagen;
+	        // return 'http://localhost/registro/' + $scope.archivo + '/' + $scope.imagen;
 	    };
 	}
 

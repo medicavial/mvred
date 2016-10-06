@@ -1,0 +1,125 @@
+<md-content class="md-whiteframe-2dp" ng-init="dt.inicio()">
+    
+  <div layout="row">
+    <md-subheader class="md-no-sticky">Datos Generales</md-subheader>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.muestraPanel()">
+        <ng-md-icon icon="{{dt.iconPanel}}" options='{"rotation": "Clockwise","duration":"250"}'></ng-md-icon> 
+    </md-button>
+  </div>
+  <md-divider></md-divider>
+
+  <div ng-show="dt.detalle" class="detalle">
+      
+    <section layout-gt-xs="row" layout="column"  layout-align="center center" layout-margin>
+
+        <div class="text-center" flex="100" flex-gt-xs="33">
+          <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ dt.dato.Cia_logo }}" class="img-registro" alt="cliente">
+        </div>
+
+        <div class="text-center" flex="100" flex-gt-xs="33">
+          <img ng-src="{{ dt.codigo }}" class="img-registro" alt="folio">
+        </div>
+
+        <div class="text-center" flex="100" flex-gt-xs="33">
+          <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ dt.dato.Pro_img }}" class="img-registro" alt="producto">
+        </div>
+
+    </section>
+
+    <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
+
+        <div class="text-center" flex="100" flex-gt-xs="33">                      
+            <strong>Folio MV: {{ dt.dato.Exp_folio }}</strong> <br>
+            Lesionado: {{ dt.dato.Exp_completo }}  <br>
+            Póliza: {{ dt.dato.Exp_poliza }}  <br>
+            Riesgo: {{ dt.dato.RIE_nombre }} <br>
+            Usuario: {{ dt.dato.Usu_registro }} <br>
+        </div>
+        <div class="text-center" flex="100" flex-gt-xs="33">
+            Compañia: {{ dt.dato.Cia_nombrecorto }} <br>
+            Siniestro: {{ dt.dato.Exp_siniestro }} <br>
+            Reporte: {{ dt.dato.Exp_reporte }} <br>
+            <strong>Registro: {{ dt.dato.Exp_fecreg }}</strong> <br>
+            Unidad Médica: {{ dt.dato.UNI_nombreMV }} <br>
+        </div>
+        <div class="text-center" flex="100" flex-gt-xs="33">
+            Observaciones: {{ dt.dato.Exp_obs }} <br>
+            Extemporaneo: <span ng-if="dt.dato.Exp_extemporaneo == '1' ">Si</span> <span ng-if="dt.dato.Exp_extemporaneo == '0' ">No</span> <br>
+            Motivo:  {{ dt.dato.Exp_motivo }}<br>
+            Fecha Atención:  <span ng-hide=" dt.dato.Exp_fechaAtn == '0000-00-00 00:00:00' ">{{ dt.dato.Exp_fechaAtn }}</span> <br>
+        </div>
+      
+    </section>
+    
+    <section layout="row" layout-align="center center">
+      <md-button>Imprimir Portada</md-button>
+    </section>
+    
+    <md-divider></md-divider>
+    
+    <section layout-gt-sm="row" layout="column"  layout-align="center center">
+      
+      <md-content flex class="text-center estatus">
+        <span>Triage: Ambulatorio</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Alertas</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Estatus: Abierto</span>
+      </md-content>
+      <md-content flex class="text-center estatus">
+        <span>Expediente Dentro de Paquete</span>
+      </md-content>
+
+    </section>
+
+  </div>
+
+</md-content>
+
+
+<div class="padding-views">
+
+
+  <br>
+  
+  <section ng-if="!dt.seccion" class="seccion">
+    
+    <md-grid-list
+          md-cols="2" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6"
+          md-row-height-gt-md="1:1" md-row-height="1:1"
+          md-gutter="8px" md-gutter-gt-sm="8px" >
+      <md-grid-tile ng-repeat="seccion in dt.secciones"
+                    md-rowspan-gt-sm="{{seccion.row}}"
+                    md-colspan-gt-sm="{{seccion.col}}"
+                    md-rowspan="1"
+                    md-colspan="1"
+                    ng-click="dt.muestraSeccion( seccion.page , seccion.icon, seccion.background )"
+                    ng-class="seccion.background" 
+                    class="menuItem"
+                    md-ink-ripple>
+        <ng-md-icon icon="{{seccion.icon}}" style="fill:white" size="{{seccion.size}}"></ng-md-icon>
+        <md-grid-tile-footer><h3>{{seccion.nombre}}</h3></md-grid-tile-footer>
+      </md-grid-tile>
+    </md-grid-list>
+
+  </section>
+
+  <section ng-if="dt.seccion" class="seccion">
+      <div ng-if="!dt.consultaDetalle" ng-include="dt.page"></div>
+      <div layout="row" layout-align="center center" ng-if="dt.consultaDetalle">
+        <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+      </div>
+  </section>
+
+  
+  
+</div>
+
+
+
+
+
+

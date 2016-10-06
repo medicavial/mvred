@@ -17,9 +17,9 @@
     <h1 class="md-toolbar-tools">Configuración</h1>
   </md-toolbar>
   <md-content layout-padding>
-    <md-list-item>
+    <md-list-item ng-click="cambiaModo()">
       <p> Modo Guiado </p>
-      <md-switch class="md-secondary" ng-model="guiado"></md-switch>
+      <md-switch class="md-secondary"  ng-model="modoGuiado"></md-switch>
     </md-list-item>
 
     <md-button ng-click="close()">

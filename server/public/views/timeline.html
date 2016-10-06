@@ -1,0 +1,39 @@
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon> 
+    </md-button>
+    <h2>
+      <span>Historial del Expediente</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+
+
+<section id="timeline" class="timeline-outer" layout="column">
+    <div class="container" id="content">
+
+        <div flex>
+          <ul class="timeline white">
+            <li class="event" data-date="{{ historia.fecha }}" ng-repeat="historia in dt.historial | orderBy:'fecha' ">
+      				<h3>{{ historia.titulo }}</h3>
+      				<p>
+      					{{ historia.descripcion }}
+      				</p>
+            </li>
+          </ul>
+        </div>
+
+    </div>
+</section>
+

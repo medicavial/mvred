@@ -1,0 +1,64 @@
+<md-toolbar ng-class="dt.bg">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="cerrar" ng-click="dt.cierraSeccion()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon> 
+    </md-button>
+    <h2>
+      <span>Autorizaciones</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Settings">
+      <ng-md-icon icon="{{dt.icon}}"></ng-md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<br>
+<md-divider></md-divider>
+
+<br>
+
+<md-content class="md-whiteframe-2dp" ng-if="dt.autorizaciones.datos">
+  
+  <md-subheader class="md-no-sticky">Datos de la Autorización</md-subheader>
+  <md-divider></md-divider>
+  <div layout-padding>
+    <h4><strong>Numero de Autorización: {{ dt.autorizaciones.datos.AUM_clave }}</strong></h4> <br>
+    <label>Fecha Registro: {{ dt.autorizaciones.datos.AUM_fechaReg }} </label> <br>
+    <label>Fecha Autorización: {{ dt.autorizaciones.datos.AUM_fecha }} </label> <br>
+    <label>Descripción Médica: {{ dt.autorizaciones.datos.AUM_descripcionmedica }} </label> <br>
+    <label>Diagnostico: {{ dt.autorizaciones.datos.AUM_diagnostico }} </label> <br>
+  </div>
+
+  <md-subheader class="md-no-sticky">Movimientos</md-subheader>
+  <div layout="column" layout-gt-sm="row" layout-padding>
+    <md-list flex="50">
+                
+      <md-list-item class="md-3-line"  ng-repeat="movimiento in dt.autorizaciones.movimientos" ng-click="null"> 
+        <ng-md-icon icon="layers"></ng-md-icon> 
+
+        <div class="md-list-item-text" layout="column">
+          <h3>{{ movimiento.TIM_nombreE }}</h3>
+          <h4>{{ movimiento.MOA_fecha }}</h4>
+          <p>{{ movimiento.MOA_texto }}</p>
+        </div>
+        
+        <ng-md-icon aria-label="Solicitar Cobro" icon="attach_money" class="md-secondary" ng-click="null">
+          <md-tooltip md-direction="top">
+            Solicitar Cobro
+          </md-tooltip>
+        </ng-md-icon>
+      </md-list-item>
+      
+
+    </md-list>
+
+    <div flex="50"></div>
+  </div>
+
+
+</md-content>
+
+<md-content class="md-whiteframe-2dp" ng-if="!dt.autorizaciones.datos">
+  <md-subheader class="md-no-sticky">Sin Autorización registrada</md-subheader>
+</md-content>

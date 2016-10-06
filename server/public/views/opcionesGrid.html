@@ -1,0 +1,17 @@
+<md-bottom-sheet class="md-grid" layout="column">
+  <div layout="row" layout-align="center center" ng-cloak>
+    <h4>Nueva Atención</h4>
+  </div>
+  <div ng-cloak>
+    <md-list flex layout="column" layout-gt-sm="row" layout-align="center center">
+      <md-list-item ng-repeat="item in opt.items">
+        <div>
+          <md-button class="md-grid-item-content" ng-click="listItemClick($index)" ng-disabled="item.disabled">
+            <ng-md-icon icon="{{ item.icon }}" size="40" style="fill:#7d7d7d"></ng-md-icon>
+            <div class="md-grid-text"> {{ item.name }} </div>
+          </md-button>
+        </div>
+      </md-list-item>
+    </md-list>
+  </div>
+</md-bottom-sheet>

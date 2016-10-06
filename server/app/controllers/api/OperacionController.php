@@ -3,8 +3,16 @@
 class OperacionController extends BaseController {
 
 	private $rutaImagen;
+	private $rutaArchivos;
 	//funciones de las rutas
 
+
+	public function __construct()
+	{
+		// $this->rutaArchivos = '../registro/';
+	    $this->rutaArchivos = public_path().'../../../../registro/';
+
+	}
 
 	//creamos una nueva atencion
 	public function creaAtencion(){
@@ -42,6 +50,7 @@ class OperacionController extends BaseController {
 		}
 
 		return Atencion::find($claveAtencion);
+	
 	}
 
 	//funcion para guardar la relacion entre producto , tipo atencion y documentos
@@ -77,16 +86,21 @@ class OperacionController extends BaseController {
 		$archivo = Input::get('archivo');
 		$usuario = Input::get('usuario');
 
-		$archivo = public_path().'../../../../registro/'. $archivo . '/' .$clave;
+		//generamos la ruta a eliminar 
+		$archivo = $this->rutaArchivos . $archivo . '/' .$clave;
 
+		// lo eliminamos
 		File::delete($archivo);
 
+		// eliminamos registro en base de datos
 		Imagenes::where( array('Arc_clave' => $clave, 'Arc_tipo' => $tipo, 'ATN_clave' => $atencion) )->delete();
 
-
+		//info para actualizar el estatus general del documento y generar historial
 		$tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
 		$atn = Atencion::find($atencion);
 
+
+		//guardamos el historico
 		$Historico = new Historico;
 		$Historico->usuario = $usuario;
 		$Historico->titulo = 'Se eliminó imagen : ' . $tipoNombre;
@@ -96,11 +110,31 @@ class OperacionController extends BaseController {
 		$Historico->entrega = $atn->ATN_cons;
 		$Historico->guardar();
 
+
+		//actualizamos el estatus de la atencion 
+		$atn->ATN_estatus = 0;
+		$atn->save();
+
+
+		//actualizamos el estatus del documento en la atencion en caso de ser un tipo de documento requerido
+		$tipoDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) );
+		if ($tipoDocumento->count() > 0) {
+			$tipoDocumento->update(array('ATD_estatus' => 0,'ATD_motivo' => ''));
+		}
+
 		return Response::json(array('flash' => 'Imagen eliminada'));
 		
 	}
 
-	//funcion para subir imagenes del folio
+
+	// funcion para generar la portada del folio
+	public function generaPortada($folio){
+
+		Accion::generaPortada($folio);
+
+	}
+
+	//funcion para subir imagenes de la atencion
 	public function imagenes(){
 
 		$tipo = Input::get('tipo');
@@ -389,7 +423,19 @@ class OperacionController extends BaseController {
 		$atn->ATN_estatus = 1;
 		$atn->save();
 
+		// verificamos si hay requisitos por guardar
+		if ( Input::has('requisitos') ) {
 
+			$requisitos = Input::get('requisitos'); 
+			foreach ($requisitos as $requisito) {
+				
+				$anotacion = new Anotacion;
+				$anotacion->ATN_clave = $atencion;
+				$anotacion->REQ_clave = $requisito['REQ_clave'];
+				$anotacion->ANT_valor = $requisito['valor'];
+				$anotacion->save();
+			}
+		}
 
 		$Historico = new Historico;
 		$Historico->usuario = $usuario;
@@ -490,7 +536,7 @@ class OperacionController extends BaseController {
 	
 	}
 
-	private function generaCodigo($folio){
+	public function generaCodigo($folio){
 
     	try{ 
 
@@ -532,9 +578,7 @@ class OperacionController extends BaseController {
 
 	private function verificaRuta($folio,$tipo,$tipoAtn){
 
-		// $rutaPrincipal = '../../registro/Digitales';
-
-		$rutaPrincipal = public_path().'../../../../registro/Digitales';
+		$rutaPrincipal = $this->rutaArchivos .'Digitales';
 
 		$fecha = Expediente::find($folio)->Exp_fecreg;
 

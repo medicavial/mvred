@@ -13,6 +13,7 @@
 		//seteo inicial de la app
 		var url = '';
 		$rootScope.atras = false;
+		$rootScope.modoGuiado = true;
 
 		//parametros globales tomados del localStorage
 		$rootScope.username = webStorage.session.get('username');
@@ -28,6 +29,11 @@
 		$rootScope.muestra = function(ruta) {
 		    $state.go(ruta);
 		};
+
+
+		$rootScope.cambiaModo = function(){
+			$rootScope.modoGuiado = !$rootScope.modoGuiado;
+		}
 
 		$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){ 
 	        

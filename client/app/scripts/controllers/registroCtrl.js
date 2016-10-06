@@ -8,10 +8,10 @@
 	.controller('registroCtrl',registroCtrl)
 	.controller('telefonoCtrl',telefonoCtrl)
 
-	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles', '$mdpDatePicker'];
+	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles', '$mdpDatePicker','ayuda'];
 	telefonoCtrl.$inject = ['$mdDialog','tipos','telefonos', 'mensajes'];
 
-	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles, $mdpDatePicker){
+	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles, $mdpDatePicker,ayuda){
 
 		// console.log(datos);
 
@@ -100,6 +100,7 @@
 				vm.step3block = false;
 				vm.imagenProducto = producto.Pro_img;
 				vm.datos.producto = producto.Pro_clave;
+				if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para llenar formato de registro');
 			}
 
 		}
@@ -159,6 +160,8 @@
 					vm.datoSiniestro.folio = data.folio;
 					vm.imagenFolio = publicfiles + data.codigo;
 					vm.registro = data.registro;
+
+					if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para guardar datos de siniestro');
 
 					mensajes.alerta(data.respuesta,'success','top right','done_all');
 
@@ -272,6 +275,8 @@
 
 			consultaInfo();
 
+			if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para seleccionar el cliente');
+
 		}
 
 		function resetForms(){
@@ -314,7 +319,10 @@
 				if (vm.productos.length == 1) {
 					var producto = vm.productos[0];
 					confirmaProducto(producto)
-				};
+				}else{
+					if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para selección de producto');
+				}
+
 			});
 
 		}

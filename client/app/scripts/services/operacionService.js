@@ -122,41 +122,63 @@
             return $http.post(api + 'operacion/autorizacion', datos ,{timeout: 10000});
         };
 
-        //function para subir imagenes con el tipo de archivo
+        //function para subir imagen con el tipo de archivo
         function subirImagenes(tipo,imagenes,atencion){
 
             var promesa = $q.defer();
-            
-            for (var i = 0;  i < imagenes.length; i++) {
+            var file = imagenes[0];
                 
-                var file = imagenes[i];
+            if (!file.$error) {
+                // console.log(file);
+                Upload.upload({
+                    url: api+'operacion/imagenes',
+                    data: {file: file, usuario: $rootScope.id,tipo:tipo,atencion:atencion}
+                })
 
-                if (!file.$error) {
-                    // console.log(file);
-                    Upload.upload({
-                        url: api+'operacion/imagenes',
-                        data: {file: file, usuario: $rootScope.id,tipo:tipo,atencion:atencion}
-                    }).then(function (resp) {
-                        promesa.resolve(resp.data);
-                    }, function (resp) {
-                        if (isNaN(resp)) {
-                            promesa.reject('Archivo con problemas');
-                        }else{
-                            promesa.reject(resp.data.flash);                            
-                        }
-                    }, function (evt) {
-                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        promesa.notify(progressPercentage);
-                    });  
+                .then(function (resp) {
+                    promesa.resolve(resp.data);
+                }, function (resp) {
+                    if (isNaN(resp)) {
+                        promesa.reject('Archivo con problemas');
+                    }else{
+                        promesa.reject(resp.data.flash);                            
+                    }
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    promesa.notify(progressPercentage);
+                });
 
-                }else{
-                    promesa.reject('Formato Invalido');
-                }
-
-            };
+            }else{
+                promesa.reject('Formato Invalido');
+            }
 
             return promesa.promise;
 
+        }
+
+        function imagenServer(file,tipo,atencion){
+
+            var promesa = $q.defer();
+
+            Upload.upload({
+                url: api+'operacion/imagenes',
+                data: {file: file, usuario: $rootScope.id,tipo:tipo,atencion:atencion}
+            })
+
+            .then(function (resp) {
+                promesa.resolve(resp.data);
+            }, function (resp) {
+                if (isNaN(resp)) {
+                    promesa.reject('Archivo con problemas');
+                }else{
+                    promesa.reject(resp.data.flash);                            
+                }
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                promesa.notify(progressPercentage);
+            });
+
+            return promesa.promise;
         }
 
     }

@@ -12,12 +12,12 @@ class Imagenes extends Eloquent {
         			 ->select( DB::raw(
         			 		'TID_claveint as tipo, TID_nombre as tipoNombre ,Arc_archivo as archivo,REG_folio as folio,
         			 		 CASE 
-                                WHEN Arc_rechazado = 1 THEN "Rechazado"
-                                WHEN Arc_autorizado = 1 THEN "Autorizado" 
+                                WHEN Arc_estatus = 2 THEN "Rechazado"
+                                WHEN Arc_estatus = 1 THEN "Autorizado" 
                                 ELSE "En espera de Autorización" END as estatus, 
         			 		 CASE 
-                                WHEN Arc_rechazado = 1 THEN "indeterminate_check_box"
-                                WHEN Arc_autorizado = 1 THEN "check_box" 
+                                WHEN Arc_estatus = 2 THEN "indeterminate_check_box"
+                                WHEN Arc_estatus = 1 THEN "check_box" 
                                 ELSE "check_box_outline_blank" END as  iconEstatus, 
                             Arc_clave as clave,
                             Arc_motivo as motivo'
@@ -34,12 +34,12 @@ class Imagenes extends Eloquent {
         			 ->select( DB::raw(
         			 		'TID_claveint as tipo, TID_nombre as tipoNombre ,Arc_archivo as archivo,REG_folio as folio,
         			 		 CASE 
-                                WHEN Arc_rechazado = 1 THEN "Rechazado"
-                                WHEN Arc_autorizado = 1 THEN "Autorizado" 
+                                WHEN Arc_estatus = 2 THEN "Rechazado"
+                                WHEN Arc_estatus = 1 THEN "Autorizado" 
                                 ELSE "En espera de Autorización" END as estatus, 
                              CASE 
-                                WHEN Arc_rechazado = 1 THEN "indeterminate_check_box"
-                                WHEN Arc_autorizado = 1 THEN "check_box" 
+                                WHEN Arc_estatus = 2 THEN "indeterminate_check_box"
+                                WHEN Arc_estatus = 1 THEN "check_box" 
                                 ELSE "check_box_outline_blank" END as  iconEstatus, 
                             Arc_clave as clave,
                             Arc_motivo as motivo'

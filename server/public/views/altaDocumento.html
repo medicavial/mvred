@@ -1,0 +1,74 @@
+<md-dialog aria-label="Alta de Documentos">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Alta de Documentos</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ad.cancel()">
+          <ng-md-icon icon="close" style="fill:white" aria-label="Cerrar"></ng-md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <md-tabs md-dynamic-height md-border-bottom md-selected="ad.index">
+        <md-tab label="Producto">
+          <md-content class="md-padding" layout="column" layout-align="center center">
+            <h1 class="md-display-2">Selecciona Producto.</h1>
+            <p>El producto definira los clientes en los que dependera la coumentación para su autorización a cobro.</p>
+            <md-input-container>
+              <label>Producto</label>
+              <md-select ng-model="ad.datos.producto" md-on-close="ad.siguiente()">
+                <md-option value=""><em>Producto</em></md-option>
+                <md-option ng-repeat="producto in ad.productos" ng-value="producto.Pro_clave">
+                  <img class="imagen-chica" ng-src="http://www.medicavial.net/mvred/imgs/producto/{{producto.Pro_img}}" />
+                  {{producto.Pro_nombre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </md-content>
+        </md-tab>
+        <md-tab label="Atención">
+          <md-content class="md-padding" layout="column" layout-align="center center">
+            <h1 class="md-display-2">Selecciona el tipo de Atención.</h1>
+            <p>Selecciona el tipo de atencion para tener un filtro mas especifico de los documentos a necesitar.</p>
+            <md-input-container>
+              <label>Tipo de Atención</label>
+              <md-select ng-model="ad.datos.atencion" md-on-close="ad.siguiente()">
+                <md-option value=""><em>Tipo de Atención</em></md-option>
+                <md-option ng-repeat="tipoA in ad.tiposAtencion" ng-value="tipoA.TIA_clave">
+                  {{tipoA.TIA_nombre}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </md-content>
+        </md-tab>
+        <md-tab label="Documentos">
+          <md-content class="md-padding" layout="column">
+            <h1 class="md-display-2">Agrega los documentos.</h1>
+            <p>Aqui podras seleccionar los productos destinados a tus fitros anteriores</p>
+            <div layout="row" layout-wrap layout-margin flex>
+              <div ng-repeat="tiposDoc in ad.tiposDocumento">
+                  <md-checkbox ng-checked="ad.exists(tiposDoc, ad.datos.documentos)" ng-click="ad.toggle(tiposDoc, ad.datos.documentos)">
+                    {{ tiposDoc.TID_nombre }}
+                  </md-checkbox>
+              </div>
+            </div>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="ad.cancel()" md-autofocus>
+        Cerrar
+      </md-button>
+      <md-button ng-click="ad.guardar()" ng-disabled="ad.guardando">
+        Guardar
+      </md-button>
+      <md-button ng-click="ad.inicio()" ng-if="ad.guardado">
+        Nuevo
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

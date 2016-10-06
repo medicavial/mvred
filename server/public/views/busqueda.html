@@ -1,0 +1,88 @@
+<div class="padding-views" layout="column" ng-init="bs.inicio()">
+    
+    <form ng-submit="bs.buscar()">
+    <md-content layout-gt-sm="row" layout="column" layout-padding layout-wrap class="md-whiteframe-2dp">
+        
+        <md-input-container flex>
+          <label>Lesionado</label>
+          <input name="lesionado" ng-model="bs.datos.lesionado" mayusculas>          
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Folio MV</label>
+          <input name="folio" ng-model="bs.datos.folio" folio>          
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Folio Interno</label>
+          <input name="folio" ng-model="bs.datos.folioInt">          
+        </md-input-container>
+        
+        <div layout="column" layout-align="center center" flex>
+          <md-progress-circular md-mode="indeterminate" ng-if="bs.consultando"></md-progress-circular>
+          <md-button type="submit" class="md-raised md-primary" ng-if="!bs.consultando">Buscar</md-button>
+        </div>
+        
+    </md-content>
+    </form>
+    <br>
+    <div class="md-whiteframe-2dp white" flex>
+      <md-subheader class="md-primary md-no-sticky">Resutados de: {{ bs.busqueda }}</md-subheader>
+      <md-table-container>
+        <table md-table md-progress="bs.consulta">
+          <thead md-head md-order="bs.datos.order" md-on-reorder="bs.buscar">
+            <tr md-row>
+              <th md-column md-order-by="Cia_clave">Cliente</th>
+              <th md-column md-order-by="Exp_folio">Folio MV</th>
+              <th md-column md-order-by="Exp_fq">Folio Interno</th>
+              <th md-column md-order-by="Exp_completo">Lesionado</th>
+              <th md-column md-order-by="Exp_fecreg">Registro</th>
+              <th md-column md-order-by="Exp_obs">Observaciones</th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row class="fila" ng-repeat="registro in bs.registros">
+              
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell class="imagen"> 
+                <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> 
+              </td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_folio}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fq}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_completo}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fecreg}}</td>
+              <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_obs}}</td>
+              <td md-cell>
+                  <md-menu md-position-mode="target-right target" >
+                    <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
+                      <md-icon md-menu-origin>
+                        <ng-md-icon icon="more_vert"></ng-md-icon> 
+                      </md-icon>
+                    </md-button>
+                    <md-menu-content width="2">
+                      <md-menu-item>
+                        <md-button ui-sref="index.detalle({folio:registro.Exp_folio})">
+                          <p>Ver. Detalle</p>
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button ng-click="ir.editaTipo($event,registro)">
+                          <p>Solicitar Cancelación</p>
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
+              </td>              
+            </tr>
+            
+          </tbody>
+        </table>
+        <md-table-pagination md-limit="bs.datos.limit" md-limit-options="bs.paginacion" md-page="bs.datos.page" md-total="{{bs.total}}" md-on-paginate="bs.buscar" md-label="{page: 'Página:', rowsPerPage: 'Resultados por página:', of: 'de'}" md-page-select></md-table-pagination  md-page-select="bs.pageSelect">
+      </md-table-container>
+      
+    </div>
+    <br>
+
+  
+</div>
+
+

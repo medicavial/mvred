@@ -1,9 +1,15 @@
 <toolbar titulo="titulo" menu="menu" url="url"></toolbar>
 <div class="relative height-full">
+
   <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas height-full"></md-content>
+
   <md-content id="centro" ng-if="cargando" layout-align="center bottom">
     <md-progress-circular md-mode="indeterminate" md-diameter="50" class="md-accent"></md-progress-circular>
   </md-content>
+  <br>
+  <br>
+  <br>
+
 </div>
       
 <!-- Menu Izquierdo -->
@@ -17,9 +23,9 @@
     <h1 class="md-toolbar-tools">Configuración</h1>
   </md-toolbar>
   <md-content layout-padding>
-    <md-list-item>
+    <md-list-item ng-click="cambiaModo()">
       <p> Modo Guiado </p>
-      <md-switch class="md-secondary" ng-model="guiado"></md-switch>
+      <md-switch class="md-secondary"  ng-model="modoGuiado"></md-switch>
     </md-list-item>
 
     <md-button ng-click="close()">

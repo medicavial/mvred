@@ -1,0 +1,49 @@
+<md-card layout="column" layout-align="center center" layout-padding>
+    <img class="logo" src="img/logoMV.png" alt="medicavial">
+    <strong style="font-size: 16px;margin-left: 10em;">MVSACE [UME]</strong>
+</md-card>
+
+<md-grid-list
+      md-cols="2" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+      md-row-height-gt-md="1:1" md-row-height="1:1"
+      md-gutter="8px" md-gutter-gt-sm="8px" >
+  <md-grid-tile ng-repeat="seccion in hm.secciones"
+                md-rowspan-gt-sm="{{seccion.row}}"
+                md-colspan-gt-sm="{{seccion.col}}"
+                md-rowspan="1"
+                md-colspan="1"
+                ng-class="seccion.background" 
+                ui-sref="{{seccion.url}}"
+                class="menuItem"
+                ng-if="seccion.permiso"
+                md-ink-ripple>
+    <!-- <div class="box"></div> -->
+    <ng-md-icon icon="{{seccion.icon}}" style="fill:white" size="{{seccion.size}}"></ng-md-icon>
+    <md-grid-tile-footer><h3>{{seccion.nombre}}</h3></md-grid-tile-footer>
+  </md-grid-tile>
+</md-grid-list>
+
+<md-subheader class="bg-transparent">Administrador</md-subheader>
+<md-divider></md-divider>
+<md-grid-list
+      md-cols="2" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+      md-row-height-gt-md="1:1" md-row-height="1:1"
+      md-gutter="8px" md-gutter-gt-sm="8px" >
+  <md-grid-tile ng-repeat="section in hm.seccionesAdmin"
+                md-rowspan-gt-sm="{{section.row}}"
+                md-colspan-gt-sm="{{section.col}}"
+                md-rowspan="1"
+                md-colspan="1"
+                ng-class="section.background" 
+                ui-sref="{{section.url}}"
+                class="menuItem"
+                ng-if="section.permiso"
+                md-ink-ripple>
+    <!-- <div class="box"></div> -->
+    <ng-md-icon icon="{{section.icon}}" style="fill:white" size="{{section.size}}"></ng-md-icon>
+    <md-grid-tile-footer><h3>{{section.nombre}}</h3></md-grid-tile-footer>
+  </md-grid-tile>
+</md-grid-list>
+
+
+

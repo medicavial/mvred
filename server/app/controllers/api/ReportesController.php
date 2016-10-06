@@ -6,10 +6,10 @@ class ReportesController extends BaseController {
 	//funciones de las rutas
 	public function atencionesUnidadAnio($unidad){
 
-	$fechaini = date('Y-m-d', strtotime('-11 month'));
-    $fechafin = date('Y-m-d');
+        $fechaini = date('Y-m-d', strtotime('-11 month'));
+        $fechafin = date('Y-m-d');
 
-    $sql = "SELECT MONTH(Exp_fecreg) as clave, YEAR(Exp_fecreg) as ano,
+        $sql = "SELECT MONTH(Exp_fecreg) as clave, YEAR(Exp_fecreg) as ano,
             CASE WHEN MONTH(Exp_fecreg) = 1 THEN concat('Ene. ',YEAR(Exp_fecreg))
             WHEN MONTH(Exp_fecreg) = 2 THEN concat('Feb. ',YEAR(Exp_fecreg))
             WHEN MONTH(Exp_fecreg) = 3 THEN concat('Mar. ',YEAR(Exp_fecreg))
@@ -28,7 +28,7 @@ class ReportesController extends BaseController {
     		group by MONTH(Exp_fecreg) order by YEAR(Exp_fecreg),MONTH(Exp_fecreg)";
 
     	return DB::select($sql);
-    	// return $sql;
+
 
 	}
 
@@ -46,6 +46,10 @@ class ReportesController extends BaseController {
 		return DB::select($sql);
 
 	}
+
+    public function estadisticas(){
+        
+    }
 
 	
 }

@@ -15,7 +15,9 @@
                 .success(function (data){
 
                     // console.log(data);
+                    webStorage.local.clear();
                     $rootScope.cargando = false;
+                    
 
                     webStorage.session.add('username',data.Usu_login);
                     webStorage.session.add('nombre',data.Usu_nombre);
