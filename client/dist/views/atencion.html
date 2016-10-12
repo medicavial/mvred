@@ -3,7 +3,7 @@
     
     <div layout="row">
       <md-subheader class="md-no-sticky">
-        Primera Atención - 
+        {{ ::atn.datos.TIA_nombre }} - 
         <span ng-if="atn.imagenes.length == 0">Sin Documentos</span> 
         <span ng-if="atn.datos.ATN_estatus == 0 && atn.imagenes.length > 0">Sin Solicitar</span> 
         <span ng-if="atn.datos.ATN_estatus == 1">Solicitado</span>
@@ -74,9 +74,9 @@
                 <md-toolbar layout="row" class="md-hue-1">
                   <div class="md-toolbar-tools">
                     <md-button class="md-icon-button" aria-label="Estatus" ng-disabled="true">
-                      <ng-md-icon icon="{{ value[0].estatusGlobalIcon }}" style="fill:white"></ng-md-icon>
+                      <ng-md-icon icon="{{ ::value[0].estatusGlobalIcon }}" style="fill:white"></ng-md-icon>
                     </md-button>
-                    <span>{{ key }}</span>
+                    <span>{{ ::key }}</span>
                     <span flex></span>
                     <md-button class="md-icon-button" aria-label="Motivo" ng-if=" value[0].estatusGlobal == 2 " ng-click="atn.motivo(value[0].motivoGlobal,$event)">
                       <ng-md-icon icon="description"></ng-md-icon>
@@ -86,7 +86,7 @@
                 <md-list>
                   
                   <md-list-item ng-repeat="imagen in value" ng-click="atn.muestraArchivo(imagen,$event)">
-                    <ng-md-icon icon="{{ imagen.iconEstatus }}"></ng-md-icon> 
+                    <ng-md-icon icon="{{ ::imagen.iconEstatus }}"></ng-md-icon> 
                     <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
                     <p class="padding-left">{{ $index + 1 }} ({{ imagen.estatus }})</p>
                     <ng-md-icon aria-label="Motivo Rechazo" icon="description" class="md-secondary" ng-if="imagen.estatus == 'Rechazado' " ng-click="atn.motivo(imagen.motivo,$event)">
@@ -107,14 +107,38 @@
 
               </div>
               
+              <md-content ng-if=" atn.requisitos.length && atn.anotaciones.length == 0 && atn.imagenes.length " layout="column" layout-padding>
+
+                <md-toolbar layout="row" class="md-hue-1">
+                  <div class="md-toolbar-tools">
+                    <md-button class="md-icon-button" aria-label="Estatus" ng-disabled="true">
+                      <ng-md-icon icon="text_fields" style="fill:white"></ng-md-icon>
+                    </md-button>
+                    <span>Datos Adicionales</span>
+                  </div>
+                </md-toolbar>
+                
+                <form name="atn.requisitosForm" layout="column" >
+                    
+                  <md-input-container ng-repeat=" requisito in atn.requisitos" flex>
+                    <label>{{ ::requisito.REQ_valor }}</label>
+                    <input ng-model="requisito.valor" ng-required="requisito.REQ_obligatorio == '1' ">
+                  </md-input-container>
+
+                </form>
+                
+                
+              </md-content>
+
+              
               <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.solicitando"></md-progress-circular>
-              <md-button aria-label="Terminar" ng-if="atn.imagenes.length || !atn.solicitando" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0">Terminar</md-button>
+              <md-button aria-label="Terminar" ng-if="atn.imagenes.length || !atn.solicitando" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Terminar</md-button>
 
             </section>
 
             <div flex></div>
           </md-content>
-
+          
 
         </md-tab-body>
 

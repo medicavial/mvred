@@ -15,7 +15,8 @@
 		$rootScope.titulo = 'Estadisticas';
 		$rootScope.atras = true;
 		$rootScope.menu = 'arrow_back';
- 
+ 		
+ 		et.datos = datos[2].data;
 
 		et.meses = {
 	        data: datos[1].data,

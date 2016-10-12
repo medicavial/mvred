@@ -103,10 +103,11 @@
 			resolve : {
 				datos : function(reportes,$q){
 					var promesa 		= $q.defer(),
+						estadisticas 	= reportes.estadisticas(),
 						atencionesMes 	= reportes.atencionesMes(),
 						atencionesAnio 	= reportes.atencionesAnio();
 
-					$q.all([atencionesMes,atencionesAnio]).then(function (data){
+					$q.all([atencionesMes,atencionesAnio,estadisticas]).then(function (data){
 						promesa.resolve(data);
 					},function (error){
 						promesa.reject('Error');

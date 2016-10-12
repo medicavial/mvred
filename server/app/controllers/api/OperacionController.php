@@ -9,8 +9,8 @@ class OperacionController extends BaseController {
 
 	public function __construct()
 	{
-		// $this->rutaArchivos = '../registro/';
-	    $this->rutaArchivos = public_path().'../../../../registro/';
+		$this->rutaArchivos = '../registro/';
+	    // $this->rutaArchivos = public_path().'../../../../registro/';
 
 	}
 

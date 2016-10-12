@@ -89,6 +89,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('atenciones/{unidad}', array('uses' => 'ReportesController@atencionesUnidad'));
         Route::get('atenciones/anio/{unidad}', array('uses' => 'ReportesController@atencionesUnidadAnio'));
         Route::get('atenciones/mes/{unidad}', array('uses' => 'ReportesController@atencionesUnidadMes'));
+        Route::get('estadistica/{unidad}', array('uses' => 'ReportesController@estadisticaUnidad'));
     });
 
 

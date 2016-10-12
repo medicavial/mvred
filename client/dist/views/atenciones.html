@@ -28,7 +28,7 @@
   
   <md-expansion-panel-collapsed>
     <div class="md-title">Subsecuencia</div>
-    <div class="md-summary">{{ $index + 1 }} - {{ subsecuencia.estatus }}</div>
+    <div class="md-summary">{{ $index + 1 }}</div>
     <md-expansion-panel-icon><ng-md-icon icon="filter_2"></ng-md-icon></md-expansion-panel-icon>
   </md-expansion-panel-collapsed>
 
@@ -37,104 +37,14 @@
 
     <md-expansion-panel-header ng-click="$panel.collapse()">
       <div class="md-title">Subsecuencia</div>
-      <div class="md-summary">{{ $index + 1 }} - {{ subsecuencia.estatus }}</div>
+      <div class="md-summary">{{ $index + 1 }}</div>
       <md-expansion-panel-icon><ng-md-icon icon="filter_2"></ng-md-icon></md-expansion-panel-icon>
     </md-expansion-panel-header>
 
     <md-expansion-panel-content>
       
-      <md-tabs md-selected="true" md-dynamic-height class="TabPanel">
-    
-        <md-tab id="tab1">
-
-          <md-tab-label>Documentos Digitales</md-tab-label>
-          <md-tab-body> 
-              
-            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
-              
-              <section flex="50">
-
-                <md-subheader class="md-no-sticky">Subir Documento</md-subheader>
-                <md-divider></md-divider>
-                
-                <div layout-gt-sm="row" layout="column" layout-align="center center">
-                  
-                  <md-select ng-model="dt.tipoEt2" placeholder="Tipo de Documento" class="md-no-underline" required>
-                    <md-option value=""><em>Tipo de Documento</em></md-option>
-                    <md-option value="27">Formato Subsecuencia</md-option>
-                    <md-option value="23">Otro</md-option>
-                  </md-select>
-
-                  <md-button  aria-label="subir archivo" ng-disabled="!dt.tipoEt2"
-                              ngf-select="dt.subirDigitalesEt2($index,$files,dt.tipoEt2,subsecuencia.entrega)" 
-                              ngf-change="dt.subirDigitalesEt2($index,$files,dt.tipoEt2,subsecuencia.entrega)" 
-                              ngf-multiple="false" 
-                              ngf-pattern="'.pdf,image/*'"
-                              ngf-accept="'.pdf,image/*'" 
-                              ng-model-options="{allowInvalid: false}">
-                      Subir Archivo</md-button>
-                  
-                </div>
-                <div layout="row" layout-align="center center" flex>
-                  <md-progress-circular md-mode="determinate" md-diameter="40" value="{{ dt.porcentaje }}" ng-if="dt.porcentaje"></md-progress-circular>
-                </div>
-                <div class="drop-box" ng-if="dt.tipoEt2" ngf-drop accept="'.pdf,image/*'" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'.pdf,image/*'" ngf-change="dt.subirDigitalesEt1($index,$files,dt.tipo,subsecuencia.entrega)" flex>
-                    Arrastra tus archivos aqui
-                </div>
-
-              </section>
-              <section flex="50">
-
-                <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
-                <md-divider></md-divider>
-              
-                <md-list>
-                  
-                  <md-list-item ng-repeat="imagen in subsecuencia.imagenes" ng-click="dt.muestraArchivo(imagen,$event)">
-                    <ng-md-icon icon="{{ imagen.iconEstatus }}"></ng-md-icon> 
-                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
-                    <p class="padding-left">{{ imagen.tipoNombre }} ({{ imagen.estatus }})</p>
-                    <ng-md-icon aria-label="Motivo Rechazo" icon="description" class="md-secondary" ng-if="imagen.estatus == 'Rechazado' " ng-click="dt.motivo(imagen.motivo,$event)">
-                      <md-tooltip md-direction="top">
-                        Motivo Rechazo
-                      </md-tooltip>
-                    </ng-md-icon>
-                    <ng-md-icon aria-label="Elminar Archivo" icon="delete" class="md-secondary" ng-click="dt.eliminarDigitales(imagen,$index,$event)">
-                      <md-tooltip md-direction="top">
-                        Eliminar Archivo
-                      </md-tooltip>
-                    </ng-md-icon>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                  <md-button aria-label="Terminar" ng-if="subsecuencia.imagenes.length" ng-click="dt.solicitaAutorizacionEt2()" ng-disabled="dt.dat.Exp_estatusSACE != 0">Terminar</md-button>
-
-                </md-list>
-
-              </section>
-
-              <div flex></div>
-            </md-content>
-
-
-          </md-tab-body>
-
-        </md-tab>
-
-        <md-tab id="tab2" ng-disabled="subsecuencia.estatus != 2">
-
-          <md-tab-label>Facturación</md-tab-label>
-          <md-tab-body>
-            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
-              
-              
-            </md-content>
-          </md-tab-body>
-
-        </md-tab>
-        
-      </md-tabs>
+      <atencion clave="subsecuencia.ATN_clave"></atencion>
       
-
     </md-expansion-panel-content>
 
     <md-expansion-panel-footer>
@@ -153,7 +63,7 @@
   
   <md-expansion-panel-collapsed>
     <div class="md-title">Rehabilitación</div>
-    <div class="md-summary">{{ $index + 1 }} - {{ rehabilitacion.estatus }}</div>
+    <div class="md-summary">{{ $index + 1 }} </div>
     <md-expansion-panel-icon><ng-md-icon icon="filter_3"></ng-md-icon></md-expansion-panel-icon>
   </md-expansion-panel-collapsed>
 
@@ -162,103 +72,13 @@
 
     <md-expansion-panel-header ng-click="$panel.collapse()">
       <div class="md-title">Rehabilitación</div>
-      <div class="md-summary">{{ $index + 1 }} - {{ rehabilitacion.estatus }}</div>
+      <div class="md-summary">{{ $index + 1 }} </div>
       <md-expansion-panel-icon><ng-md-icon icon="filter_3"></ng-md-icon></md-expansion-panel-icon>
     </md-expansion-panel-header>
 
     <md-expansion-panel-content>
       
-      <md-tabs md-selected="true" md-dynamic-height class="TabPanel">
-    
-        <md-tab id="tab1">
-
-          <md-tab-label>Documentos Digitales</md-tab-label>
-          <md-tab-body> 
-              
-            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
-              
-              <section flex="50">
-
-                <md-subheader class="md-no-sticky">Subir Documento</md-subheader>
-                <md-divider></md-divider>
-                
-                <div layout-gt-sm="row" layout="column" layout-align="center center">
-                  
-                  <md-select ng-model="dt.tipoEt2" placeholder="Tipo de Documento" class="md-no-underline" required>
-                    <md-option value=""><em>Tipo de Documento</em></md-option>
-                    <md-option value="27">Formato Rehabilitación</md-option>
-                    <md-option value="23">Otro</md-option>
-                  </md-select>
-
-                  <md-button  aria-label="subir archivo" ng-disabled="!dt.tipoEt2"
-                              ngf-select="dt.subirDigitalesEt2($index,$files,dt.tipoEt2,subsecuencia.entrega)" 
-                              ngf-change="dt.subirDigitalesEt2($index,$files,dt.tipoEt2,subsecuencia.entrega)" 
-                              ngf-multiple="false" 
-                              ngf-pattern="'.pdf,image/*'"
-                              ngf-accept="'.pdf,image/*'" 
-                              ng-model-options="{allowInvalid: false}">
-                      Subir Archivo</md-button>
-                  
-                </div>
-                <div layout="row" layout-align="center center" flex>
-                  <md-progress-circular md-mode="determinate" md-diameter="40" value="{{ dt.porcentaje }}" ng-if="dt.porcentaje"></md-progress-circular>
-                </div>
-                <div class="drop-box" ng-if="dt.tipoEt2" ngf-drop accept="'.pdf,image/*'" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'.pdf,image/*'" ngf-change="dt.subirDigitalesEt1($index,$files,dt.tipo,subsecuencia.entrega)" flex>
-                    Arrastra tus archivos aqui
-                </div>
-
-              </section>
-              <section flex="50">
-
-                <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
-                <md-divider></md-divider>
-              
-                <md-list>
-                  
-                  <md-list-item ng-repeat="imagen in rehabilitacion.imagenes" ng-click="dt.muestraArchivo(imagen,$event)">
-                    <ng-md-icon icon="{{ imagen.iconEstatus }}"></ng-md-icon> 
-                    <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
-                    <p class="padding-left">{{ imagen.tipoNombre }} ({{ imagen.estatus }})</p>
-                    <ng-md-icon aria-label="Motivo Rechazo" icon="description" class="md-secondary" ng-if="imagen.estatus == 'Rechazado' " ng-click="dt.motivo(imagen.motivo,$event)">
-                      <md-tooltip md-direction="top">
-                        Motivo Rechazo
-                      </md-tooltip>
-                    </ng-md-icon>
-                    <ng-md-icon aria-label="Elminar Archivo" icon="delete" class="md-secondary" ng-click="dt.eliminarDigitales(imagen,$index,$event)">
-                      <md-tooltip md-direction="top">
-                        Eliminar Archivo
-                      </md-tooltip>
-                    </ng-md-icon>
-                  </md-list-item>
-                  <md-divider></md-divider>
-                  <md-button aria-label="Terminar" ng-if="rehabilitacion.imagenes.length" ng-click="dt.solicitaAutorizacionEt3()" ng-disabled="dt.dat.Exp_estatusSACE != 0">Terminar</md-button>
-
-                </md-list>
-
-              </section>
-
-              <div flex></div>
-            </md-content>
-
-
-          </md-tab-body>
-
-        </md-tab>
-
-        <md-tab id="tab2" ng-disabled="subsecuencia.estatus != 2">
-
-          <md-tab-label>Facturación</md-tab-label>
-          <md-tab-body>
-            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
-              
-              
-            </md-content>
-          </md-tab-body>
-
-        </md-tab>
-        
-      </md-tabs>
-      
+      <atencion clave="rehabilitacion.ATN_clave"></atencion>
 
     </md-expansion-panel-content>
 

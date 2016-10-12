@@ -1,7 +1,7 @@
 <toolbar titulo="titulo" menu="menu" url="url"></toolbar>
-<div class="relative height-full">
+<div class="relative">
 
-  <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas height-full"></md-content>
+  <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas"></md-content>
 
   <md-content id="centro" ng-if="cargando" layout-align="center bottom">
     <md-progress-circular md-mode="indeterminate" md-diameter="50" class="md-accent"></md-progress-circular>

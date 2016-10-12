@@ -10,7 +10,8 @@
 
         var servicio = {
             atencionesAnio:atencionesAnio,
-            atencionesMes:atencionesMes
+            atencionesMes:atencionesMes,
+            estadisticas:estadisticas
         };
 
         return servicio;
@@ -24,6 +25,11 @@
         //Consulta las atenciones en el mes segementadas por semana
         function atencionesMes(){
             return $http.get(api + 'reportes/atenciones/mes/' + $rootScope.unidad ,{timeout: 10000});
+        };
+
+        //Consulta las estadisticas del mes
+        function estadisticas(){
+            return $http.get(api + 'reportes/estadistica/' + $rootScope.unidad ,{timeout: 10000});
         };
 
     }

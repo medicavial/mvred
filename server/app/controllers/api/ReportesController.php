@@ -47,8 +47,107 @@ class ReportesController extends BaseController {
 
 	}
 
-    public function estadisticas(){
+    public function estadisticaUnidad($unidad){
         
+
+        $respuesta = array();
+
+        $fechaini = date('Y-m-01') . ' 00:00:00';
+        $fechafin = date('Y-m-d') . ' 23:59:59';
+
+        // $fechaini = date('2016-01-01') . ' 00:00:00';
+        // $fechafin = date('Y-m-d') . ' 23:59:59';
+
+        $respuesta['expedientes'] = Expediente::where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt1SD'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 1,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 0
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt1CDSR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 1,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 1
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt1ASF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 1,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 2
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt1R'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 1,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 3
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+
+        $respuesta['atencionesEt2CDSR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 2,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 1
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt2ASF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 2,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 2
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt2R'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 2,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 3
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+
+        $respuesta['atencionesEt3CDSR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 3,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 1
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt3ASF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 3,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 2
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt3R'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(
+                            'TIA_clave' => 3,
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 3
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+
+        return $respuesta;
+
     }
 
 	
