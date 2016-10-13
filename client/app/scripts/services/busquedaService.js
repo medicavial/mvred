@@ -15,6 +15,7 @@
             detalleAtencion : detalleAtencion,
             detalleFolio : detalleFolio,
             documentosAtencion:documentosAtencion,
+            documentoSolicitud:documentoSolicitud,
             productoAtencionDocumentos:productoAtencionDocumentos,
             productos: productos,
             productosCliente : productosCliente,
@@ -127,6 +128,12 @@
         function documentosAtencion(atencion,producto){
             return $http.get(api + 'busqueda/documentos/' + atencion + '/' + producto,{timeout: 10000});
         };
+
+
+        //busqueda de documentos para la solicitud de autorización
+        function documentoSolicitud(){
+            return $http.get(api + 'busqueda/documentoSolicitud');
+        }
 
         //consulta de productos activos
         function productos(){

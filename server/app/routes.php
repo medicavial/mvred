@@ -58,6 +58,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('detalleAtencion/{clave}', array('uses' => 'BusquedasController@detalleAtencion'));
         Route::get('detalleFolio/{folio}', array('uses' => 'BusquedasController@detalleFolio'));
         Route::get('documentos/{atencion}/{producto}', array('uses' => 'BusquedasController@documentos'));
+        Route::get('documentoSolicitud', array('uses' => 'BusquedasController@documentoSolicitud'));
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
         Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
         Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));

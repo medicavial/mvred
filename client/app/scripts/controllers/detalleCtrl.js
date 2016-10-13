@@ -96,6 +96,7 @@
 		dt.nuevaEt1 = nuevaEt1;
 		dt.nuevaEt2 = nuevaEt2;
 		dt.nuevaEt3 = nuevaEt3;
+		dt.solicitudAutorizacion = solicitudAutorizacion;
 
 
 		function inicio(){
@@ -221,6 +222,26 @@
 			}).error(function (error){
 				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
 			});
+
+		}
+
+		function solicitudAutorizacion(imagen,ev){
+
+			$mdDialog.show({
+				templateUrl: 'views/solicitudAutorizacion.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false,
+				locals:{datos:dt.dato},
+				resolve:{
+					info:function(busqueda){
+						return busqueda.documentoSolicitud();
+					}
+				},
+				fullscreen: true,
+				controller: 'solicitudAutorizacionCtrl',
+				controllerAs: 'sol'
+		    });
 
 		}
 

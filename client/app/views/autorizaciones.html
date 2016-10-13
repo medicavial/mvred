@@ -62,3 +62,11 @@
 <md-content class="md-whiteframe-2dp" ng-if="!dt.autorizaciones.datos">
   <md-subheader class="md-no-sticky">Sin Autorización registrada</md-subheader>
 </md-content>
+
+
+<md-button class="md-fab md-warn md-fab-bottom-right" aria-label="Solicitud de Autorizacion" style="position: fixed;" ng-click="dt.solicitudAutorizacion()">
+  <ng-md-icon icon="add" style="fill: white"></ng-md-icon> 
+  <md-tooltip md-direction="top">
+    Solicitar Autorización
+  </md-tooltip>
+</md-button>

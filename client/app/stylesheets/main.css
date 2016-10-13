@@ -796,6 +796,10 @@ md-toast.info .md-toast-content {
 }
 
 
+.caja{
+  height: 200px;
+}
+
 @media (max-width: 960px) {
   .padding-views{
     padding: 0 !important;

@@ -10,35 +10,6 @@ class BusquedasController extends BaseController {
 		
 	}
 
-	//da el detalle de una atencion
-	public function detalleAtencion($clave){
-
-		$respuesta = array();
-		$atencion = Atencion::join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')->find($clave);
-
-		$folio = $atencion->Exp_folio;
-		$tipoAtn = $atencion->TIA_clave;
-		$producto = Expediente::find($folio)->Pro_clave;
-
-		$tiposDocumento = $this->documentos($tipoAtn,$producto);
-		$imagenes = $this->imagenes($clave);
-
-		//requisitos de una atencion
-		$requisitos = Requisito::where('TIA_clave',$tipoAtn)->get();
-
-		//anotaciones que ya se generaron segun los requisitos
-		$anotaciones = Anotacion::where('ATN_clave',$clave)->get();
-
-		$respuesta['info'] = $atencion;
-		$respuesta['tipos'] = $tiposDocumento;
-		$respuesta['imagenes'] = $imagenes;
-		$respuesta['requisitos'] = $requisitos;
-		$respuesta['anotaciones'] = $anotaciones;
-
-		return $respuesta;
-		
-	}
-
 	// funcion para mostrar las atenciones de un folio
 	public function ajustadores($localidad){
 
@@ -75,6 +46,35 @@ class BusquedasController extends BaseController {
 		return Compania::activos();
 	}
 
+	//da el detalle de una atencion
+	public function detalleAtencion($clave){
+
+		$respuesta = array();
+		$atencion = Atencion::join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')->find($clave);
+
+		$folio = $atencion->Exp_folio;
+		$tipoAtn = $atencion->TIA_clave;
+		$producto = Expediente::find($folio)->Pro_clave;
+
+		$tiposDocumento = $this->documentos($tipoAtn,$producto);
+		$imagenes = $this->imagenes($clave);
+
+		//requisitos de una atencion
+		$requisitos = Requisito::where('TIA_clave',$tipoAtn)->get();
+
+		//anotaciones que ya se generaron segun los requisitos
+		$anotaciones = Anotacion::where('ATN_clave',$clave)->get();
+
+		$respuesta['info'] = $atencion;
+		$respuesta['tipos'] = $tiposDocumento;
+		$respuesta['imagenes'] = $imagenes;
+		$respuesta['requisitos'] = $requisitos;
+		$respuesta['anotaciones'] = $anotaciones;
+
+		return $respuesta;
+		
+	}
+
 
 	//genera un detalle de folio
 	public function detalleFolio($folio){
@@ -91,6 +91,10 @@ class BusquedasController extends BaseController {
 					     ->leftJoin('RiesgoAfectado','RiesgoAfectado.RIE_clave','=','Expediente.RIE_clave')
 						 ->where('Exp_folio',$folio)
 						 ->first();
+	}
+
+	public function documentoSolicitud(){
+		return DocumentoSolicitud::activos();
 	}
 
 
