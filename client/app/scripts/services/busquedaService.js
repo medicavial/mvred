@@ -68,6 +68,8 @@
                 autorizaciones = $http.get(api + 'busqueda/autorizaciones/' + folio ,{timeout: 10000}),
                 //consulta tickets
                 tickets        = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+                //solicitudes
+                solicitudes    = $http.get(api + 'busqueda/solicitudes/' + folio ,{timeout: 10000});
             
             $q.all([tickets,historial,autorizaciones,atenciones]).then(function (data){
 

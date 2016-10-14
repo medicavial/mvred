@@ -395,6 +395,10 @@ class BusquedasController extends BaseController {
 		return $respuesta;
 	}
 
+	public function solicitudes($folio){
+		return Solicitud::where('Exp_folio',$folio)->get();
+	}
+
 
 	//muestra los tipos de atenciones que existen activos
 	public function tiposAtencion(){
