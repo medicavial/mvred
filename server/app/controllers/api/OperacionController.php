@@ -408,7 +408,7 @@ class OperacionController extends BaseController {
 
 	}
 
-
+	// se solicita autorizacion a medicavial para autorizar la atencion 
 	public function solicitaAutorizacion(){
 		
 		$atencion = Input::get('atencion');
@@ -447,6 +447,113 @@ class OperacionController extends BaseController {
 		$Historico->guardar();
 
 		return Response::json(array('respuesta' => 'El expediente se envio a solicitud de autorizacion'));
+
+	}
+
+	//funcion para solicitar autorizacion a coordinacion medica
+	public function solicitud(){
+
+		//datos de folio
+	    $usuario = Input::get('usuario');
+	    $folio = Input::get('folio');
+	    $lesionado = Input::get('lesionado');
+	    $tipo = Input::get('tipo');
+	    $cliente = Input::get('cliente');
+
+	    $diagnostico = Input::get('diagnostico');
+	    $justificacion = Input::get('justificacion');
+	    
+	    //interconsulta
+	    $consultatipo = Input::get('interconsulta')['tipo'];
+	    $embarazo = Input::get('interconsulta')['embarazo'];
+	    $controlgineco = Input::get('interconsulta')['controlgineco'];
+	    $semanas = Input::get('interconsulta')['semanas'];
+	    $dolorabdominal = Input::get('interconsulta')['dolorabdominal'];
+	    $frecuencia = Input::get('interconsulta')['frecuencia'];
+	    $movimientosfetales = Input::get('interconsulta')['movimientosfetales'];
+	    $consultaObs = Input::get('interconsulta')['observaciones'];
+
+	    //estudio especial
+	    $estudiotipo = Input::get('estudio')['tipo'];
+	    $estudiodetalle = Input::get('estudio')['detalle'];
+
+	    //rehabilitacion
+
+	    $dolor = Input::get('rehabilitacion')['dolor'];
+	    $rehabilitaciones = Input::get('rehabilitacion')['rehabilitaciones'];
+	    $mejora = Input::get('rehabilitacion')['mejora'];
+
+	    //suministro
+
+	    $suministrodetalle = Input::get('suministro')['detalle'];
+
+	    //informacion
+	    $notamedica = Input::get('informacion')['notamedica'];
+	    $rx = Input::get('informacion')['rx'];
+	    $resultados = Input::get('informacion')['resultados'];
+	    $infodetalle = Input::get('informacion')['detalle'];
+
+	    //salida de paquete
+
+	    $hospitalarioDetalle = Input::get('salidapaquete')['detalle'];
+
+	    //problema documental
+
+	    $pase = Input::get('problemadocumental')['pase'];
+	    $identificacion = Input::get('problemadocumental')['identificacion'];
+	    $docdetalle = Input::get('problemadocumental')['detalle'];
+
+	    $primera = substr ($lesionado,0, 1); 
+	    $ultima = substr ($lesionado,-1, 1); 
+
+	    $clave = 'S'. $primera . $ultima . $this->generar_numero();
+
+	    $archivos = Input::get('soporte');
+
+	    $solicitud = new Solicitud;
+
+	    $solicitud->SOL_claveint = $clave;
+		$solicitud->TIM_claveint = $tipo;
+		$solicitud->Exp_folio = $folio;
+		$solicitud->SOL_lesionado = $lesionado;
+		$solicitud->SOL_estatus = 1;
+		$solicitud->SOL_fechaReg = date('Y-m-d H:i:s');;
+		$solicitud->SOL_fechaActualiza = date('Y-m-d H:i:s');
+		$solicitud->Usu_login = $usuario;
+		$solicitud->Cia_clave = $cliente;
+		$solicitud->save();
+
+		$detalleSolicitud = new DetalleSolicitud;
+		$detalleSolicitud->SOL_claveint = $clave;
+		$detalleSolicitud->DES_diagnostico = $diagnostico;
+		$detalleSolicitud->DES_justificacion = $justificacion;
+		$detalleSolicitud->DES_intertipo = $consultatipo;
+		$detalleSolicitud->DES_embarazo = $embarazo;
+		$detalleSolicitud->DES_controlgineco = $controlgineco;
+		$detalleSolicitud->DES_semanas   = $semanas;
+		$detalleSolicitud->DES_dolorabdominal = $dolorabdominal;
+		$detalleSolicitud->DES_frecuencia = $frecuencia;
+		$detalleSolicitud->DES_movimientosfetales = $movimientosfetales;
+		$detalleSolicitud->DES_embarazoObs = $consultaObs;
+		$detalleSolicitud->DES_estudiotipo = $estudiotipo;
+		$detalleSolicitud->DES_estudioDetalle = $estudiodetalle;
+		$detalleSolicitud->DES_dolor = $dolor;
+		$detalleSolicitud->DES_rehabilitaciones = $rehabilitaciones;
+		$detalleSolicitud->DES_mejora = $mejora;
+		$detalleSolicitud->DES_suministroDetalle = $suministrodetalle;
+		$detalleSolicitud->DES_notamedica = $notamedica;
+		$detalleSolicitud->DES_rx = $rx;
+		$detalleSolicitud->DES_resultados = $resultados;
+		$detalleSolicitud->DES_infoDetalle = $infodetalle;
+		$detalleSolicitud->DES_hosDetalle = $hospitalarioDetalle;
+		$detalleSolicitud->DES_pase = $pase;
+		$detalleSolicitud->DES_identificacion = $identificacion;
+		$detalleSolicitud->DES_documentalDetalle = $docdetalle;
+		$detalleSolicitud->save();
+
+
+		return Solicitud::find($clave);
+
 
 	}
 
@@ -599,6 +706,22 @@ class OperacionController extends BaseController {
 		return $ruta;
 
 	}
+
+	private function generar_numero(){ 
+
+        $valor = '';
+
+        $pares = '24680';
+        $nones = '13579';
+        $consonantes = "BCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $todos =  $pares . $consonantes . $nones;
+       
+        $valor .= substr($pares,rand(0,4),1);
+        $valor .= substr($nones,rand(0,4),1);
+        $valor .= substr($todos,rand(0,34),1);
+        return $valor;
+
+	} 
 
 	
 }

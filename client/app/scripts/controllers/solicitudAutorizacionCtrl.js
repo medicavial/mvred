@@ -5,13 +5,13 @@
 	angular.module('app')
 	.controller('solicitudAutorizacionCtrl',solicitudAutorizacionCtrl)
 
-	solicitudAutorizacionCtrl.$inject = ['datos', 'info', 'operacion', 'mensajes', '$rootScope','$mdDialog'];
+	solicitudAutorizacionCtrl.$inject = ['datos', 'operacion', 'mensajes', '$rootScope','$mdDialog'];
 
-	function solicitudAutorizacionCtrl(datos, info, operacion, mensajes,  $rootScope,$mdDialog){
+	function solicitudAutorizacionCtrl(datos, operacion, mensajes,  $rootScope,$mdDialog){
 
 
 		console.log(datos);
-		console.log(info);
+		
 
 		var sol = this;
 		
@@ -149,7 +149,7 @@
 
 		function siguiente(){
 			
-			console.log(sol.tabActual);
+			// console.log(sol.tabActual);
 
 			if (sol.tabActual == 0 && sol.datos.tipo != '') {
 				sol.step2block = false;
@@ -158,22 +158,27 @@
 			}else if(sol.tabActual == 1){
 				sol.step3block = false;
 				sol.tabActual++;
+			}else if(sol.tabActual == 2){
+				sol.step4block = false;
+				sol.tabActual++;
+			}else if(sol.tabActual == 3){
+				sol.step5block = false;
+				sol.tabActual++;
 			}
 
 		}
 
 		function solicitar() {
 
-			$('#final').button('loading');
-
-	        console.log($scope.datos.usuario);
-
-	        movimientos.ingresaSolicitud($scope.datos).success(function (data){
-	        	console.log(data);
-	        	$('#final').button('reset');
-	        	$scope.clavesolicitud = data.clave;
-	        	$scope.mensaje = data.respuesta;
-	        })
+			sol.guardando = true;
+	        operacion.ingresaSolicitud(sol.datos).success(function (data){
+	        	sol.guardando = false;
+	        	mensajes.alerta('Datos Guardados Correctamente','success','top right','done_all');
+	        	$mdDialog.hide(data);
+	        }).error(function (error){
+	        	mensajes.alerta('Ocurrio un error intentalo nuevamente','error','top right','error');
+	        	sol.guardando = false;
+	        });
 
 	    }
 

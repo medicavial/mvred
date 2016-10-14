@@ -153,6 +153,7 @@
 				dt.historial = data.historial;
 				//autorizaciones medicas
 				dt.autorizaciones = data.autorizaciones;
+				dt.solicitudes = data.solicitudes;
 
 				dt.primera = data.primera[0]; 
 
@@ -233,14 +234,12 @@
 				targetEvent: ev,
 				clickOutsideToClose:false,
 				locals:{datos:dt.dato},
-				resolve:{
-					info:function(busqueda){
-						return busqueda.documentoSolicitud();
-					}
-				},
 				fullscreen: true,
 				controller: 'solicitudAutorizacionCtrl',
 				controllerAs: 'sol'
+		    })
+		    .then(function(solicitud) {
+		      dt.solicitudes.push(solicitud);
 		    });
 
 		}

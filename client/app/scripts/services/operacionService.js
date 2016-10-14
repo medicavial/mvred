@@ -14,6 +14,7 @@
             creaAtencion:creaAtencion,
             eliminaImagen:eliminaImagen,
             factura:factura,
+            ingresaSolicitud:ingresaSolicitud,
             guardaDocumento:guardaDocumento,
             registroPaciente:registroPaciente,
             registroSiniestro:registroSiniestro,
@@ -179,6 +180,10 @@
             });
 
             return promesa.promise;
+        }
+
+        function ingresaSolicitud(datos){
+            return $http.post(api + 'operacion/solicitud', datos ,{timeout: 10000});
         }
 
     }

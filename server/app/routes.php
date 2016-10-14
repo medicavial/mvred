@@ -68,6 +68,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('riesgos', array('uses' => 'BusquedasController@riesgos'));
         Route::get('registros', array('uses' => 'BusquedasController@registros'));
         Route::get('registrosGlobales', array('uses' => 'BusquedasController@registrosGlobales'));
+        Route::get('solicitudes/{folio}', array('uses' => 'BusquedasController@solicitudes'));
         Route::get('tiposAtencion', array('uses' => 'BusquedasController@tiposAtencion'));
         Route::get('tiposDocumento', array('uses' => 'BusquedasController@tiposDocumento'));
         Route::get('tiposTelefono', array('uses' => 'BusquedasController@tiposTelefono'));
@@ -83,6 +84,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
+        Route::post('solicitud', array('uses' => 'OperacionController@solicitud'));
         Route::post('verificaDuplicado', array('uses' => 'OperacionController@verificaDuplicado'));
     });
 
