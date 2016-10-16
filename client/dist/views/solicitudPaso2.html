@@ -1,0 +1,89 @@
+<md-content layout="column" layout-padding>
+              
+  <md-input-container layout-align="center">
+    <label>Tipo de Interconsulta</label>
+    <md-select ng-model="sol.datos.interconsulta.tipo" placeholder="Tipo de Interconsulta">
+      <md-option value="">Selecciona Consulta</md-option>
+      <md-option value="Neurologia">Neurología</md-option>
+      <md-option value="Ginecologia">Ginecología</md-option>
+      <md-option value="Otorrinolaringologia">Otorrinolaringología</md-option>
+      <md-option value="Oftalmologia">Oftalmología</md-option>
+      <md-option value="Otro">Otro</md-option>
+    </md-select>
+  </md-input-container>
+
+  <div ng-if=" sol.datos.interconsulta.tipo == 'Ginecologia' ">
+    
+    <md-content layout="row" layout-align="center start" layout-padding>
+      <md-subheader>¿La Paciente se Encuentra Embarazada?</md-subheader>
+      <md-button class="md-raised md-primary" ng-click="sol.pacienteEmbarazada = true" aria-label="Si">Si</md-button>
+      <md-button class="md-raised md-warn" ng-click="sol.siguiente()" aria-label="No">No</md-button>
+    </md-content>
+    <br>
+    <md-content layout="column" ng-if=" sol.pacienteEmbarazada ">
+        
+        <div layout="row" layout-align="center start" layout-wrap>
+            
+          <div class="text-center" flex>
+            <p>¿Actualmente está sometida a control ginecológico?</p>
+
+            <md-radio-group ng-model="datos.interconsulta.controlgineco" layout="row" layout-align="center start" >
+
+              <md-radio-button value="SI">Si</md-radio-button>
+              <md-radio-button value="NO"> No </md-radio-button>
+
+            </md-radio-group>
+          </div>
+          <div class="text-center" flex>
+            <p>¿Dolor abdominal?</p>
+
+            <md-radio-group ng-model="datos.interconsulta.dolorabdominal" layout="row" layout-align="center start">
+
+              <md-radio-button value="SI">Si</md-radio-button>
+              <md-radio-button value="NO"> No </md-radio-button>
+
+            </md-radio-group>
+          </div>
+          <div class="text-center" flex>
+            <p>Movimientos Fetales</p>
+
+            <md-radio-group ng-model="datos.interconsulta.movimientosfetales" layout="row" layout-align="center start">
+
+              <md-radio-button value="Presentes">Presentes</md-radio-button>
+              <md-radio-button value="Ausentes"> Ausentes </md-radio-button>
+
+            </md-radio-group>
+          </div>
+
+        </div>
+        <br>
+        <div layout="row" layout-align="center start" layout-padding>
+          
+          <md-input-container class="md-block" flex>
+            <label>Semanas de gestacion</label>
+            <input type="number" step="1" name="semanas" ng-model="sol.datos.interconsulta.semanas" min="0" max="36" />
+          </md-input-container>
+          
+          <md-input-container class="md-block" flex>
+            <label>Frecuencia cardiaca fetal</label>
+            <input type="text"  ng-model="sol.datos.interconsulta.movimientosfetales" />
+          </md-input-container>
+
+        </div>
+
+        <div layout-padding>
+          
+          <md-input-container class="md-block">
+            <label>Observaciones</label>
+            <textarea ng-model="sol.datos.interconsulta.observaciones" md-select-on-focus></textarea>
+          </md-input-container>
+
+
+        </div>
+
+
+    </md-content>
+
+  </div>
+
+</md-content>

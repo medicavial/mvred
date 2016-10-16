@@ -23,13 +23,13 @@
 
 			switch(opcion){
 				case 1:
-					var video = 'http://medicavial.net/mvred/videos/3_Numero_de%20faltas_y_retardos%20LIC_MARIANA_SANCHEZ.mp4';
+					var video = 'http://medicavial.net/mvred/videos/2_Conociendo_a_M%C3%A9dicaVial.mp4';
 					break;
 				case 2:
-					var video = 'http://medicavial.net/mvred/videos/5_Expedientes_completos_ING_ALFREDO_GUTIERREZ.mp4';
+					var video = 'http://medicavial.net/mvred/videos/3.2_Registro_Web.mp4';
 					break;
 				case 3:
-					var video = 'http://medicavial.net/mvred/videos/7_Tiempo_de_espera_ING_ALFREDO_GUTIERREZ.mp4';
+					var video = 'http://medicavial.net/mvred/videos/4_Autorizaciones_Especiales_y_Salida_de_Paquete.mp4';
 					break;
 			}
 

@@ -8,9 +8,6 @@
 	solicitudAutorizacionCtrl.$inject = ['datos', 'operacion', 'mensajes', '$rootScope','$mdDialog'];
 
 	function solicitudAutorizacionCtrl(datos, operacion, mensajes,  $rootScope,$mdDialog){
-
-
-		console.log(datos);
 		
 
 		var sol = this;
@@ -44,6 +41,9 @@
 			sol.step3block = true;
 			sol.step4block = true;
 			sol.step5block = true;
+
+			sol.paso1 = 'views/solicitudPaso1.html';
+			sol.paso2 = 'views/solicitudPaso2.html';
 
 
 			sol.datos = {

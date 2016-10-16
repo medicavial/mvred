@@ -396,7 +396,8 @@ class BusquedasController extends BaseController {
 	}
 
 	public function solicitudes($folio){
-		return Solicitud::where('Exp_folio',$folio)->get();
+		return Solicitud::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','Solicitudes.TIM_claveint')
+						->where('Exp_folio',$folio)->get();
 	}
 
 

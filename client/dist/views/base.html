@@ -1,16 +1,15 @@
-<toolbar titulo="titulo" menu="menu" url="url"></toolbar>
-<div class="relative">
+<md-content class="bg-transparent height-full">
 
-  <md-content ng-if="!cargando" ui-view flex class="bg-transparent paginas"></md-content>
+  <toolbar titulo="titulo" menu="menu" url="url"></toolbar>
 
-  <md-content id="centro" ng-if="cargando" layout-align="center bottom">
-    <md-progress-circular md-mode="indeterminate" md-diameter="50" class="md-accent"></md-progress-circular>
-  </md-content>
-  <br>
-  <br>
-  <br>
+  <div ng-if="!cargando" ui-view class="paginas"></div>
 
-</div>
+  <div ng-if="cargando" id="centro" layout="row" layout-align="center center">
+      <md-progress-circular md-mode="indeterminate" md-diameter="50" class="md-accent"></md-progress-circular>
+  </div>
+
+</md-content>
+
       
 <!-- Menu Izquierdo -->
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-2dp" md-component-id="left" md-is-locked-open="false" style="transition: all 0.5s cubic-bezier(0.45, 0.05, 0.55, 0.95);">
