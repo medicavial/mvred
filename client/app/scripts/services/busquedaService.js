@@ -67,11 +67,11 @@
                 //consulta autorizaciones
                 autorizaciones = $http.get(api + 'busqueda/autorizaciones/' + folio ,{timeout: 10000}),
                 //consulta tickets
-                tickets        = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000});
+                tickets        = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000}),
                 //solicitudes
                 solicitudes    = $http.get(api + 'busqueda/solicitudes/' + folio ,{timeout: 10000});
             
-            $q.all([tickets,historial,autorizaciones,atenciones]).then(function (data){
+            $q.all([tickets,historial,autorizaciones,atenciones,solicitudes]).then(function (data){
 
                 var atenciones = data[3].data;
                 var primera = $filter('filter')(atenciones,{TIA_clave:1});
@@ -82,6 +82,7 @@
                     tickets : data[0].data,
                     historial:data[1].data,
                     autorizaciones:data[2].data,
+                    solicitudes:data[4].data,
                     primera:primera,
                     subsecuencias:subsecuencias,
                     rehabilitaciones:rehabilitaciones

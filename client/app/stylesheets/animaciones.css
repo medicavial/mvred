@@ -80,15 +80,15 @@
 
 
 
-.muestras.ng-hide-add {
+.muestras.ng-leave {
 
-    animation: fadeOutDown 0.9s;
+    animation: fadeOutDown 0.5s;
 
 }
 
-.muestras.ng-hide-remove{
+.muestras.ng-enter{
     
-    animation: fadeInUp 0.9s;
+    animation: fadeInUp 0.5s;
 
 }
 
