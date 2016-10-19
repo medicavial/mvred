@@ -11,7 +11,6 @@ class OperacionController extends BaseController {
 	{
 		$this->rutaArchivos = '../registro/';
 	    // $this->rutaArchivos = public_path().'../../../../registro/';
-
 	}
 
 	//creamos una nueva atencion
@@ -298,6 +297,7 @@ class OperacionController extends BaseController {
 		$expediente->Pro_clave = Input::get('producto');
 		$expediente->Exp_fq = Input::get('folioInterno');
 		$expediente->Uni_claveActual = $unidad;
+		$expediente->Exp_FE = 1;
 		$expediente->save();
 
 		$archivo = $this->generaCodigo($folio);
@@ -401,7 +401,8 @@ class OperacionController extends BaseController {
         $expediente->Exp_triageActual = 1;
         $expediente->Exp_extemporaneo = Input::get('extemporaneo');
         $expediente->Exp_motivo = Input::get('motivoEx');
-        $expediente->Exp_fechaAtn = Input::get('fechaAtencion');
+        $expediente->Exp_fecPaseMed = Input::get('fechaExp');
+        $expediente->Exp_fechaAtn = Input::has('fechaAtencion') ? Input::get('fechaAtencion') : date('Y-m-d H:i:s');
         $expediente->save();
 
 		return Response::json(array('respuesta' => 'Registro Generado Correctamente'));
@@ -447,6 +448,61 @@ class OperacionController extends BaseController {
 		$Historico->guardar();
 
 		return Response::json(array('respuesta' => 'El expediente se envio a solicitud de autorizacion'));
+
+	}
+
+	// se solicita cancelacion del folio
+	public function solicitaCancelacion(){
+		
+		$usuario = Input::get('usuario');
+		$folio = Input::get('folio');
+		$claveMotivo = Input::get('motivoId');
+		$motivo = Input::get('motivo');
+		$folioSus = Input::get('folioSus');
+		$observaciones = Input::get('observaciones');
+
+		$mcancelado = TipoCancelacion::find($claveMotivo)->CAC_nombre;
+
+		//verificamos si l folio tiene atenciones
+		$atenciones = Atencion::where('Exp_folio',$folio)->count();
+
+		$expediente = Expediente::find($folio);
+		$expediente->Usu_cancelado = $usuario;
+		$expediente->Exp_fcancelado = date('Y-m-d H:i:s');
+		$expediente->Exp_mcancelado = $mcancelado;
+		$expediente->Exp_motCancel = $motivo;
+		$expediente->Exp_duplicado = $folioSus;
+
+		//preguntamos si las atenciones son mayores a 0 si es verdadero no actualizamos el bit
+		//en caso de ser 0 cancelamos directamente
+		if ($atenciones > 0) {
+			$expediente->Exp_solCancela = 1;
+		}else{
+			$expediente->Exp_cancelado = 1;
+		}
+
+		$expediente->save();
+
+
+		// verificamos si hay requisitos por guardar
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = 'Se solicitó cancelación del expediente';
+		$Historico->descripcion = 'El usuario ' . $usuario . ' solicitó cancelación del expediente';
+		$Historico->folio = $folio;
+		$Historico->etapa = 1;
+		$Historico->entrega = 1;
+		$Historico->guardar();
+
+		if ($atenciones > 0) {
+			$respuesta = 'La solicitud fue exitosa y esta en proceso de revision';
+			$estatus = 'Solicitado';
+		}else{
+			$respuesta = 'El folio se canceló automaticamente sin problemas';
+			$estatus = 'Cancelado';
+		}
+
+		return Response::json(array('respuesta' => $respuesta,'estatus' => $estatus));
 
 	}
 
@@ -552,7 +608,17 @@ class OperacionController extends BaseController {
 		$detalleSolicitud->save();
 
 
-		return Solicitud::find($clave);
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = 'Se Solicitó Autorizacion Médica del expediente';
+		$Historico->descripcion = 'El usuario ' . $usuario . ' solicitó Autorización Médica del expediente con la clave ' . $clave;
+		$Historico->folio = $folio;
+		$Historico->etapa = 1;
+		$Historico->entrega = 1;
+		$Historico->guardar();
+
+
+		return Solicitud::join('TipoMovimiento','TipoMovimiento.TIM_claveint','=','Solicitudes.TIM_claveint')->where('SOL_claveint',$clave)->first();
 
 
 	}

@@ -41,7 +41,7 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row class="fila" ng-repeat="registro in bs.registros">
+            <tr md-row class="fila" ng-repeat="registro in bs.registros" ng-disabled="registro.Exp_cancelado == '1' ">
               
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell class="imagen"> 
                 <img class="img-thumbnail md-whiteframe-2dp" ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ registro.Cia_logo }}" alt="{{registro.Cia_clave}}"  width="100"> 
@@ -52,7 +52,7 @@
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_fecreg}}</td>
               <td ui-sref="index.detalle({folio:registro.Exp_folio})" md-cell>{{registro.Exp_obs}}</td>
               <td md-cell>
-                  <md-menu md-position-mode="target-right target" >
+                  <md-menu md-position-mode="target-right target" ng-if="registro.Exp_cancelado == '0' ">
                     <md-button aria-label="Opciones" class="md-icon-button" ng-click="$mdOpenMenu()">
                       <md-icon md-menu-origin>
                         <ng-md-icon icon="more_vert"></ng-md-icon> 
@@ -65,12 +65,22 @@
                         </md-button>
                       </md-menu-item>
                       <md-menu-item>
-                        <md-button ng-click="ir.editaTipo($event,registro)">
+                        <md-button ng-click="bs.solicitaCancelacion($event,registro)">
                           <p>Solicitar Cancelación</p>
                         </md-button>
                       </md-menu-item>
                     </md-menu-content>
                   </md-menu>
+                  <ng-md-icon icon="inbox" style="fill:black" aria-label="Solicitado" ng-if="registro.Exp_solCancela == '1' ">
+                    <md-tooltip md-direction="top">
+                      Solicitado
+                    </md-tooltip>
+                  </ng-md-icon> 
+                  <ng-md-icon icon="cancel" style="fill:red" aria-label="Cancelado" ng-if="registro.Exp_cancelado == '1' ">
+                    <md-tooltip md-direction="top">
+                      Cancelado
+                    </md-tooltip>
+                  </ng-md-icon> 
               </td>              
             </tr>
             

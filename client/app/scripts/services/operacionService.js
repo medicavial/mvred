@@ -19,6 +19,7 @@
             registroPaciente:registroPaciente,
             registroSiniestro:registroSiniestro,
             solicitaAutorizacion:solicitaAutorizacion,
+            solicitaCancelacion:solicitaCancelacion,
             subirImagenes:subirImagenes
         };
 
@@ -103,7 +104,7 @@
 
             }).error(function (error){
                 promesa.reject('No se encontro la factura');
-            })
+            });
 
 
             return promesa.promise;
@@ -121,6 +122,10 @@
 
         function solicitaAutorizacion(datos){
             return $http.post(api + 'operacion/autorizacion', datos ,{timeout: 10000});
+        };
+
+        function solicitaCancelacion(datos){
+            return $http.post(api + 'operacion/cancelacion', datos ,{timeout: 10000});
         };
 
         //function para subir imagen con el tipo de archivo

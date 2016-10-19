@@ -9,11 +9,11 @@
 	.controller('busquedaGeneralCtrl',busquedaGeneralCtrl)
 	
 
-	busquedaCtrl.$inject = ['$rootScope','registros','mensajes', 'publicfiles'];
-	busquedaGeneralCtrl.$inject = ['$rootScope','registrosGlobales','mensajes', 'publicfiles'];
+	busquedaCtrl.$inject = ['$rootScope','registros','mensajes', 'publicfiles', '$mdDialog'];
+	busquedaGeneralCtrl.$inject = ['$rootScope','registrosGlobales','mensajes', 'publicfiles', '$mdDialog'];
 	
 
-	function busquedaCtrl($rootScope,registros, mensajes, publicfiles){
+	function busquedaCtrl($rootScope,registros, mensajes, publicfiles, $mdDialog){
 
 		// se inciliza el objeto del controlador y la vista
 		var bs = this;
@@ -32,6 +32,7 @@
 		bs.inicio = inicio; //funcion para limpiar todos los campos
 		bs.buscar = buscar; //funcion para buscar el registro especificado
 		bs.ordenar = ordenar; // funcion para ordenar y buscar en query
+		bs.solicitaCancelacion = solicitaCancelacion; // funcion para solicitar cancelacion del folio
 
 		bs.detalle = [];
 		bs.selected = [];
@@ -100,9 +101,32 @@
 
 	  	};
 
+
+	  	function solicitaCancelacion(ev,folio){
+
+	  		$mdDialog.show({
+		      controller: 'cancelacionCtrl',
+		      controllerAs:'can',
+		      templateUrl: 'views/cancelacion.html',
+		      locals: { folio: folio.Exp_folio },
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: true
+		    })
+		    .then(function(estatus) {
+		    	console.log(estatus);
+	        	if (estatus == 'Cancelado'){
+	        		folio.Exp_cancelado = 1;
+	        	}else if (estatus == 'Solicitado') {
+	        		folio.Exp_solCancela = 1;
+	        	};
+	        });
+	  	}
+
 	};
 
-	function busquedaGeneralCtrl($rootScope,registrosGlobales, mensajes, publicfiles){
+	function busquedaGeneralCtrl($rootScope,registrosGlobales, mensajes, publicfiles, $mdDialog){
 
 		// se inciliza el objeto del controlador y la vista
 		var bs = this;
@@ -121,7 +145,7 @@
 		bs.inicio = inicio; //funcion para limpiar todos los campos
 		bs.buscar = buscar; //funcion para buscar el registro especificado
 		bs.ordenar = ordenar; // funcion para ordenar y buscar en query
-
+		bs.solicitaCancelacion = solicitaCancelacion; // funcion para solicitar cancelacion del folio
 		bs.detalle = [];
 
 		bs.muestraDetalle = function(index,folio){
@@ -188,6 +212,27 @@
 		    console.log('Order: ' + order);
 
 	  	};
+
+	  	function solicitaCancelacion(ev,folio){
+
+	  		$mdDialog.show({
+		      controller: 'cancelacionCtrl',
+		      controllerAs:'can',
+		      templateUrl: 'views/cancelacion.html',
+		      locals: { folio: folio },
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: true
+		    })
+		    .then(function(estatus) {
+	        	if (estatus == 'canelado'){
+	        		folio.Exp_cancelado = 1;
+	        	}else if (estatus == 'solicitado') {
+	        		folio.Exp_solCancela = 1;
+	        	};
+	        });
+	  	}
 
 	};
 

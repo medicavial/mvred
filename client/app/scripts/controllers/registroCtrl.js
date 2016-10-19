@@ -52,6 +52,7 @@
 		vm.resetForms		   = resetForms;
 		vm.consultaInfo		   = consultaInfo;
 		vm.verificaObligatorio = verificaObligatorio;
+		vm.verificaVigencia    = verificaVigencia;
 
 		// funciones del controlador
 		function agregaTelefono(ev){
@@ -125,7 +126,7 @@
 
 		function detalleAjustador(ajustador){
 			
-			console.log(ajustador);
+			// console.log(ajustador);
 
 			if (ajustador != undefined) {
 
@@ -228,6 +229,7 @@
 			vm.imagenFolio = '';
 			vm.compania = '';
 			vm.registro = '';
+			vm.vigencia = 0;
 
 			vm.datos = {
 				unidad:$rootScope.unidad,
@@ -269,6 +271,7 @@
 				reporte: '',
 				observacionesDeducible: '',
 				fechaAtencion:'',
+				fechaExp:'',
 				extemporaneo:false,
 				motivoEx:''
 			}
@@ -309,16 +312,18 @@
 			};
 
 			busqueda.productosCliente(cliente.Cia_clave,vm.datos.localidad).success(function(data){
+				
 				vm.productos = data;
 				vm.consultando = false;
 				vm.datos.cliente = cliente.Cia_clave;
 				vm.imagenCliente = cliente.Cia_logo;
 				vm.compania = cliente.Cia_nombrecorto;
+				vm.vigencia = cliente.Cia_vigenciaPase;
 
 				// en caso de haber solo un producto seleccion de producto automatico
 				if (vm.productos.length == 1) {
 					var producto = vm.productos[0];
-					confirmaProducto(producto)
+					confirmaProducto(producto);
 				}else{
 					if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para selección de producto');
 				}
@@ -326,6 +331,24 @@
 			});
 
 		}
+
+		function verificaVigencia(){
+			
+			var fecha1 = moment(); 
+			var fecha2 = moment(vm.datoSiniestro.fechaExp);
+
+			var dias = fecha1.diff(fecha2, 'days');
+
+			console.log(dias);
+			console.log(vm.vigencia);
+
+			if (dias > vm.vigencia) {
+				mensajes.alerta('El pase esta vencido','error','top right','report_problem');
+			};
+			
+
+		}
+
 
 	};
 

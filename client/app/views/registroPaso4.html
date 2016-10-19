@@ -156,6 +156,15 @@
         </section>
 
         <section layout="row" layout-xs="column">
+          
+          <md-input-container flex="20">
+            <label>Fecha de expedición del pase</label>
+            <md-datepicker name="fechaExp" ng-change="rg.verificaVigencia()" ng-model="rg.datoSiniestro.fechaExp" required></md-datepicker>
+            <div class="validation-messages" ng-messages="rg.registroForm.fechaExp.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+            </div>
+            
+          </md-input-container>
 
           <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" flex>
             Folio Extemporaneo <span ng-if="rg.datoSiniestro.extemporaneo">Si</span> <span ng-if="!rg.datoSiniestro.extemporaneo">No</span> 
@@ -176,7 +185,7 @@
             
           </md-input-container>
 
-          <md-input-container class="md-block" flex-gt-sm="60" ng-if="rg.datoSiniestro.extemporaneo ">
+          <md-input-container class="md-block" flex-gt-sm="40" ng-if="rg.datoSiniestro.extemporaneo ">
             <label>Motivo</label>
             <textarea ng-model="rg.datoSiniestro.motivoEx" name="motivoEx" rows="1" ng-required="rg.datoSiniestro.extemporaneo"></textarea>
             <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">

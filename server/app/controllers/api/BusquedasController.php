@@ -312,7 +312,7 @@ class BusquedasController extends BaseController {
 		}								
 
 		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo','Exp_fq')
+					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo','Exp_cancelado','Exp_solCancela','Exp_fq')
 					 ->where('Uni_clave',$unidad)
 					 ->orderBy($order,$tipo)
 					 ->paginate($limite);
@@ -348,7 +348,7 @@ class BusquedasController extends BaseController {
 		}								
 
 		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
-					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo')
+					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo','Exp_cancelado','Exp_solCancela','Exp_fq')
 					 ->orderBy($order,$tipo)
 					 ->paginate($limite);
 
@@ -406,9 +406,9 @@ class BusquedasController extends BaseController {
 		return TipoAtencion::activos();
 	}
 
-	//muestra los tipos de telefono
-	public function tiposTelefono(){
-		return TipoTelefono::all();
+	// muestra el catalogo de cancelaciones para el folio
+	public function tiposCancelacion(){
+		return TipoCancelacion::all();
 	}
 
 
@@ -421,5 +421,10 @@ class BusquedasController extends BaseController {
 			))
 			->orderBy('TID_orden')
 			->get();
+	}
+
+	//muestra los tipos de telefono
+	public function tiposTelefono(){
+		return TipoTelefono::all();
 	}
 }

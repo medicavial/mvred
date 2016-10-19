@@ -22,6 +22,7 @@
             registros : registros,
             riesgos:riesgos,
             tipos: tipos,
+            tiposCancelacion:tiposCancelacion,
             tiposDocumento:tiposDocumento,
             tiposAtencion:tiposAtencion
 
@@ -198,6 +199,11 @@
         //tipos de telefono
         function tipos(){
             return $http.get(api + 'busqueda/tiposTelefono',{timeout: 10000});
+        };
+
+        //tipos de cancelacion
+        function tiposCancelacion(){
+            return $http.get(api + 'busqueda/tiposCancelacion',{timeout: 10000});
         };
 
         //tipos de documentos

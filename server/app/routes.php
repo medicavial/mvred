@@ -31,7 +31,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('/', function()
 	{
-		// return View::make('hello');
+		return View::make('hello');
         // $pdf = PDF2::loadView('registro.caratula');
         // return $pdf->stream();
 
@@ -61,7 +61,6 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('documentoSolicitud', array('uses' => 'BusquedasController@documentoSolicitud'));
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
         Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
-        Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));
         Route::get('productoAtencionDocumentos', array('uses' => 'BusquedasController@productoAtencionDocumentos'));
         Route::get('productos', array('uses' => 'BusquedasController@productos'));
         Route::get('productos/{cliente}/{localidad}', array('uses' => 'BusquedasController@productosCliente'));
@@ -69,14 +68,17 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('registros', array('uses' => 'BusquedasController@registros'));
         Route::get('registrosGlobales', array('uses' => 'BusquedasController@registrosGlobales'));
         Route::get('solicitudes/{folio}', array('uses' => 'BusquedasController@solicitudes'));
+        Route::get('tickets/{folio}', array('uses' => 'BusquedasController@tickets'));
         Route::get('tiposAtencion', array('uses' => 'BusquedasController@tiposAtencion'));
+        Route::get('tiposCancelacion', array('uses' => 'BusquedasController@tiposCancelacion'));
         Route::get('tiposDocumento', array('uses' => 'BusquedasController@tiposDocumento'));
         Route::get('tiposTelefono', array('uses' => 'BusquedasController@tiposTelefono'));
-
+        
     });
 
     Route::group(array('prefix' => 'operacion'), function(){
         Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
+        Route::post('cancelacion', array('uses' => 'OperacionController@solicitaCancelacion'));
         Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));
         Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));

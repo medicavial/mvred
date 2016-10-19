@@ -53,7 +53,7 @@
     </section>
     
     <section layout="row" layout-align="center center">
-      <md-button>Imprimir Portada</md-button>
+      <md-button ng-href="http://medicavial.net/mvnuevo/api/classes/formatoFolio.php?fol={{ dt.dato.Exp_folio }}" target="_blank" >Imprimir Portada</md-button>
     </section>
     
     <md-divider></md-divider>
@@ -67,7 +67,10 @@
         <span>Alertas</span>
       </md-content>
       <md-content flex class="text-center estatus">
-        <span>Estatus: Abierto</span>
+        <span>Estatus: </span>
+        <span ng-if="dt.dato.Exp_cancelado == '0'">Abierto</span>
+        <span ng-if="dt.dato.Exp_cancelado == '1'">Cancelado</span>
+        <span ng-if="dt.dato.Exp_solCancela == '1'">Cancelación Solicitada</span>
       </md-content>
       <md-content flex class="text-center estatus">
         <span>Expediente Dentro de Paquete</span>

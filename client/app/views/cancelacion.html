@@ -1,0 +1,69 @@
+<md-dialog aria-label="Cancelacion" flex-sm="65" flex-gt-md="40" flex="100">
+
+  <form name="can.datosForm" ng-submit="can.enviaSolicitud()" novalidate>
+
+    <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <h2>{{ can.titulo }}</h2>
+        <span flex></span>
+        <md-button  class="md-icon-button" ng-click="can.cerrar()">
+          <ng-md-icon icon="close" style="fill:white" aria-label="Cerrar Ventana"></ng-md-icon> 
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding layout-wrap>
+
+      <div layout-gt-sm="row" layout="column">  
+        
+        <md-input-container class="md-block" flex>
+          <label>Tipo de Cancelación</label>
+          <md-select ng-model="can.datos.motivoId" name="tipoCancel" required>
+            <md-option><em>Seleccione</em></md-option>
+            <md-option ng-repeat="motivo in can.motivos" ng-value="motivo.CAC_cve">
+              {{motivo.CAC_nombre}}
+            </md-option>
+          </md-select>
+          <div ng-messages="can.datosForm.tipoCancel.$error" ng-if="can.datosForm.$submitted">
+            <div ng-message="required">El campo es requerido</div>             
+          </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex>
+          <label>Motivo Cancelación</label>
+          <input ng-model="can.datos.motivo" name="motivo" type="text" required>
+          <div ng-messages="can.datosForm.motivo.$error" ng-if="can.datosForm.$submitted">
+            <div ng-message="required">El campo es requerido</div>             
+          </div>
+        </md-input-container>
+
+      </div>
+
+      <div layout-gt-sm="row" layout="column">  
+        
+        <md-input-container class="md-block" flex>
+          <label>Folio Sustituto</label>
+          <input ng-model="can.datos.folioSus" type="text">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex>
+          <label>Observaciones</label>
+          <input ng-model="can.datos.observaciones" type="text">
+        </md-input-container>
+
+      </div>
+
+      <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="can.guardando"></md-progress-circular>
+
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+
+      <span flex></span>
+      <md-button type="submit" ng-disabled="can.guardando">
+          Enviar Solicitud
+      </md-button>
+
+    </md-dialog-actions>
+  </form>
+
+
+</md-dialog>

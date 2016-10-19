@@ -78,7 +78,7 @@
               </md-card-content>
               <md-card-actions layout="row" layout-align="center center">
                 <md-button ui-sref="index.home">Regresar a Home</md-button>
-                <md-button>Imprimir</md-button>
+                <md-button ng-href="http://medicavial.net/mvnuevo/api/classes/formatoFolio.php?fol={{ rg.datoSiniestro.folio }}" target="_blank">Imprimir</md-button>
                 <md-button ui-sref="index.detalle({folio:rg.datoSiniestro.folio})">Ir al Expediente</md-button>
               </md-card-actions>
             </md-card>
