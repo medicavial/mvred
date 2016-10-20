@@ -469,8 +469,8 @@ class OperacionController extends BaseController {
 		$expediente = Expediente::find($folio);
 		$expediente->Usu_cancelado = $usuario;
 		$expediente->Exp_fcancelado = date('Y-m-d H:i:s');
-		$expediente->Exp_mcancelado = $mcancelado;
-		$expediente->Exp_motCancel = $motivo;
+		$expediente->Exp_mcancelado = $motivo;
+		$expediente->Exp_motCancel = $mcancelado;
 		$expediente->Exp_duplicado = $folioSus;
 
 		//preguntamos si las atenciones son mayores a 0 si es verdadero no actualizamos el bit

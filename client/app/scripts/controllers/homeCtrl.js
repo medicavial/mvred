@@ -97,6 +97,16 @@
 				size:'84',
 				permiso:true,
 				url:'index.documentos'
+			},
+			{
+				nombre:'Alta Requisitos',
+				background:'bgm-deeppurple',
+				icon:'featured_play_list',
+				col:'1',
+				row:'1',
+				size:'84',
+				permiso:true,
+				url:'index.requisitos'
 			}
 		];
 

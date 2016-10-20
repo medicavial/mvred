@@ -122,11 +122,16 @@
 		}
 
 		function muestraSeccion (page,icon,color){
-			dt.page = page;
-			dt.icon = icon;
-			dt.bg   = color;
-			dt.seccion = true;
-			muestraPanel();
+
+			if (dt.dato.Exp_cancelado == 1 || dt.dato.Exp_solCancela == 1) {
+				mensajes.alerta('El folio esta inactivo','error','top right','error');
+			}else{
+				dt.page = page;
+				dt.icon = icon;
+				dt.bg   = color;
+				dt.seccion = true;
+				muestraPanel();
+			}
 		}
 
 		function cierraSeccion (page,icon){

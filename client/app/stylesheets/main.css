@@ -80,6 +80,11 @@ h1,h2,h3,h4{
     width: 60%;
 }
 
+ng-md-icon.big-button {
+    height: 128px;
+    width: 128px;
+}
+
 md-bottom-sheet.md-grid md-list-item .md-grid-item-content {
     border: 1px solid transparent;
     height: 90px;

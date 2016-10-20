@@ -118,6 +118,18 @@
 			}
 		})
 
+		.state('index.estadistica',{
+			url:'estadistica?tipo',
+			templateUrl :'views/estadistica.html',
+			controller:'estadisticaCtrl',
+			controllerAs:'et',
+			resolve : {
+				datos : function(reportes,$q,$stateParams){
+					return reportes.detalleEstadistica($stateParams.tipo);
+				}
+			}
+		})
+
 		.state('index.formatos',{
 			url:'formatos',
 			templateUrl :'views/formatos.html',
