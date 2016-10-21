@@ -4,8 +4,10 @@
 
 	angular.module('app')
 	.controller('estadisticasCtrl',estadisticasCtrl)
+	.controller('estadisticaCtrl',estadisticaCtrl)
 
 	estadisticasCtrl.$inject = ['$rootScope', '$mdDialog', 'datos'];
+	estadisticaCtrl.$inject = ['$rootScope', 'datos','$stateParams'];
 
 
 	function estadisticasCtrl($rootScope, $mdDialog, datos){
@@ -59,6 +61,33 @@
 	    }
 
 	};
+
+
+	function estadisticaCtrl($rootScope, datos,$stateParams){
+
+		console.log(datos);
+
+		var es = this;
+
+		es.datos = datos.data;
+		es.tipo = $stateParams.tipo;
+
+		$rootScope.atras = true;
+		$rootScope.menu = 'arrow_back';
+		
+		if (es.tipo == 'documentos') {
+			$rootScope.titulo = 'Detalle de Atenciones Sin Documentos';
+		}else if (es.tipo == 'autorizar') {
+			$rootScope.titulo = 'Detalle de Atenciones Con Documentos Sin Autorizar';
+		}else if (es.tipo == 'factura'){
+			$rootScope.titulo = 'Detalle de Atenciones Autorizadas Sin Facturar';
+		}else if (es.tipo == 'rechazo'){
+			$rootScope.titulo = 'Detalle de Atenciones Rechazadas';
+		}
+	}
+
+
+
 
 
 

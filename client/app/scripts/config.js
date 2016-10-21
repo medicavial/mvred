@@ -122,7 +122,7 @@
 			url:'estadistica?tipo',
 			templateUrl :'views/estadistica.html',
 			controller:'estadisticaCtrl',
-			controllerAs:'et',
+			controllerAs:'es',
 			resolve : {
 				datos : function(reportes,$q,$stateParams){
 					return reportes.detalleEstadistica($stateParams.tipo);

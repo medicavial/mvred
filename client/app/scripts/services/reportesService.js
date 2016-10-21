@@ -11,6 +11,7 @@
         var servicio = {
             atencionesAnio:atencionesAnio,
             atencionesMes:atencionesMes,
+            detalleEstadistica:detalleEstadistica,
             estadisticas:estadisticas
         };
 
@@ -26,6 +27,11 @@
         function atencionesMes(){
             return $http.get(api + 'reportes/atenciones/mes/' + $rootScope.unidad ,{timeout: 10000});
         };
+
+        //consulta el listado de los datos estadisticos
+        function detalleEstadistica(tipo){
+            return $http.get(api + 'reportes/listado/' + $rootScope.unidad + '/' + tipo ,{timeout: 10000});  
+        }
 
         //Consulta las estadisticas del mes
         function estadisticas(){
