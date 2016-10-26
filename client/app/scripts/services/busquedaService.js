@@ -16,6 +16,8 @@
             detalleFolio : detalleFolio,
             documentosAtencion:documentosAtencion,
             documentoSolicitud:documentoSolicitud,
+            lesionCodificada : lesionCodificada,
+            lesionMV : lesionMV,
             productoAtencionDocumentos:productoAtencionDocumentos,
             productos: productos,
             productosCliente : productosCliente,
@@ -24,8 +26,8 @@
             tipos: tipos,
             tiposCancelacion:tiposCancelacion,
             tiposDocumento:tiposDocumento,
-            tiposAtencion:tiposAtencion
-
+            tiposAtencion:tiposAtencion,
+            tipoLesion:tipoLesion
         };
 
         return servicio;
@@ -101,17 +103,19 @@
         //consulta el detalle de la atencion
         function detalleAtencion(atencion){
             var promesa  = $q.defer(),
+                lesion   = tipoLesion(),
                 detalle  = $http.get( api + 'busqueda/detalleAtencion/' + atencion );
 
             
-            $q.when(detalle).then(function (datos){
+            $q.all([detalle,lesion]).then(function (datos){
 
                 var datos = {
-                    tipos : datos.data.tipos,
-                    imagenes:datos.data.imagenes,
-                    info:datos.data.info,
-                    requisitos:datos.data.requisitos,
-                    anotaciones:datos.data.anotaciones
+                    tipos : datos[0].data.tipos,
+                    imagenes:datos[0].data.imagenes,
+                    info:datos[0].data.info,
+                    requisitos:datos[0].data.requisitos,
+                    anotaciones:datos[0].data.anotaciones,
+                    lesiones:datos[1].data
                 }
 
                 promesa.resolve(datos);
@@ -136,7 +140,17 @@
 
         //busqueda de documentos para la solicitud de autorización
         function documentoSolicitud(){
-            return $http.get(api + 'busqueda/documentoSolicitud');
+            return $http.get(api + 'busqueda/documentoSolicitud',{timeout: 10000});
+        }
+
+        //busqueda lesion codificada segun el tipo de lesion MV
+        function lesionCodificada(lesion){
+            return $http.get(api + 'busqueda/lesionCodificada/' + lesion ,{timeout: 10000});
+        }
+
+        //busqueda lesion MV segun el tipo de lesion 
+        function lesionMV(tipo){
+            return $http.get(api + 'busqueda/lesionMV/' + tipo ,{timeout: 10000});
         }
 
         //consulta de productos activos
@@ -158,7 +172,7 @@
         // consulta de registros
         function registros(datos){
 
-            console.log(datos);
+            // console.log(datos);
 
             var promesa    = $q.defer(),
                 parametros = 'unidad=' + $rootScope.unidad;
@@ -214,6 +228,11 @@
         //tipos de atenciones
         function tiposAtencion(){
             return $http.get(api + 'busqueda/tiposAtencion',{timeout: 10000});
+        };
+
+        //tipos de lesiones
+        function tipoLesion(){
+            return $http.get(api + 'busqueda/tipoLesion',{timeout: 10000});
         };
 
 

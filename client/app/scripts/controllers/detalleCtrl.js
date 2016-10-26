@@ -59,15 +59,15 @@
 				size:'84',
 				page:'views/tickets.html'
 			},
-			{
-				nombre:'Pagos',
-				background:'green600',
-				icon:'credit_card',
-				col:'1',
-				row:'1',
-				size:'84',
-				page:'views/pagosExpediente.html'
-			},
+			// {
+			// 	nombre:'Pagos',
+			// 	background:'green600',
+			// 	icon:'credit_card',
+			// 	col:'1',
+			// 	row:'1',
+			// 	size:'84',
+			// 	page:'views/pagosExpediente.html'
+			// },
 			{
 				nombre:'Linea de Tiempo',
 				background:'purple400',
@@ -76,16 +76,16 @@
 				row:'1',
 				size:'84',
 				page:'views/timeline.html'
-			},
-			{
-				nombre:'Interaccion',
-				background:'indigo400',
-				icon:'chat',
-				col:'1',
-				row:'1',
-				size:'84',
-				page:'views/comunicacion.html'
 			}
+			// {
+			// 	nombre:'Interaccion',
+			// 	background:'indigo400',
+			// 	icon:'chat',
+			// 	col:'1',
+			// 	row:'1',
+			// 	size:'84',
+			// 	page:'views/comunicacion.html'
+			// }
 		];
 
 		dt.cierraSeccion = cierraSeccion;
@@ -131,12 +131,16 @@
 				dt.bg   = color;
 				dt.seccion = true;
 				muestraPanel();
+				$rootScope.atras = false;
+	        	$rootScope.menu = 'menu';
 			}
 		}
 
 		function cierraSeccion (page,icon){
 			dt.seccion = false;
 			if (!dt.detalle) muestraPanel();
+			$rootScope.atras = true;
+			$rootScope.menu = 'arrow_back';
 			
 		}
 
@@ -204,6 +208,8 @@
 		
 		function nuevaEt1 (){
 
+			mensajes.alerta('Preparando información','info','top right','work');
+			
 			operacion.creaAtencion({folio:dt.folio,tipoAtn:1,consecutivo:1}).success(function (data){
 				dt.primera = data;
 			}).error(function (error){

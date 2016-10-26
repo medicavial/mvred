@@ -13,7 +13,7 @@
         var operacion = {
             creaAtencion:creaAtencion,
             eliminaImagen:eliminaImagen,
-            factura:factura,
+            subirFactura:subirFactura,
             ingresaSolicitud:ingresaSolicitud,
             guardaDocumento:guardaDocumento,
             registroPaciente:registroPaciente,
@@ -37,40 +37,62 @@
         }
 
         //funcion para leer los xml
-        function factura(archivo,folio,etapa,entrega){
+        function subirFactura(archivos,atencion){
+
 
             var promesa = $q.defer();
-
-            var file = archivo[0];
-
-            if (!file.$error) {
-                console.log(file);
-                // Upload.upload({
-                    
-                //     url: api+'operacion/factura',
-                //     data: {file: file, usuario: $rootScope.id,folio:folio, tipo:tipo,etapa:etapa,entrega:entrega}
-                // }).then(function (resp) {
-
-
-                //     promesa.resolve(resp.data);
-
-
-                // }, function (resp) {
-
-                //     if (isNaN(resp)) {
-                //         promesa.reject('Archivo con problemas');
-                //     }else{
-                //         promesa.reject(resp.data.flash);                            
-                //     }
-
-                // }, function (evt) {
-                //     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                //     promesa.notify(progressPercentage);
-                // });  
-
-            }else{
-                promesa.reject('Formato Invalido');
+            var respuesta = {
+                xml:false,
+                pdf:false,
+                datos:''
             }
+
+            for (var i = 0; i < archivos.length; i++) {
+                
+                var file = archivos[i];
+
+                if (!file.$error) {
+
+                    console.log(file);
+
+                    if (file.type == 'text/xml') {
+                        var ruta = api+'operacion/facturaXML';
+                        respuesta.xml = true;
+                    }else{
+                        var ruta = api+'operacion/facturaPDF';
+                        respuesta.pdf = true;
+                    };
+
+                    Upload.upload({
+                        url:  ruta,
+                        data: {file: file, usuario: $rootScope.id,atencion:atencion}
+                    }).then(function (resp) {
+                        // console.log(resp);
+
+                        if (file.type == 'text/xml') {
+                            var x2js = new X2JS();
+                            respuesta.datos = x2js.xml_str2json(resp.data);
+
+                        }
+                        
+                        promesa.resolve(respuesta);
+
+                    }, function (resp) {
+
+                        if (isNaN(resp)) {
+                            promesa.reject('Archivo con problemas');
+                        }else{
+                            promesa.reject(resp.data.flash);                            
+                        }
+
+                    });  
+
+                }else{
+
+                    promesa.reject('Formato Invalido');
+                }
+
+            };
 
 
             return promesa.promise;

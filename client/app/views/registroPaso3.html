@@ -88,13 +88,18 @@
 
           <md-input-container flex>
             <label>E-mail</label>
-            <input type="email" name="correo" ng-model="rg.datos.email" bloqueo="32" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|org$|gob$|me$)/" required>
+            <input type="email" name="correo" ng-model="rg.datos.email" bloqueo="32" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|org$|gob$|me$)/" ng-required="!atn.sincorreo">
             <div ng-messages="rg.registroForm.correo.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="pattern">Formato invalido.</div>
               <div ng-message="required">Campo obligatorio.</div>
               <div ng-message="email">Correo invalido.</div>
             </div>
+            <br>
+            <md-checkbox aria-label="No Dar Correo" ng-model="atn.sincorreo">
+              Paciente no quiere porporcionar su correo
+            </md-checkbox>
           </md-input-container>
+
           <md-input-container flex>
             <label>Codigo postal</label>
             <input type="text" name="cp" ng-model="rg.datos.cp" maxlength="5" numero>

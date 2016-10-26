@@ -1,4 +1,4 @@
-//servicio que verifica sesiones de usuario
+//servicio que busca en expediente todos los registros
 (function(){
 
     'use strict';

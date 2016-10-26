@@ -31,7 +31,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('/', function()
 	{
-		return View::make('hello');
+		// return View::make('hello');
         // $pdf = PDF2::loadView('registro.caratula');
         // return $pdf->stream();
 
@@ -41,7 +41,7 @@ Route::group(array('prefix' => 'api'), function()
         // PDF::Output(public_path() . 'hello_world.pdf','FD');
 
         // return Expediente::where('Exp_folio' ,'PRMV000121')->select('*')->first()
-
+        return ExpedienteLesion::where('Exp_folio','PRMV000136')->count();
 
     });
 
@@ -61,6 +61,8 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('documentoSolicitud', array('uses' => 'BusquedasController@documentoSolicitud'));
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
         Route::get('imagenes/{folio}', array('uses' => 'BusquedasController@imagenes'));
+        Route::get('lesionCodificada/{lesion}', array('uses' => 'BusquedasController@lesionCodificada'));
+        Route::get('lesionMV/{tipoLES}', array('uses' => 'BusquedasController@lesionMV'));
         Route::get('productoAtencionDocumentos', array('uses' => 'BusquedasController@productoAtencionDocumentos'));
         Route::get('productos', array('uses' => 'BusquedasController@productos'));
         Route::get('productos/{cliente}/{localidad}', array('uses' => 'BusquedasController@productosCliente'));
@@ -72,6 +74,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('tiposAtencion', array('uses' => 'BusquedasController@tiposAtencion'));
         Route::get('tiposCancelacion', array('uses' => 'BusquedasController@tiposCancelacion'));
         Route::get('tiposDocumento', array('uses' => 'BusquedasController@tiposDocumento'));
+        Route::get('tipoLesion', array('uses' => 'BusquedasController@tipoLesion'));
         Route::get('tiposTelefono', array('uses' => 'BusquedasController@tiposTelefono'));
         
     });
@@ -84,6 +87,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));
         Route::get('portada/{folio}', array('uses' => 'OperacionController@generaPortada'));
         Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
+        Route::post('facturaXML', array('uses' => 'OperacionController@facturaXML'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
         Route::post('solicitud', array('uses' => 'OperacionController@solicitud'));

@@ -20,30 +20,33 @@
 
 		//al cargar el el componente se ejecuta la funcion inicio
 		atn.$onInit = inicio;
-		atn.$onDestroy = destruccion;
+		// atn.$onDestroy = destruccion;
 
 		atn.cargaInfo = cargaInfo;
 		atn.eliminarDigitales = eliminarDigitales;
+		atn.lesionMV = lesionMV;
+		atn.lesionCodificada = lesionCodificada;
 		atn.motivo = motivo;
 		atn.muestraArchivo = muestraArchivo;
 		atn.subirDigitales = subirDigitales;
+		atn.subirFactura = subirFactura;
 		atn.solicitaAutorizacion = solicitaAutorizacion;
 
 		function inicio(){
 
 			atn.solicitando = false;
+			cargaInfo();
 
-			if ( webStorage.local.has(atn.clave) ) {
+			// if ( webStorage.local.has(atn.clave) ) {
 
-				var data = JSON.parse( webStorage.local.get(atn.clave) ); 
-				atn.datos = data.info;
-				atn.tiposDocumento = data.tipos;
-				atn.imagenes = data.imagenes;
+			// 	var data = JSON.parse( webStorage.local.get(atn.clave) ); 
+			// 	atn.datos = data.info;
+			// 	atn.tiposDocumento = data.tipos;
+			// 	atn.imagenes = data.imagenes;
 
-			}else{
+			// }else{
 
-				cargaInfo();
-			}
+			// }
 
 		}
 
@@ -66,13 +69,14 @@
 			atn.opacidad = {'opacity':0.3};
 			busqueda.detalleAtencion(atn.clave).then(
 				function (data){
-					// console.log(data);
+					console.log(data);
 					atn.datos = data.info;
 					atn.tiposDocumento = data.tipos;
 					atn.imagenes = data.imagenes;
 					atn.cargando = false;
 					atn.anotaciones = data.anotaciones;
 					atn.requisitos = data.requisitos;
+					atn.lesiones = data.lesiones;
 					atn.opacidad = {};
 				},
 				function (error){
@@ -81,11 +85,26 @@
 					atn.opacidad = {};
 				}
 			);
+		
 		}
 
+		function lesionMV(){
+			
+			busqueda.lesionMV(atn.tipoLes).success(function (data){
+				atn.lesionesMV = data;
+			})
+
+		}
+
+		function lesionCodificada(){
+			
+			busqueda.lesionCodificada(atn.lesionMV).success(function (data){
+				atn.lesionesCod = data;
+			})
+
+		}
 
 		function subirDigitales(files,tipo,ev){
-
 
 			if (files.length > 0) {
 
@@ -115,12 +134,43 @@
 
 		}
 
+		function subirFactura(files,ev){
+
+			if (files.length > 0) {
+
+				atn.subiendoImagen = true;
+				operacion.subirFactura(files,atn.clave).then(
+					function (datos){
+
+						atn.subiendoImagen = false;
+						console.log(datos);
+						mensajes.alerta('Factura subida correctamente','success','top right','done_all');
+						
+						// atn.facturas.push(datos);						
+						// atn.porcentaje = '';
+						// atn.tipo = '';
+						// atn.files = [];
+					},	
+					function (error){
+						mensajes.alerta(error,'error','top right','error');
+						atn.porcentaje = '';
+						atn.subiendoImagen = false;
+					}
+				)
+
+			};
+
+		}
+
 		function solicitaAutorizacion(){
 
 			var datos = {
 				atencion:atn.clave,
 				usuario:$rootScope.id,
-				requisitos: atn.anotaciones.length > 0 ? '':atn.requisitos
+				requisitos: atn.anotaciones.length > 0 ? '':atn.requisitos,
+				tipoLes:atn.tipoLes,
+				lesionMV:atn.lesionMV,
+				lesionCod:atn.lesionCod
 			}
 
 			atn.solicitando = true;
@@ -179,6 +229,7 @@
 				.ok('Cerrar');
 
 		    $mdDialog.show(alert);
+		
 		}
 
 		function muestraArchivo(imagen,ev){

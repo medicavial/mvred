@@ -102,8 +102,8 @@ class BusquedasController extends BaseController {
 	public function documentos($tipoAtn,$producto){
 
 		return AtencionDocumento::join('TipoDocumento','TipoDocumento.TID_claveint','=','AtencionDocumento.TID_clave')
-								->select('TipoDocumento.*')
-								->where(array( 'TIA_clave' => $tipoAtn, 'Pro_clave' => $producto ))->get();
+								->select('TipoDocumento.*','ATD_requerido')
+								->where(array( 'TIA_clave' => $tipoAtn, 'Pro_clave' => $producto,'TID_activa' => 1 ))->get();
 	}
 
 
@@ -210,6 +210,25 @@ class BusquedasController extends BaseController {
 
 		return $imagenes;
 
+	}
+
+	//funcion que busca lesion CIE segun lesion MV
+	public function lesionCodificada($lesion){
+		// return LesionCIE::join('CieOrtopedico','LesionCodificada.CIE_cve','=','CieOrtopedico.CIE_cve')
+		// 				->join('LesionEquivalencia','LesionCodificada.LesE_clave','=','LesionEquivalencia.Clave_lesionCia')
+		// 				->where('Clave_lesionMV',$lesion)->get();
+
+		$sql = "SELECT LCO_cve as id, LesionCodificada.CIE_cve as clave, CIE_descripcion as descripcion FROM LesionCodificada
+                INNER JOIN CieOrtopedico on LesionCodificada.CIE_cve= CieOrtopedico.CIE_cve collate utf8_general_ci
+                INNER JOIN LesionEquivalencia on LesionCodificada.LesE_clave=LesionEquivalencia.Clave_lesionCia
+                where Clave_lesionMV='$lesion'";
+
+    	return DB::select($sql);
+	}
+
+	//funcion que busca la lesion MV segun el tipo de lesion
+	public function lesionMV($tipoLES){
+		return LesionMV::where('TLE_claveint',$tipoLES)->get();
 	}
 
 	//funcion que devuelve los documentos disponibles segun el producto y tipo atencion
@@ -426,5 +445,10 @@ class BusquedasController extends BaseController {
 	//muestra los tipos de telefono
 	public function tiposTelefono(){
 		return TipoTelefono::all();
+	}
+
+	//busqueda de tipo de lesion
+	public function tipoLesion(){
+		return TipoLesion::where('TLE_cat',1)->get();
 	}
 }

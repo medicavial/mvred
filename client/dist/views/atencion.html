@@ -12,8 +12,8 @@
         <span ng-if="atn.datos.ATN_estatus == 4">Completo</span> 
       </md-subheader>
       <span flex></span>
-      <md-button class="md-icon-button" aria-label="Actualizar" ng-click="atn.cargaInfo()">
-        <md-tooltip md-direction="top">
+      <md-button class="md-accent md-icon-button" aria-label="Actualizar" ng-click="atn.cargaInfo()">
+        <md-tooltip md-direction="left">
           Actualizar
         </md-tooltip>
         <ng-md-icon icon="refresh"></ng-md-icon>
@@ -31,7 +31,7 @@
             
           <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column" layout-xs="column">
             
-            <section flex="50">
+            <section flex="50" ng-if="atn.datos.ATN_estatus != 2">
 
               <md-subheader class="md-no-sticky">Subir Documento</md-subheader>
               <md-divider></md-divider>
@@ -63,6 +63,16 @@
               </div>
 
             </section>
+            <section flex="50" ng-if="atn.datos.ATN_estatus == 2">
+              <div layout="column" layout-align="center center">  
+                
+                <ng-md-icon icon="check_circle" style="fill: green" size="128" class="big-button"></ng-md-icon>
+                <br><br>
+                <p>Atención Aprobada Puedes Ingresar tu Factura</p>
+                <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Subir Factura</md-button>
+
+              </div> 
+            </section> 
             <section flex="50">
 
               <md-subheader class="md-no-sticky">Archivos Disponibles</md-subheader>
@@ -119,7 +129,25 @@
                 </md-toolbar>
                 
                 <form name="atn.requisitosForm" layout="column" >
-                    
+                  
+                  <div layout="row" layout-align="space-between center">
+                    <span>Tipo de Lesión</span>
+                    <md-select ng-model="atn.datos.lesion" placeholder="Lesion" class="md-no-underline" md-on-close="atn.lesionMV()">
+                      <md-option ng-repeat="lesion in atn.lesiones" ng-value="lesion.TLE_claveint">{{ lesion.TLE_nombre }}</md-option>
+                    </md-select>
+                  </div>
+                  <div layout="row" layout-align="space-between center">
+                    <span>Lesión</span>
+                    <md-select ng-model="atn.datos.lesionMV" placeholder="Lesion MV" class="md-no-underline" md-on-close="atn.lesionCodificada()">
+                      <md-option ng-repeat="lesionMV in atn.lesionesMV" ng-value="lesionMV.LES_clave">{{ lesionMV.LES_nombreMedic }}</md-option>
+                    </md-select>
+                  </div>
+                  <div layout="row" layout-align="space-between center">
+                    <span>Lesión Principal Codifiada</span>
+                    <md-select ng-model="atn.datos.lesionCod" placeholder="Lesion Codificada" class="md-no-underline">
+                      <md-option ng-repeat="lesionCod in atn.lesionesCod" ng-value="lesionCod.clave">{{ lesionCod.descripcion }}</md-option>
+                    </md-select>
+                  </div>
                   <md-input-container ng-repeat=" requisito in atn.requisitos" flex>
                     <label>{{ ::requisito.REQ_valor }}</label>
                     <input ng-model="requisito.valor" ng-required="requisito.REQ_obligatorio == '1' ">
@@ -132,7 +160,7 @@
 
               
               <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.solicitando"></md-progress-circular>
-              <md-button aria-label="Solicitar Autorización" ng-if="atn.imagenes.length || !atn.solicitando" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Solicitar Autorización</md-button>
+              <md-button class="md-raised md-primary" aria-label="Solicitar Autorización" ng-if="atn.imagenes.length || atn.solicitando == true" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Solicitar Autorización</md-button>
 
             </section>
 

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd " version="3.2" serie="C" folio="1545" fecha="2016-07-27T13:06:19" sello="rZt8qiBjgzWeW/89nZDK275jIYak42ALO3RGVrT8yTK7YHIWLjBjWrGBhVSh77bspef6bbY9mSggsUnLyPlwFdSKNnHoim2YqOPP4Jsid13cBXN9hxrus8CSceYANEgigFY/wKIadwm15bIDfRGn8fZ3Tevvzs2ooA3JIlX7GP0=" formaDePago="PAGO EN UNA SOLA EXHIBICION" noCertificado="00001000000202503397" certificado="MIIEkjCCA3qgAwIBAgIUMDAwMDEwMDAwMDAyMDI1MDMzOTcwDQYJKoZIhvcNAQEFBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEdhcmPDrWEgR3VlcnJhMB4XDTEyMTIwNDE3MzU0OFoXDTE2MTIwNDE3MzU0OFowgdMxJzAlBgNVBAMTHlBST0NFU09TIE1FRElDT1MgWklNQSBTQSBERSBDVjEnMCUGA1UEKRMeUFJPQ0VTT1MgTUVESUNPUyBaSU1BIFNBIERFIENWMScwJQYDVQQKEx5QUk9DRVNPUyBNRURJQ09TIFpJTUEgU0EgREUgQ1YxJTAjBgNVBC0THFBNWjEwMDkxM1NVNCAvIEFBU0E0MTA4MDhTSEExHjAcBgNVBAUTFSAvIEFBU0E0MTA4MDhIQkNMTkwwMjEPMA0GA1UECxMGTUFUUklaMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwZOk3ehzu+7OAWdakKOyFtlHQvJ+weu6DvfkIDVTHZ7SKiEW4BuJG3OTmuMQvt8iu6zH4fTAlATwzm0ZXoQlf8ZQks0KpX7lSTNGjGT5j4TsAd3r07jCGTnEASDTbgJaaZFoFuI1QbBm4XGYTFORnxhQiW2SMUTp7J9GvKk7gRwIDAQABox0wGzAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIGwDANBgkqhkiG9w0BAQUFAAOCAQEASqVH9CiPZKcCh7cLDOFHj/gu487lbI53YkbKVTMlMgSvb1CmZDiJOik1YZW8SsB8EMMCvvzcZpsBowHa3Y2o48Gp1Nso0QaDEJrUZtOEakRcYfEqeONP5Q31KwcTI/7PlcEMSoSbaWwNF8t/F3KoG9rhR87hUMAInEzG8Mhym7ZuVpJR1lwCF4q0IgoAi4iwkjhtMuqfI+mde1kiRUPW6bOgNgYT8jAJaSKwMANFX4r7Wp1HNc3bxaAQ3eMlWekM8qepzYunGB66Wi62oToKkwH7YNj2G8J6xkHh6BGp370L7XYoeFOyu2RtKgwhF0mBiBwrbx0Q2DKZTQEl7i88Cg==" subTotal="450000.00" TipoCambio="1.0000" Moneda="MXN" total="522000.00" tipoDeComprobante="egreso" metodoDePago="99" LugarExpedicion="CUAUHTEMOC,D.F." NumCtaPago="NO IDENTIFICADO">
+  <cfdi:Emisor rfc="PMZ100913SU4" nombre="PROCESOS MEDICOS ZIMA S.A. DE C.V.">
+    <cfdi:DomicilioFiscal calle="ALVARO OBREGON" noExterior="151" noInterior="PISO 11" colonia="ROMA NORTE" municipio="CUAUHTÉMOC" estado="DISTRITO FEDERAL" pais="MÉXICO" codigoPostal="06700" />
+    <cfdi:ExpedidoEn calle="ALVARO OBREGON" noExterior="121" noInterior="PISO 10" colonia="ROMA" municipio="CUAUHTÉMOC" estado="DISTRITO FEDERAL" pais="MÉXICO" codigoPostal="06700" />
+    <cfdi:RegimenFiscal Regimen="GENERAL DE LA LEY P.M." />
+  </cfdi:Emisor>
+  <cfdi:Receptor rfc="MED011012TD4" nombre="MEDICAVIAL S.A. DE C.V.">
+    <cfdi:Domicilio calle="ÁLVARO OBREGÓN" noExterior="151" noInterior="PISO 9" colonia="ROMA" municipio="CUAUHTÉMOC" estado="DISTRITO FEDERAL" pais="MÉXICO" codigoPostal="06700" />
+  </cfdi:Receptor>
+  <cfdi:Conceptos>
+    <cfdi:Concepto cantidad="1.00" unidad="NO APLICA" descripcion="GESTION Y ADMINISTRACIÓN DE SERVICIOS MÉDICOS" valorUnitario="450000.00" importe="450000.00" />
+  </cfdi:Conceptos>
+  <cfdi:Impuestos totalImpuestosTrasladados="72000.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado impuesto="IVA" tasa="16.00" importe="72000.00" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento><tfd:TimbreFiscalDigital version="1.0" UUID="df031a61-19d3-4497-bcf9-06173504f913" FechaTimbrado="2016-07-27T13:07:10" selloCFD="rZt8qiBjgzWeW/89nZDK275jIYak42ALO3RGVrT8yTK7YHIWLjBjWrGBhVSh77bspef6bbY9mSggsUnLyPlwFdSKNnHoim2YqOPP4Jsid13cBXN9hxrus8CSceYANEgigFY/wKIadwm15bIDfRGn8fZ3Tevvzs2ooA3JIlX7GP0=" noCertificadoSAT="00001000000300171326" selloSAT="ReJV6TsSZPNsy8gHIViy8KdibAGEJgqBJ47L54cQ7Rzk/W3P4i/SLgB9BwE8y1j1S7LkBBtm5oirMy0OT+lwrZx77sk+UogN9ZT3b6FaLbjV8Lxws3Ug+UjKe9wt/0kCl5/YJkxHKsJEgWeX/nsKwRt+3vu+GoeZMwlx630cHfE=" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/TimbreFiscalDigital/TimbreFiscalDigital.xsd" /></cfdi:Complemento><cfdi:Addenda xmlns:ecfd="http://www.southconsulting.com/schemas/strict" xsi:schemaLocation="http://www.southconsulting.com/schemas/strict http://www.southconsulting.com/schemas/strict/ecfd.xsd">
+    <ecfd:ECFD version="1.0">
+      <ecfd:Documento ID="T61C1545">
+        <ecfd:Encabezado>
+          <ecfd:IdDoc>
+            <ecfd:NroAprob>396721</ecfd:NroAprob>
+            <ecfd:AnoAprob>2010</ecfd:AnoAprob>
+            <ecfd:Tipo>61</ecfd:Tipo>
+            <ecfd:Serie>C</ecfd:Serie>
+            <ecfd:Folio>1545</ecfd:Folio>
+            <ecfd:Estado>ORIGINAL</ecfd:Estado>
+            <ecfd:FechaEmis>2016-07-27T13:06:19</ecfd:FechaEmis>
+            <ecfd:FormaPago>PAGO EN UNA SOLA EXHIBICION</ecfd:FormaPago>
+            <ecfd:MedioPago>99</ecfd:MedioPago>
+            <ecfd:LugarExpedicion>CUAUHTEMOC,D.F.</ecfd:LugarExpedicion>
+            <ecfd:NumCtaPago>NO IDENTIFICADO</ecfd:NumCtaPago>
+            <ecfd:TermPagoCdg>1</ecfd:TermPagoCdg>
+          </ecfd:IdDoc>
+          <ecfd:ExEmisor>
+            <ecfd:RFCEmisor>PMZ100913SU4</ecfd:RFCEmisor>
+            <ecfd:NmbEmisor>PROCESOS MEDICOS ZIMA S.A. DE C.V.</ecfd:NmbEmisor>
+            <ecfd:DomFiscal>
+              <ecfd:Calle>ALVARO OBREGON</ecfd:Calle>
+              <ecfd:NroExterior>151</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 11</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA NORTE</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>DISTRITO FEDERAL</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:DomFiscal>
+            <ecfd:LugarExped>
+              <ecfd:Calle>ALVARO OBREGON</ecfd:Calle>
+              <ecfd:NroExterior>121</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 10</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>DISTRITO FEDERAL</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:LugarExped>
+          </ecfd:ExEmisor>
+          <ecfd:ExReceptor>
+            <ecfd:RFCRecep>MED011012TD4</ecfd:RFCRecep>
+            <ecfd:NmbRecep>MEDICAVIAL S.A. DE C.V.</ecfd:NmbRecep>
+            <ecfd:DomFiscalRcp>
+              <ecfd:Calle>ÁLVARO OBREGÓN</ecfd:Calle>
+              <ecfd:NroExterior>151</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 9</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>DISTRITO FEDERAL</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:DomFiscalRcp>
+            <ecfd:LugarRecep>
+              <ecfd:Calle>ÁLVARO OBREGÓN</ecfd:Calle>
+              <ecfd:NroExterior>151</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 9</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>DISTRITO FEDERAL</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:LugarRecep>
+          </ecfd:ExReceptor>
+          <ecfd:Totales>
+            <ecfd:Moneda>MXN</ecfd:Moneda>
+            <ecfd:FctConv>1.0000</ecfd:FctConv>
+            <ecfd:SubTotal>450000.00</ecfd:SubTotal>
+            <ecfd:MntBase>450000.00</ecfd:MntBase>
+            <ecfd:MntImp>72000.00</ecfd:MntImp>
+            <ecfd:VlrPagar>522000.00</ecfd:VlrPagar>
+            <ecfd:VlrPalabras>QUINIENTOS  VEINTIDOS MIL  PESOS 00/100 M. N.</ecfd:VlrPalabras>
+          </ecfd:Totales>
+          <ecfd:ExImpuestos>
+            <ecfd:TipoImp>IVA</ecfd:TipoImp>
+            <ecfd:TasaImp>16</ecfd:TasaImp>
+            <ecfd:MontoImp>72000.00</ecfd:MontoImp>
+          </ecfd:ExImpuestos>
+        </ecfd:Encabezado>
+        <ecfd:Detalle>
+          <ecfd:NroLinDet>1</ecfd:NroLinDet>
+          <ecfd:DscLang>ES</ecfd:DscLang>
+          <ecfd:DscItem>GESTION Y ADMINISTRACIÓN DE SERVICIOS MÉDICOS</ecfd:DscItem>
+          <ecfd:QtyItem>1.000</ecfd:QtyItem>
+          <ecfd:UnmdItem>NO APLICA</ecfd:UnmdItem>
+          <ecfd:PrcNetoItem>450000.00</ecfd:PrcNetoItem>
+          <ecfd:MontoNetoItem>450000.00</ecfd:MontoNetoItem>
+        </ecfd:Detalle>
+        <ecfd:Referencia>
+          <ecfd:NroLinRef>2</ecfd:NroLinRef>
+          <ecfd:RazonRef>IDENTIFICADO</ecfd:RazonRef>
+        </ecfd:Referencia>
+        <ecfd:Referencia>
+          <ecfd:NroLinRef>3</ecfd:NroLinRef>
+          <ecfd:RazonRef>ERAL DE LA LEY P.M.</ecfd:RazonRef>
+        </ecfd:Referencia>
+        <ecfd:TimeStamp>2016-07-27T13:08:37</ecfd:TimeStamp>
+      </ecfd:Documento>
+      <ecfd:Personalizados>
+        <ecfd:campoString name="Linea01" />
+        <ecfd:campoString name="Linea02" />
+        <ecfd:campoString name="Linea03" />
+        <ecfd:campoString name="Linea04" />
+        <ecfd:campoString name="Linea05" />
+        <ecfd:campoString name="Linea06" />
+        <ecfd:campoString name="Linea07" />
+        <ecfd:campoString name="Linea08" />
+        <ecfd:campoString name="Linea09" />
+        <ecfd:campoString name="Linea10" />
+        <ecfd:campoString name="Linea11" />
+        <ecfd:campoString name="Linea12" />
+        <ecfd:campoString name="Linea13" />
+        <ecfd:campoString name="Linea14" />
+        <ecfd:campoString name="Linea15" />
+        <ecfd:campoString name="Linea16" />
+        <ecfd:campoString name="Linea17" />
+        <ecfd:campoString name="Linea18" />
+        <ecfd:campoString name="Linea19" />
+        <ecfd:campoString name="Linea20" />
+        <ecfd:campoString name="Linea21" />
+        <ecfd:campoString name="Linea22" />
+        <ecfd:campoString name="Linea23" />
+        <ecfd:campoString name="Linea24" />
+        <ecfd:campoString name="Linea25" />
+        <ecfd:campoString name="Linea26" />
+        <ecfd:campoString name="Linea27" />
+        <ecfd:campoString name="Linea28" />
+        <ecfd:campoString name="Linea29" />
+        <ecfd:campoString name="Linea30" />
+        <ecfd:campoString name="Titulo01" />
+        <ecfd:campoString name="Titulo02" />
+        <ecfd:campoString name="Titulo03" />
+        <ecfd:campoString name="Titulo04" />
+        <ecfd:campoString name="Titulo05" />
+        <ecfd:campoString name="Titulo06" />
+        <ecfd:campoString name="Titulo07" />
+        <ecfd:campoString name="Titulo08" />
+        <ecfd:campoString name="Titulo09" />
+        <ecfd:campoString name="Titulo10" />
+        <ecfd:campoString name="Titulo11" />
+        <ecfd:campoString name="Titulo12" />
+        <ecfd:campoString name="Titulo13" />
+        <ecfd:campoString name="Titulo14" />
+        <ecfd:campoString name="Titulo15" />
+        <ecfd:campoString name="Titulo16" />
+        <ecfd:campoString name="Titulo17" />
+        <ecfd:campoString name="Observaciones11">SE CANCELA POR ERROR EN EMISION</ecfd:campoString>
+        <ecfd:campoString name="Observaciones12" />
+        <ecfd:campoString name="Observaciones13" />
+        <ecfd:campoString name="Observaciones14" />
+        <ecfd:campoString name="Observaciones21">Factura Asociada: C1544</ecfd:campoString>
+        <ecfd:campoString name="Observaciones22" />
+        <ecfd:campoString name="Observaciones23" />
+        <ecfd:campoString name="Observaciones24" />
+        <ecfd:campoString name="Observaciones31" />
+        <ecfd:campoString name="Observaciones32" />
+        <ecfd:campoString name="Observaciones33" />
+        <ecfd:campoString name="Observaciones34" />
+        <ecfd:campoString name="Addenda01" />
+        <ecfd:campoString name="Addenda02" />
+        <ecfd:campoString name="Addenda03" />
+        <ecfd:campoString name="Addenda04" />
+        <ecfd:campoString name="Addenda05" />
+        <ecfd:campoString name="Addenda06" />
+        <ecfd:campoString name="Addenda07" />
+        <ecfd:campoString name="Addenda08" />
+        <ecfd:campoString name="Addenda09" />
+        <ecfd:campoString name="Addenda10" />
+        <ecfd:campoString name="Addenda11" />
+        <ecfd:campoString name="Addenda12" />
+        <ecfd:campoString name="Addenda13" />
+        <ecfd:campoString name="Addenda14" />
+        <ecfd:campoString name="Addenda15" />
+        <ecfd:campoString name="Addenda16" />
+        <ecfd:campoString name="Addenda17" />
+        <ecfd:campoString name="Addenda18" />
+        <ecfd:campoString name="Addenda19" />
+        <ecfd:campoString name="Addenda20" />
+        <ecfd:campoString name="RegimenFiscal">GENERAL DE LA LEY P.M.</ecfd:campoString>
+        <ecfd:campoString name="CuentaDePago">NO IDENTIFICADO</ecfd:campoString>
+        <ecfd:campoString name="LugarDeExpedicion">CUAUHTEMOC,D.F.</ecfd:campoString>
+      </ecfd:Personalizados>
+    </ecfd:ECFD>
+  </cfdi:Addenda>
+</cfdi:Comprobante>
