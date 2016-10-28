@@ -59,6 +59,23 @@ class BusquedasController extends BaseController {
 		$tiposDocumento = $this->documentos($tipoAtn,$producto);
 		$imagenes = $this->imagenes($clave);
 
+		//cargamos las facturas
+		$xml =  Imagenes::where(array('ATN_clave'=>$clave,'Arc_tipo'=>29))
+				->select('Arc_archivo as archivo,
+						  REG_folio as folio,
+                          Arc_clave as clave,
+                          Arc_motivo as motivo')
+				->first();
+
+		$pdf =  Imagenes::where(array('ATN_clave'=>$clave,'Arc_tipo'=>30))
+				->select('Arc_archivo as archivo,
+						  REG_folio as folio,
+                          Arc_clave as clave,
+                          Arc_motivo as motivo')
+				->first();
+
+		$datosXML = '';
+
 		//requisitos de una atencion
 		$requisitos = Requisito::where('TIA_clave',$tipoAtn)->get();
 
@@ -70,6 +87,9 @@ class BusquedasController extends BaseController {
 		$respuesta['imagenes'] = $imagenes;
 		$respuesta['requisitos'] = $requisitos;
 		$respuesta['anotaciones'] = $anotaciones;
+		$respuesta['xml'] = $xml;
+		$respuesta['datosXML'] = $datosXML;
+		$respuesta['pdf'] = $pdf;
 
 		return $respuesta;
 		

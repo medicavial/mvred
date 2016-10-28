@@ -9,8 +9,8 @@ class OperacionController extends BaseController {
 
 	public function __construct()
 	{
-		// $this->rutaArchivos = '../registro/';
-	    $this->rutaArchivos = public_path().'../../../../registro/';
+		$this->rutaArchivos = '../registro/';
+	    // $this->rutaArchivos = public_path().'../../../../registro/';
 	}
 
 	//creamos una nueva atencion
@@ -76,14 +76,18 @@ class OperacionController extends BaseController {
 	}
 
 
-	//funcion para elminar imagenes
-	public function eliminaImagen(){
+	//funcion para elminar Archivos ya sean imagenes o pdf/xml
+	public function eliminaArchivo(){
 
 		$atencion = Input::get('atencion');
 		$clave = Input::get('clave');
 		$tipo  = Input::get('tipo');
 		$archivo = Input::get('archivo');
 		$usuario = Input::get('usuario');
+
+		//estos son manejadores para las facturas
+		$historico = Input::get('historico');
+		$estatus = Input::get('cambiarEstatus');
 
 		//generamos la ruta a eliminar 
 		$archivo = $this->rutaArchivos . $archivo . '/' .$clave;
@@ -98,54 +102,59 @@ class OperacionController extends BaseController {
 		$tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
 		$atn = Atencion::find($atencion);
 
-
-		//guardamos el historico
-		$Historico = new Historico;
-		$Historico->usuario = $usuario;
-		$Historico->titulo = 'Se eliminó imagen : ' . $tipoNombre;
-		$Historico->descripcion = 'Se eliminó imagen del folio  por el usuario ' . $usuario;
-		$Historico->folio = $atn->Exp_folio;
-		$Historico->etapa = $atn->TIA_clave;
-		$Historico->entrega = $atn->ATN_cons;
-		$Historico->guardar();
-
-
-		//actualizamos el estatus de la atencion 
-		$atn->ATN_estatus = 0;
-		$atn->save();
-
-
-		//actualizamos el estatus del documento en la atencion en caso de ser un tipo de documento requerido
-		$tipoDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) );
-		if ($tipoDocumento->count() > 0) {
-			$tipoDocumento->update(array('ATD_estatus' => 0,'ATD_motivo' => ''));
+		if ($historico) {
+			//guardamos el historico
+			$Historico = new Historico;
+			$Historico->usuario = $usuario;
+			$Historico->titulo = 'Se eliminó imagen : ' . $tipoNombre;
+			$Historico->descripcion = 'Se eliminó imagen del folio  por el usuario ' . $usuario;
+			$Historico->folio = $atn->Exp_folio;
+			$Historico->etapa = $atn->TIA_clave;
+			$Historico->entrega = $atn->ATN_cons;
+			$Historico->guardar();
 		}
 
-		return Response::json(array('flash' => 'Imagen eliminada'));
+
+		if ($estatus) {
+			
+			//actualizamos el estatus de la atencion 
+			$atn->ATN_estatus = 0;
+			$atn->save();
+
+
+			//actualizamos el estatus del documento en la atencion en caso de ser un tipo de documento requerido
+			$tipoDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) );
+			if ($tipoDocumento->count() > 0) {
+				$tipoDocumento->update(array('ATD_estatus' => 0,'ATD_motivo' => ''));
+			}
+		}
+
+		return Response::json(array('flash' => 'Archivo eliminado'));
 		
 	}
 
 	//funcion para subir factura XML
-	public function facturaXML(){
+	public function factura(){
 
 		$usuario = Input::get('usuario');
 		$atencion = Input::get('atencion');
+		$tipo = Input::get('tipo');
 
 		$atn = Atencion::find($atencion);
 		$tipoAtn = $atn->TIA_clave;
 		$folio = $atn->Exp_folio;
 
-		$archivos = Imagenes::where( array('Arc_tipo' => 29 , 'ATN_clave' => $atencion) )->count();
+		$archivos = Imagenes::where( array('Arc_tipo' => $tipo , 'ATN_clave' => $atencion) )->count();
 
-		$ruta = $this->verificaRuta($folio,29,$tipoAtn);
+		$ruta = $this->verificaRuta($folio,$tipo,$tipoAtn);
 
         if(Input::hasFile('file')) {
 
         	//preparamos la constante de la imagen del folio
 			$consecutivo = Imagenes::where('REG_folio',$folio)->max('Arc_cons') + 1;
 
-			// prefijo de XML
-        	$prefijo = 'XML';
+			// prefijo segun el tipo de imagen
+	        $prefijo = tipoDocumentos::find($tipo)->TID_prefijo;
 
         	//seleccionamos archivo
             $file = Input::file('file');
@@ -159,16 +168,16 @@ class OperacionController extends BaseController {
         	$imagen->Arc_clave = $nombreArchivo;
         	$imagen->REG_folio = $folio;
         	$imagen->Arc_archivo = $this->rutaImagen;
-        	$imagen->Arc_tipo = 29;
+        	$imagen->Arc_tipo = $tipo;
         	$imagen->Arc_desde = 'REGISTRO_RED';
         	$imagen->USU_login = $usuario;
         	$imagen->Arc_fecreg = date('Y-m-d H:i:s');
         	$imagen->ATN_clave = $atencion;
-        	// $imagen->save();
+        	$imagen->save();
             
             $file->move($ruta,$nombreArchivo);
 
-            $tipoNombre = tipoDocumentos::find(29)->TID_nombre;
+            $tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
             $tipoAtnNombre = TipoAtencion::find($tipoAtn)->TIA_nombre;
 
 			$Historico = new Historico;
@@ -178,11 +187,15 @@ class OperacionController extends BaseController {
 			$Historico->folio = $folio;
 			$Historico->etapa = $tipoAtn;
 			$Historico->entrega = $atn->ATN_cons;
-			// $Historico->guardar();
+			$Historico->guardar();
 
-			$xml =  $ruta . '/' .  $nombreArchivo;
+			$archivo =  $ruta . '/' .  $nombreArchivo;
 
-			return file_get_contents($xml);
+			$imagen = Imagenes::imagen($folio,$tipo,$consecutivo);
+		
+			$contenido =  file_get_contents($archivo);
+
+			return Response::json(array('archivo' => $imagen, 'contenido' => $contenido, 'ubicacion' => $archivo));
 
         }else{
 
@@ -192,99 +205,12 @@ class OperacionController extends BaseController {
 
 	}
 
+	public function muestraXML($atencion){
 
-	//funcion para subir imagenes de la atencion
-	public function facturaPDF(){
-
-		$tipo = Input::get('tipo');
-		$usuario = Input::get('usuario');
-		$atencion = Input::get('atencion');
-
-		$atn = Atencion::find($atencion);
-		$folio = $atn->Exp_folio;
-		$tipoAtn = $atn->TIA_clave;
-
-		$archivos = Imagenes::where( array('Arc_tipo' => $tipo , 'ATN_clave' => $atencion) )->count();
-
-		$ruta = $this->verificaRuta($folio,$tipo,$tipoAtn);
-
-		if ( ($tipo == 1 || $tipo == 15 || $tipo == 16 || $tipo == 26) && $archivos > 0 ) {
-
-			return Response::json(array('flash' => 'No puedes subir mas de un archivo de este tipo, elimina el que tienes para subir nuevamente'),500);
-
-		}else{
-
-
-
-	        if(Input::hasFile('file')) {
-
-	        	//preparamos la constante de la imagen del folio
-				$consecutivo = Imagenes::where('REG_folio',$folio)->max('Arc_cons') + 1;
-
-				// prefijo segun el tipo de imagen
-	        	$prefijo = tipoDocumentos::find($tipo)->TID_prefijo;
-
-	        	//seleccionamos archivo
-	            $file = Input::file('file');
-
-	            //preparamos nombre del archivo
-	        	$nombreArchivo = $consecutivo."_".$prefijo."_".$folio.".". $file->getClientOriginalExtension();
-
-	        	$imagen = new Imagenes;
-
-	        	$imagen->Arc_cons = $consecutivo;
-	        	$imagen->Arc_clave = $nombreArchivo;
-	        	$imagen->REG_folio = $folio;
-	        	$imagen->Arc_archivo = $this->rutaImagen;
-	        	$imagen->Arc_tipo = $tipo;
-	        	$imagen->Arc_desde = 'REGISTRO_RED';
-	        	$imagen->USU_login = $usuario;
-	        	$imagen->Arc_fecreg = date('Y-m-d H:i:s');
-	        	$imagen->ATN_clave = $atencion;
-	        	$imagen->save();
-	            
-	            $file->move($ruta,$nombreArchivo);
-
-
-	            $tipoNombre = tipoDocumentos::find($tipo)->TID_nombre;
-	            $tipoAtnNombre = TipoAtencion::find($tipoAtn)->TIA_nombre;
-
-				$Historico = new Historico;
-				$Historico->usuario = $usuario;
-				$Historico->titulo = 'Se ingresó imagen : ' . $tipoNombre;
-				$Historico->descripcion = 'Se ingresó imagen del folio para ' . $tipoAtnNombre . ' por el usuario ' . $usuario;
-				$Historico->folio = $folio;
-				$Historico->etapa = $tipoAtn;
-				$Historico->entrega = $atn->ATN_cons;
-				$Historico->guardar();
-
-				$imagen = Imagenes::imagen($folio,$tipo,$consecutivo);
-
-				$tipo = $imagen['tipo'];
-
-				$atencionDocumento = AtencionTipoDocumento::where( array('ATN_clave' => $atencion, 'TID_clave' => $tipo) )->first();
-
-				if ( count($atencionDocumento) > 0 ) {
-
-					$imagen['estatusGlobal'] = $atencionDocumento->ATD_estatus;
-					$imagen['estatusGlobalIcon'] = 'check_box_outline_blank';	
-
-				}else{
-					$imagen['estatusGlobal'] = 0;
-					$imagen['estatusGlobalIcon'] = 'folder';
-				}
-
-				return $imagen;
-
-	        }else{
-
-	        	return Response::json(array('flash' => 'Imagen no valida'),500);
-
-	        }
-	        
-		}
-
-
+		$xml = Imagenes::where(array('ATN_clave' => $atencion,'Arc_tipo' => 29))->first();
+		$archivo = $this->rutaArchivos . $xml->Arc_archivo . '/' . $xml->Arc_clave;
+		return file_get_contents($archivo);
+		
 	}
 
 
@@ -938,7 +864,7 @@ class OperacionController extends BaseController {
 	
 	}
 
-	private function verificaRuta($folio,$tipo,$tipoAtn){
+	public function verificaRuta($folio,$tipo,$tipoAtn){
 
 		$rutaPrincipal = $this->rutaArchivos .'Digitales';
 

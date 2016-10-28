@@ -20,12 +20,14 @@
         <md-tab-label>Apertura de Expediente</md-tab-label>
         <md-tab-body>
           <div ng-include="rg.paso3"></div>
+          <p class="c-red" layout-padding>los campos marcados con * son obligatorios</p>
         </md-tab-body>
       </md-tab>
       <md-tab id="tab4" ng-disabled="rg.step4block">
         <md-tab-label>Datos del Siniestro</md-tab-label>
         <md-tab-body>
           <div ng-include="rg.paso4"></div>
+          <p class="c-red" layout-padding>los campos marcados con * son obligatorios</p>
         </md-tab-body>
       </md-tab>
       <md-tab id="tab5" ng-disabled="rg.step5block">

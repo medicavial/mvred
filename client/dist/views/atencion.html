@@ -2,7 +2,7 @@
 <md-content class="md-whiteframe-2dp" ng-style="atn.opacidad">
     
     <div layout="row">
-      <md-subheader class="md-no-sticky">
+      <md-subheader class="md-primary">
         {{ ::atn.datos.TIA_nombre }} - 
         <span ng-if="atn.imagenes.length == 0">Sin Documentos</span> 
         <span ng-if="atn.datos.ATN_estatus == 0 && atn.imagenes.length > 0">Sin Solicitar</span> 
@@ -12,7 +12,7 @@
         <span ng-if="atn.datos.ATN_estatus == 4">Completo</span> 
       </md-subheader>
       <span flex></span>
-      <md-button class="md-accent md-icon-button" aria-label="Actualizar" ng-click="atn.cargaInfo()">
+      <md-button class="md-primary md-icon-button" aria-label="Actualizar" ng-click="atn.cargaInfo()">
         <md-tooltip md-direction="left">
           Actualizar
         </md-tooltip>
@@ -132,25 +132,28 @@
                   
                   <div layout="row" layout-align="space-between center">
                     <span>Tipo de Lesión</span>
-                    <md-select ng-model="atn.datos.lesion" placeholder="Lesion" class="md-no-underline" md-on-close="atn.lesionMV()">
-                      <md-option ng-repeat="lesion in atn.lesiones" ng-value="lesion.TLE_claveint">{{ lesion.TLE_nombre }}</md-option>
+                    <md-select ng-model="atn.tipoLes" placeholder="Lesion" class="md-no-underline" required md-on-close="atn.lesionMV()">
+                      <md-option ng-repeat="lesion in atn.lesiones" ng-value="lesion.TLE_claveint" ng-click="atn.descripcion = lesion.TLE_descripcion ">
+                        {{ lesion.TLE_nombre | uppercase}}
+                      </md-option>
                     </md-select>
                   </div>
+                  <p ng-if="atn.descripcion">{{ atn.descripcion | uppercase}}</p>
                   <div layout="row" layout-align="space-between center">
                     <span>Lesión</span>
-                    <md-select ng-model="atn.datos.lesionMV" placeholder="Lesion MV" class="md-no-underline" md-on-close="atn.lesionCodificada()">
-                      <md-option ng-repeat="lesionMV in atn.lesionesMV" ng-value="lesionMV.LES_clave">{{ lesionMV.LES_nombreMedic }}</md-option>
+                    <md-select ng-model="atn.lesionMV" placeholder="Lesion MV" class="md-no-underline" required md-on-close="atn.lesionCodificada()">
+                      <md-option ng-repeat="lesionMV in atn.lesionesMV" ng-value="lesionMV.LES_clave">{{ lesionMV.LES_nombreMedic | uppercase}}</md-option>
                     </md-select>
                   </div>
                   <div layout="row" layout-align="space-between center">
                     <span>Lesión Principal Codifiada</span>
-                    <md-select ng-model="atn.datos.lesionCod" placeholder="Lesion Codificada" class="md-no-underline">
-                      <md-option ng-repeat="lesionCod in atn.lesionesCod" ng-value="lesionCod.clave">{{ lesionCod.descripcion }}</md-option>
+                    <md-select ng-model="atn.lesionCod" placeholder="Lesion Codificada" class="md-no-underline" required>
+                      <md-option ng-repeat="lesionCod in atn.lesionesCod" ng-value="lesionCod.id">{{ lesionCod.clave + ' - ' + lesionCod.descripcion | uppercase}}</md-option>
                     </md-select>
                   </div>
                   <md-input-container ng-repeat=" requisito in atn.requisitos" flex>
                     <label>{{ ::requisito.REQ_valor }}</label>
-                    <input ng-model="requisito.valor" ng-required="requisito.REQ_obligatorio == '1' ">
+                    <input ng-model="requisito.valor" ng-required="requisito.REQ_obligatorio == '1' " mayusculas>
                   </md-input-container>
 
                 </form>
@@ -160,13 +163,12 @@
 
               
               <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.solicitando"></md-progress-circular>
-              <md-button class="md-raised md-primary" aria-label="Solicitar Autorización" ng-if="atn.imagenes.length || atn.solicitando == true" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Solicitar Autorización</md-button>
+              <md-button class="md-raised md-primary" aria-label="Solicitar Autorización" ng-if="atn.imagenes.length || atn.solicitando == true" ng-click="atn.solicitaAutorizacion()" ng-disabled="atn.datos.ATN_estatus != 0 || atn.requisitosForm.$invalid ">Enviar A Revisión</md-button>
 
             </section>
 
           </md-content>
           
-
         </md-tab-body>
 
       </md-tab>
@@ -185,12 +187,12 @@
               <div layout="row" layout-align="center center" flex>
                 <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.subiendoImagen"></md-progress-circular>
               </div>
-              <div class="drop-box" ngf-drop accept="'.pdf,.xml'" ngf-drag-over-class="dragover" ngf-multiple="false" ngf-pattern="'.pdf,image/*'" ngf-change="atn.subirDigitales($files,atn.tipo,$event)" flex>
+              <div class="drop-box" ngf-drop accept="'.pdf,.xml'" ngf-drag-over-class="dragover" ngf-multiple="false" ngf-pattern="'.pdf,.xml'" ngf-change="atn.subirFactura($files,$event)" flex>
                   Arrastra tus archivos aqui
                   <md-button  aria-label="subir archivo"
                             class="md-raised"
-                            ngf-select="atn.subirDigitales($files,atn.tipo,$event)" 
-                            ngf-change="atn.subirDigitales($files,atn.tipo,$event)" 
+                            ngf-select="atn.subirFactura($files,$event)" 
+                            ngf-change="atn.subirFactura($files,$event)" 
                             ngf-multiple="false" 
                             ngf-pattern="'.pdf,.xml'"
                             ngf-accept="'.pdf,.xml'" 
@@ -200,10 +202,34 @@
 
             </section>
             <section flex="50">
+                <div layout="row" layout-align="center center">  
 
+                  <div class="text-center muestras" layout-wrap flex ng-if="atn.xml">
+                    <ng-md-icon icon="code" style="fill: green" size="128" class="big-button"></ng-md-icon>
+                    <br><br>
+                    <p>XML de Factura</p>
+                    <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Eliminar Archivo</md-button>
+                  </div>
+                  <div class="text-center muestras" layout-wrap flex ng-if="atn.pdf">
+                    <ng-md-icon icon="description" style="fill: green" size="128" class="big-button"></ng-md-icon>
+                    <br><br>
+                    <p>PDF de Factura</p>
+                    <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Eliminar Archivo</md-button>
+                  </div>
+                
+                </div>
             </section>
 
           </md-content>
+          <section ng-if="atn.factura">
+
+            <md-subheader>Datos de Factura</md-subheader>
+            <md-divider></md-divider> 
+            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column">
+              
+            </md-content>          
+            
+          </section>
         </md-tab-body>
 
       </md-tab>

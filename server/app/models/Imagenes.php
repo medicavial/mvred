@@ -28,6 +28,7 @@ class Imagenes extends Eloquent {
         			 ->first();
     }
 
+    //funcion que muestra los documentos disponibles sin agregar la factura
     public function scopeDisponibles($query,$atencion)
     {
         return $query->join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
@@ -45,9 +46,34 @@ class Imagenes extends Eloquent {
                             Arc_motivo as motivo'
         			 	 ) )
         			 ->where('ATN_clave',$atencion)
+                     ->whereNotIn('TipoDocumento.TID_claveint', [29,30])
         			 ->orderBy('TID_orden')
         			 ->orderBy('Arc_cons')
         			 ->get();
+    }
+
+     //funcion que muestra las facturas disponibles  
+    public function scopeFacturas($query,$atencion)
+    {
+        return $query->join('TipoDocumento','TipoDocumento.TID_claveint','=','DocumentosDigitales.Arc_tipo')
+                     ->select( DB::raw(
+                            'TID_claveint as tipo, TID_nombre as tipoNombre ,Arc_archivo as archivo,REG_folio as folio,
+                             CASE 
+                                WHEN Arc_estatus = 2 THEN "Rechazado"
+                                WHEN Arc_estatus = 1 THEN "Autorizado" 
+                                ELSE "En espera de Autorización" END as estatus, 
+                             CASE 
+                                WHEN Arc_estatus = 2 THEN "indeterminate_check_box"
+                                WHEN Arc_estatus = 1 THEN "check_box" 
+                                ELSE "check_box_outline_blank" END as  iconEstatus, 
+                            Arc_clave as clave,
+                            Arc_motivo as motivo'
+                         ) )
+                     ->where('ATN_clave',$atencion)
+                     ->whereIn('TipoDocumento.TID_claveint', [29,30])
+                     ->orderBy('TID_orden')
+                     ->orderBy('Arc_cons')
+                     ->get();
     }
     
 }		

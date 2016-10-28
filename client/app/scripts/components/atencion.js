@@ -69,7 +69,7 @@
 			atn.opacidad = {'opacity':0.3};
 			busqueda.detalleAtencion(atn.clave).then(
 				function (data){
-					console.log(data);
+					// console.log(data);
 					atn.datos = data.info;
 					atn.tiposDocumento = data.tipos;
 					atn.imagenes = data.imagenes;
@@ -77,6 +77,11 @@
 					atn.anotaciones = data.anotaciones;
 					atn.requisitos = data.requisitos;
 					atn.lesiones = data.lesiones;
+					atn.pdf = data.pdf == null ? false:true;
+					atn.xml = data.xml == null ? false:true;
+					atn.archivoPDF = data.pdf;
+					atn.archivoXML = data.xml;
+					atn.xmlData = data.factura; 
 					atn.opacidad = {};
 				},
 				function (error){
@@ -139,17 +144,21 @@
 			if (files.length > 0) {
 
 				atn.subiendoImagen = true;
-				operacion.subirFactura(files,atn.clave).then(
+				operacion.subirFactura(files,atn.clave,atn.xml,atn.pdf).then(
 					function (datos){
 
-						atn.subiendoImagen = false;
 						console.log(datos);
+						atn.subiendoImagen = false;
 						mensajes.alerta('Factura subida correctamente','success','top right','done_all');
 						
-						// atn.facturas.push(datos);						
-						// atn.porcentaje = '';
-						// atn.tipo = '';
-						// atn.files = [];
+						if (datos.xml) {
+							atn.xml = true;
+							atn.archivoXML = datos.datosArchivo;
+							validaPDF(datos.datosXML);
+						}else if (datos.pdf) {
+							atn.pdf = true;
+							atn.archivoPDF = datos.datosArchivo;
+						};
 					},	
 					function (error){
 						mensajes.alerta(error,'error','top right','error');
@@ -185,12 +194,15 @@
 			})
 		}
 
-		function eliminarDigitales(file,ev){
+		function eliminarArchivos(file,ev,historico,estatus){
+
+			historico = historico || true;
+			estatus = estatus || true;
 
 			var confirm = $mdDialog.confirm()
 				.title('Deseas eliminar este archivo?')
 				.textContent('')
-				.ariaLabel('¿Deseas eliminar imagen?')
+				.ariaLabel('¿Deseas eliminar archivo?')
 				.targetEvent(ev)
 				.ok('SI')
 				.cancel('NO');
@@ -200,8 +212,10 @@
 		      	
 		      	file.usuario = $rootScope.id;
 		      	file.atencion = atn.clave;
+		      	file.historico = historico;
+		      	file.cambiarEstatus = estatus;
 		      	
-				operacion.eliminaImagen(file).then(
+				operacion.eliminaArchivo(file).then(
 					function (resp){
 						
 						atn.datos.ATN_estatus = 0;
@@ -218,6 +232,31 @@
 
 		    });
 			
+		}
+
+		function eliminaFactura(file,tipo){
+
+			file.usuario = $rootScope.id;
+	      	file.atencion = atn.clave;
+	      	file.historico = false;
+	      	file.cambiarEstatus = false;
+
+
+			operacion.eliminaArchivo(file).then(
+				function (resp){
+					if (xml) {
+						atn.archivoXML = '';
+						atn.xml = false;						
+					}else{
+						atn.archivoPDF = '';
+						atn.pdf = false;
+					}
+
+				},	
+				function (error){
+					mensajes.alerta(error,'error','top right','error');
+				}
+			)
 		}
 
 		function motivo(motivo,ev){
@@ -243,6 +282,33 @@
 				fullscreen: true,
 				controller: 'visorCtrl'
 		    });
+
+		}
+
+		function validaPDF(datos){
+
+			if ('hola' == atn.datosXML.Comprobante.Receptor._rfc){
+
+                // atn.facturaaRfc(datos.Comprobante.Receptor._rfc);
+                atn.factura.foliofiscal = datos.Comprobante.Complemento.TimbreFiscalDigital._UUID;
+                atn.factura.receptor = datos.Comprobante.Receptor._nombre;
+                atn.factura.rfc = datos.Comprobante.Receptor._rfc;
+                atn.factura.emisor = datos.Comprobante.Emisor._nombre;
+                atn.factura.rfc_emisor = datos.Comprobante.Emisor._rfc;
+                atn.factura.subtotal = datos.Comprobante._subTotal;
+                atn.factura.iva = datos.Comprobante.Impuestos.Traslados.Traslado._importe;
+                atn.factura.total = datos.Comprobante._total;
+                atn.factura.descuento = datos.Comprobante._descuento;
+                atn.factura.fechaemision = datos.Comprobante._fecha;
+                atn.factura.tipocomprobante = datos.Comprobante._tipoDeComprobante;
+                atn.factura.lugarexpedicion = datos.Comprobante._LugarExpedicion;
+              
+            }else{
+
+            	eliminaFactrua(atn.archivoXML,'',false,false);
+
+            	mensajes.alerta('Tu Factura no coincide con Receptor','error','top right','error');
+            }
 
 		}
 	}

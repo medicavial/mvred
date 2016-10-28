@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<cfdi:Comprobante xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd " version="3.2" serie="C" folio="519" fecha="2016-10-04T12:01:03" sello="CFGlgZ9nbjCPiCemAIgFXwi79E/14gosNyGwppL/3vHiWCRd9wXIuOgJbYIhkXXYZCyjvejtLaeoVGEsgEz0svmm2+K7F/MGJJ2cCMX+z6k3Qc3X/SPdXRv23VMKA8XwM+iJ/EzJ5P9k53bC7b7fOHeIx2eWNr7ZFZcrUtYSfzk=" formaDePago="PAGO EN UNA SOLA EXHIBICION" noCertificado="00001000000202503825" certificado="MIIEbjCCA1agAwIBAgIUMDAwMDEwMDAwMDAyMDI1MDM4MjUwDQYJKoZIhvcNAQEFBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEdhcmPDrWEgR3VlcnJhMB4XDTEyMTIwNDE3NTIzMloXDTE2MTIwNDE3NTIzMlowga8xGzAZBgNVBAMTEkFVU0EgUkVOVCBTQSBERSBDVjEbMBkGA1UEKRMSQVVTQSBSRU5UIFNBIERFIENWMRswGQYDVQQKExJBVVNBIFJFTlQgU0EgREUgQ1YxJTAjBgNVBC0THEFSRTAxMDQwNlQ1NSAvIEFBU0E0MTA4MDhTSEExHjAcBgNVBAUTFSAvIEFBU0E0MTA4MDhIQkNMTkwwMjEPMA0GA1UECxMGTUFUUklaMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDL9+735z7WhDMc7Y5fAvetWYF0ospPpjwLPedMoBFo5OyJOanB4rx86fREu70ihT9zRJF7/VTNG8qFVdh30o9bK0qUJMBFOGXn4RXoCHbN4nX4ogOpv67dooLcnzPKfj1PQwR6kH47iLwuinPf2ZmR3rjO6qE15SdFH7cApCeL0wIDAQABox0wGzAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIGwDANBgkqhkiG9w0BAQUFAAOCAQEAhTQJkd6DjJiltgJEegDVDrQEJqsSaRiiZUmKgUNGTuyop6eJTG5NrEBIHCvoU9bNkAoBp+ObLJbDiKnqnZbgvoGIVkIAWFPRHm2mYvdlZCY5wYLl0xaJuqW1iJTbjcZPPHUrGGwGj79DRGw8tRTMACWgnXDhzIi8WdxOGnezy+q+GiwTEo2cWyrbz9kthxUufVIY3oxunBNJETbxjv4OXRv0oaViBR+om0CiSt5WC3Gda0pVe0fY4V0esP2AHvTRHHDddZCSmOKgEPA2qWz+gKCnJ7ZDF3uqdcdKNKSkTIZuvR39QHDUUytkCaeVkU43CrF8UOXL+EUn1sJxXNmxkQ==" subTotal="12750.00" TipoCambio="1.0000" Moneda="MXN" total="14790.00" tipoDeComprobante="ingreso" metodoDePago="03" LugarExpedicion="BENITO JUÁREZ,CDMX" NumCtaPago="NO IDENTIFICADO">
+  <cfdi:Emisor rfc="ARE010406T55" nombre="AUSA RENT S.A. DE C.V.">
+    <cfdi:DomicilioFiscal calle="MONTE ALBÁN" noExterior="NO. 311" colonia="NARVARTE" municipio="BENITO JUÁREZ" estado="CIUDAD DE MÉXICO" pais="MÉXICO" codigoPostal="03020" />
+    <cfdi:ExpedidoEn calle="MONTE ALBÁN" noExterior="NO. 311" colonia="NARVARTE" municipio="BENITO JUÁREZ" estado="CIUDAD DE MÉXICO" pais="MÉXICO" codigoPostal="03020" />
+    <cfdi:RegimenFiscal Regimen="GENERAL DE LA LEY P.M." />
+  </cfdi:Emisor>
+  <cfdi:Receptor rfc="MED011012TD4" nombre="MEDICAVIAL S.A. DE C.V.">
+    <cfdi:Domicilio calle="ÁLVARO OBREGÓN" noExterior="151" noInterior="PISO 9" colonia="ROMA" municipio="CUAUHTÉMOC" estado="CIUDAD DE MÉXICO" pais="MÉXICO" codigoPostal="06700" />
+  </cfdi:Receptor>
+  <cfdi:Conceptos>
+    <cfdi:Concepto cantidad="1.00" unidad="NO APLICA" descripcion="SERVICIO Y ADMINISTRACIÓN DE SERVICIOS" valorUnitario="12750.00" importe="12750.00" />
+  </cfdi:Conceptos>
+  <cfdi:Impuestos totalImpuestosTrasladados="2040.00">
+    <cfdi:Traslados>
+      <cfdi:Traslado impuesto="IVA" tasa="16.00" importe="2040.00" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento><tfd:TimbreFiscalDigital version="1.0" UUID="81644c2c-d85b-4cb9-9773-9248aa89de11" FechaTimbrado="2016-10-04T12:01:41" selloCFD="CFGlgZ9nbjCPiCemAIgFXwi79E/14gosNyGwppL/3vHiWCRd9wXIuOgJbYIhkXXYZCyjvejtLaeoVGEsgEz0svmm2+K7F/MGJJ2cCMX+z6k3Qc3X/SPdXRv23VMKA8XwM+iJ/EzJ5P9k53bC7b7fOHeIx2eWNr7ZFZcrUtYSfzk=" noCertificadoSAT="00001000000300171326" selloSAT="thBScmzfN5uaNv1KIOGIS4NghN/R3cWimZMlsD969jqOkP8rWXSuPMqlVSV6/YsRYMg/T2jKzemoVSXjfTFo7X98VmPuGv30CrbECwPh6qFTEBJXIYiOSLkU3QP2pBtkzOo42LzBDRaIWt2DnQpl8l07M+2R9y9k0mzgkUwPMqU=" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/TimbreFiscalDigital/TimbreFiscalDigital.xsd" /></cfdi:Complemento><cfdi:Addenda xmlns:ecfd="http://www.southconsulting.com/schemas/strict" xsi:schemaLocation="http://www.southconsulting.com/schemas/strict http://www.southconsulting.com/schemas/strict/ecfd.xsd">
+    <ecfd:ECFD version="1.0">
+      <ecfd:Documento ID="T33C519">
+        <ecfd:Encabezado>
+          <ecfd:IdDoc>
+            <ecfd:NroAprob>1049043</ecfd:NroAprob>
+            <ecfd:AnoAprob>2012</ecfd:AnoAprob>
+            <ecfd:Tipo>33</ecfd:Tipo>
+            <ecfd:Serie>C</ecfd:Serie>
+            <ecfd:Folio>519</ecfd:Folio>
+            <ecfd:Estado>ORIGINAL</ecfd:Estado>
+            <ecfd:FechaEmis>2016-10-04T12:01:03</ecfd:FechaEmis>
+            <ecfd:FormaPago>PAGO EN UNA SOLA EXHIBICION</ecfd:FormaPago>
+            <ecfd:MedioPago>03</ecfd:MedioPago>
+            <ecfd:LugarExpedicion>BENITO JUÁREZ,CDMX</ecfd:LugarExpedicion>
+            <ecfd:NumCtaPago>NO IDENTIFICADO</ecfd:NumCtaPago>
+            <ecfd:TermPagoCdg>1</ecfd:TermPagoCdg>
+          </ecfd:IdDoc>
+          <ecfd:ExEmisor>
+            <ecfd:RFCEmisor>ARE010406T55</ecfd:RFCEmisor>
+            <ecfd:NmbEmisor>AUSA RENT S.A. DE C.V.</ecfd:NmbEmisor>
+            <ecfd:DomFiscal>
+              <ecfd:Calle>MONTE ALBÁN</ecfd:Calle>
+              <ecfd:NroExterior>NO. 311</ecfd:NroExterior>
+              <ecfd:Colonia>NARVARTE</ecfd:Colonia>
+              <ecfd:Municipio>BENITO JUÁREZ</ecfd:Municipio>
+              <ecfd:Estado>CIUDAD DE MÉXICO</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>03020</ecfd:CodigoPostal>
+            </ecfd:DomFiscal>
+            <ecfd:LugarExped>
+              <ecfd:Calle>MONTE ALBÁN</ecfd:Calle>
+              <ecfd:NroExterior>NO. 311</ecfd:NroExterior>
+              <ecfd:Colonia>NARVARTE</ecfd:Colonia>
+              <ecfd:Municipio>BENITO JUÁREZ</ecfd:Municipio>
+              <ecfd:Estado>CIUDAD DE MÉXICO</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>03020</ecfd:CodigoPostal>
+            </ecfd:LugarExped>
+          </ecfd:ExEmisor>
+          <ecfd:ExReceptor>
+            <ecfd:RFCRecep>MED011012TD4</ecfd:RFCRecep>
+            <ecfd:NmbRecep>MEDICAVIAL S.A. DE C.V.</ecfd:NmbRecep>
+            <ecfd:DomFiscalRcp>
+              <ecfd:Calle>ÁLVARO OBREGÓN</ecfd:Calle>
+              <ecfd:NroExterior>151</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 9</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>CIUDAD DE MÉXICO</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:DomFiscalRcp>
+            <ecfd:LugarRecep>
+              <ecfd:Calle>ÁLVARO OBREGÓN</ecfd:Calle>
+              <ecfd:NroExterior>151</ecfd:NroExterior>
+              <ecfd:NroInterior>PISO 9</ecfd:NroInterior>
+              <ecfd:Colonia>ROMA</ecfd:Colonia>
+              <ecfd:Municipio>CUAUHTÉMOC</ecfd:Municipio>
+              <ecfd:Estado>CIUDAD DE MÉXICO</ecfd:Estado>
+              <ecfd:Pais>MÉXICO</ecfd:Pais>
+              <ecfd:CodigoPostal>06700</ecfd:CodigoPostal>
+            </ecfd:LugarRecep>
+          </ecfd:ExReceptor>
+          <ecfd:Totales>
+            <ecfd:Moneda>MXN</ecfd:Moneda>
+            <ecfd:FctConv>1.0000</ecfd:FctConv>
+            <ecfd:SubTotal>12750.00</ecfd:SubTotal>
+            <ecfd:MntBase>12750.00</ecfd:MntBase>
+            <ecfd:MntImp>2040.00</ecfd:MntImp>
+            <ecfd:VlrPagar>14790.00</ecfd:VlrPagar>
+            <ecfd:VlrPalabras>CATORCE MIL SETECIENTOS  NOVENTA PESOS 00/100 M. N.</ecfd:VlrPalabras>
+          </ecfd:Totales>
+          <ecfd:ExImpuestos>
+            <ecfd:TipoImp>IVA</ecfd:TipoImp>
+            <ecfd:TasaImp>16</ecfd:TasaImp>
+            <ecfd:MontoImp>2040.00</ecfd:MontoImp>
+          </ecfd:ExImpuestos>
+        </ecfd:Encabezado>
+        <ecfd:Detalle>
+          <ecfd:NroLinDet>1</ecfd:NroLinDet>
+          <ecfd:DscLang>ES</ecfd:DscLang>
+          <ecfd:DscItem>SERVICIO Y ADMINISTRACIÓN DE SERVICIOS</ecfd:DscItem>
+          <ecfd:QtyItem>1.000</ecfd:QtyItem>
+          <ecfd:UnmdItem>NO APLICA</ecfd:UnmdItem>
+          <ecfd:PrcNetoItem>12750.00</ecfd:PrcNetoItem>
+          <ecfd:MontoNetoItem>12750.00</ecfd:MontoNetoItem>
+        </ecfd:Detalle>
+        <ecfd:Referencia>
+          <ecfd:NroLinRef>1</ecfd:NroLinRef>
+          <ecfd:RazonRef>ITO JUÁREZ,CDMX</ecfd:RazonRef>
+        </ecfd:Referencia>
+        <ecfd:Referencia>
+          <ecfd:NroLinRef>3</ecfd:NroLinRef>
+          <ecfd:RazonRef>IDENTIFICADO</ecfd:RazonRef>
+        </ecfd:Referencia>
+        <ecfd:Referencia>
+          <ecfd:NroLinRef>4</ecfd:NroLinRef>
+          <ecfd:RazonRef>ERAL DE LA LEY P.M.</ecfd:RazonRef>
+        </ecfd:Referencia>
+        <ecfd:TimeStamp>2016-10-04T12:03:50</ecfd:TimeStamp>
+      </ecfd:Documento>
+      <ecfd:Personalizados>
+        <ecfd:campoString name="IDMEDICAVIAL">2</ecfd:campoString>
+        <ecfd:campoString name="Linea01">RENTA DE EQUIPO DIGITALIZADOR (FCR PRIMA) CON CONSOLA DE MONITOR</ecfd:campoString>
+        <ecfd:campoString name="Linea02">DE MANDOS Y CHASIS PARA TOMA DE RAYOS X, CON EQUIPO DE</ecfd:campoString>
+        <ecfd:campoString name="Linea03">IMPRESIÓN DE PLACAS.</ecfd:campoString>
+        <ecfd:campoString name="Linea04" />
+        <ecfd:campoString name="Linea05">INSTALADO EN: LA CLINICA DE SATELITE</ecfd:campoString>
+        <ecfd:campoString name="Linea06" />
+        <ecfd:campoString name="Linea07">POR EL MES DE OCTUBRE DEL 2016.</ecfd:campoString>
+        <ecfd:campoString name="Linea08" />
+        <ecfd:campoString name="Linea09" />
+        <ecfd:campoString name="Linea10" />
+        <ecfd:campoString name="Linea11" />
+        <ecfd:campoString name="Linea12" />
+        <ecfd:campoString name="Linea13" />
+        <ecfd:campoString name="Linea14" />
+        <ecfd:campoString name="Linea15" />
+        <ecfd:campoString name="Linea16" />
+        <ecfd:campoString name="Linea17" />
+        <ecfd:campoString name="Linea18" />
+        <ecfd:campoString name="Linea19" />
+        <ecfd:campoString name="Linea20" />
+        <ecfd:campoString name="Linea21" />
+        <ecfd:campoString name="Linea22" />
+        <ecfd:campoString name="Linea23" />
+        <ecfd:campoString name="Linea24" />
+        <ecfd:campoString name="Linea25" />
+        <ecfd:campoString name="Linea26" />
+        <ecfd:campoString name="Linea27" />
+        <ecfd:campoString name="Linea28" />
+        <ecfd:campoString name="Linea29" />
+        <ecfd:campoString name="Linea30" />
+        <ecfd:campoString name="Titulo01" />
+        <ecfd:campoString name="Titulo02" />
+        <ecfd:campoString name="Titulo03" />
+        <ecfd:campoString name="Titulo04" />
+        <ecfd:campoString name="Titulo05" />
+        <ecfd:campoString name="Titulo06" />
+        <ecfd:campoString name="Titulo07" />
+        <ecfd:campoString name="Titulo08" />
+        <ecfd:campoString name="Titulo09" />
+        <ecfd:campoString name="Titulo10" />
+        <ecfd:campoString name="Titulo11" />
+        <ecfd:campoString name="Titulo12" />
+        <ecfd:campoString name="Titulo13" />
+        <ecfd:campoString name="Titulo14" />
+        <ecfd:campoString name="Titulo15" />
+        <ecfd:campoString name="Titulo16" />
+        <ecfd:campoString name="Titulo17" />
+        <ecfd:campoString name="Titulo18" />
+        <ecfd:campoString name="Titulo19" />
+        <ecfd:campoString name="Titulo20" />
+        <ecfd:campoString name="Observaciones11" />
+        <ecfd:campoString name="Observaciones12" />
+        <ecfd:campoString name="Observaciones21" />
+        <ecfd:campoString name="Observaciones22" />
+        <ecfd:campoString name="Observaciones31" />
+        <ecfd:campoString name="Observaciones32" />
+        <ecfd:campoString name="Addenda01" />
+        <ecfd:campoString name="Addenda02" />
+        <ecfd:campoString name="Addenda03" />
+        <ecfd:campoString name="Addenda04" />
+        <ecfd:campoString name="Addenda05" />
+        <ecfd:campoString name="Addenda06" />
+        <ecfd:campoString name="Addenda07" />
+        <ecfd:campoString name="Addenda08" />
+        <ecfd:campoString name="Addenda09" />
+        <ecfd:campoString name="Addenda10" />
+        <ecfd:campoString name="Addenda11" />
+        <ecfd:campoString name="Addenda12" />
+        <ecfd:campoString name="Addenda13" />
+        <ecfd:campoString name="Addenda14" />
+        <ecfd:campoString name="Addenda15" />
+        <ecfd:campoString name="Addenda16" />
+        <ecfd:campoString name="Addenda17" />
+        <ecfd:campoString name="Addenda18" />
+        <ecfd:campoString name="Addenda19" />
+        <ecfd:campoString name="Addenda20" />
+        <ecfd:campoString name="VLRPAGSINDEDUPAL" />
+        <ecfd:campoString name="VLRDEDU" />
+        <ecfd:campoString name="VLRPAGSINDEDU" />
+        <ecfd:campoString name="RegimenFiscal">GENERAL DE LA LEY P.M.</ecfd:campoString>
+        <ecfd:campoString name="CuentaDePago">NO IDENTIFICADO</ecfd:campoString>
+        <ecfd:campoString name="LugarDeExpedicion">BENITO JUÁREZ,CDMX</ecfd:campoString>
+      </ecfd:Personalizados>
+    </ecfd:ECFD>
+  </cfdi:Addenda>
+</cfdi:Comprobante>

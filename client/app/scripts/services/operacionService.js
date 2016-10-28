@@ -6,9 +6,9 @@
     angular.module('app')
     .factory('operacion',operacion);
 
-    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles'];
+    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles', 'registro'];
 
-    function operacion($http, $rootScope, $q, api, Upload, publicfiles){
+    function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro){
 
         var operacion = {
             creaAtencion:creaAtencion,
@@ -31,71 +31,80 @@
             return $http.post(api + 'operacion/creaAtencion',datos);
         }
 
-        //function para eliminar imagen 
-        function eliminaImagen(imagen){
-            return $http.post(api+'operacion/eliminaImagen',imagen);
+        //function para eliminar imagen o PDF/XMl 
+        function eliminaArchivo(archivo){
+            return $http.post(api+'operacion/eliminaArchivo',archivo);
         }
 
-        //funcion para leer los xml
-        function subirFactura(archivos,atencion){
+        //funcion para subir el xml o pdf
+        function subirFactura(archivo,atencion,xml,pdf){
 
 
-            var promesa = $q.defer();
-            var respuesta = {
-                xml:false,
-                pdf:false,
-                datos:''
-            }
-
-            for (var i = 0; i < archivos.length; i++) {
-                
-                var file = archivos[i];
-
-                if (!file.$error) {
-
-                    console.log(file);
-
-                    if (file.type == 'text/xml') {
-                        var ruta = api+'operacion/facturaXML';
-                        respuesta.xml = true;
-                    }else{
-                        var ruta = api+'operacion/facturaPDF';
-                        respuesta.pdf = true;
-                    };
-
-                    Upload.upload({
-                        url:  ruta,
-                        data: {file: file, usuario: $rootScope.id,atencion:atencion}
-                    }).then(function (resp) {
-                        // console.log(resp);
-
-                        if (file.type == 'text/xml') {
-                            var x2js = new X2JS();
-                            respuesta.datos = x2js.xml_str2json(resp.data);
-
-                        }
-                        
-                        promesa.resolve(respuesta);
-
-                    }, function (resp) {
-
-                        if (isNaN(resp)) {
-                            promesa.reject('Archivo con problemas');
-                        }else{
-                            promesa.reject(resp.data.flash);                            
-                        }
-
-                    });  
-
+            var promesa = $q.defer(),
+                factura = archivo[0];
+            //mandamos el tipo de archivo segun sea el archivo
+            if (factura.type == 'text/xml') {
+                if (!xml) {
+                    var tipo = 29;
+                    xml = true;                    
                 }else{
+                    promesa.reject('No puedes subir mas de un archivo de XML');
+                }
+            }else{
+                if (!pdf) {
+                    var tipo = 30; 
+                    pdf = true;                   
+                }else{
+                    promesa.reject('No puedes subir mas de un archivo de PDF');
+                }                
+            };
+            //regresamos cada respuesta en el arreglo
+            Upload.upload({
+                url:  api+'operacion/factura',
+                data: {file: factura, usuario: $rootScope.id,atencion:atencion,tipo:tipo}
+            }).progress(function (evt) {
+                
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                promesa.notify({porcentaje:progressPercentage});
 
-                    promesa.reject('Formato Invalido');
+            }).then(function (resp){
+
+                //siempre debe haber un archivo
+                console.log(resp);
+
+                var respuesta = {
+                    xml : xml,
+                    pdf : pdf,
+                    datosArchivo:'',
+                    datosXML : ''
                 }
 
-            };
+                respuesta.datosArchivo = resp.data.archivo;
 
+                if (respuesta.xml) {
+
+                    leeXML(atencion).then(function (datos){
+                        console.log(datos);
+                        respuesta.datosXML = datos;
+                        promesa.resolve(respuesta);
+                    },function (error){
+                        promesa.reject(error);
+                    });
+
+                }else{
+                    
+                    promesa.resolve(respuesta);
+
+                }
+
+
+
+            },function (error){
+                promesa.reject('Ocurrio un problema intente de nuevo');
+            });
 
             return promesa.promise;
+
         }
 
         //function para guardar la relacion producto , atencion y tipo de documento 
@@ -104,28 +113,17 @@
         }
 
 
-        function leeXML(xml,folio){
+        function leeXML(atencion){
+
             var promesa = $q.defer();
 
-            $http.get(publicfiles + '/factura/' + folio + '/' + xml + '.xml').success(function (data){
-
-                datosXML  = x2js.xml_str2json(data);
-                var datos = {
-                    foliofiscal : datosXML.Comprobante.Complemento.TimbreFiscalDigital._UUID,
-                    rfc : datosXML.Comprobante.Receptor._rfc,
-                    emisor : datosXML.Comprobante.Emisor._nombre,
-                    receptor : datosXML.Comprobante.Receptor._nombre,
-                    subtotal : datosXML.Comprobante._subTotal,
-                    iva : datosXML.Comprobante.Impuestos.Traslados.Traslado._importe,
-                    total : datosXML.Comprobante._total,
-                    descuento : datosXML.Comprobante._descuento,
-                    fechaemision : datosXML.Comprobante._fecha
-                }
-
-                promesa.resolve(datos);
+            $http.get(api +'operacion/muestraXML/' + atencion).success(function (data){
+                var x2js   = new X2JS();
+                var datosXML  = x2js.xml_str2json(data);
+                promesa.resolve(datosXML);
 
             }).error(function (error){
-                promesa.reject('No se encontro la factura');
+                promesa.reject('Error de lectura');
             });
 
 

@@ -169,7 +169,6 @@
 
           </md-content>
           
-
         </md-tab-body>
 
       </md-tab>
@@ -188,13 +187,13 @@
               <div layout="row" layout-align="center center" flex>
                 <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="atn.subiendoImagen"></md-progress-circular>
               </div>
-              <div class="drop-box" ngf-drop accept="'.pdf,.xml'" ngf-drag-over-class="dragover" ngf-multiple="true" ngf-pattern="'.pdf,.xml'" ngf-change="atn.subirFactura($files,$event)" flex>
+              <div class="drop-box" ngf-drop accept="'.pdf,.xml'" ngf-drag-over-class="dragover" ngf-multiple="false" ngf-pattern="'.pdf,.xml'" ngf-change="atn.subirFactura($files,$event)" flex>
                   Arrastra tus archivos aqui
                   <md-button  aria-label="subir archivo"
                             class="md-raised"
                             ngf-select="atn.subirFactura($files,$event)" 
                             ngf-change="atn.subirFactura($files,$event)" 
-                            ngf-multiple="true" 
+                            ngf-multiple="false" 
                             ngf-pattern="'.pdf,.xml'"
                             ngf-accept="'.pdf,.xml'" 
                             ng-model-options="{allowInvalid: false}">
@@ -203,10 +202,34 @@
 
             </section>
             <section flex="50">
+                <div layout="row" layout-align="center center">  
 
+                  <div class="text-center muestras" layout-wrap flex ng-if="atn.xml">
+                    <ng-md-icon icon="code" style="fill: green" size="128" class="big-button"></ng-md-icon>
+                    <br><br>
+                    <p>XML de Factura</p>
+                    <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Eliminar Archivo</md-button>
+                  </div>
+                  <div class="text-center muestras" layout-wrap flex ng-if="atn.pdf">
+                    <ng-md-icon icon="description" style="fill: green" size="128" class="big-button"></ng-md-icon>
+                    <br><br>
+                    <p>PDF de Factura</p>
+                    <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Eliminar Archivo</md-button>
+                  </div>
+                
+                </div>
             </section>
 
           </md-content>
+          <section ng-if="atn.factura">
+
+            <md-subheader>Datos de Factura</md-subheader>
+            <md-divider></md-divider> 
+            <md-content layout-padding layout-wrap layout-gt-sm="row" layout="column">
+              
+            </md-content>          
+            
+          </section>
         </md-tab-body>
 
       </md-tab>

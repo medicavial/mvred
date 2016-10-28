@@ -43,7 +43,11 @@
           </md-input-container>
           
           <md-input-container  class="md-block" flex>
-            <label>Folio de  <span ng-if="rg.datoSiniestro.cliente != 19 && rg.datoSiniestro.cliente != 10">Derivación</span> <span ng-if="rg.datoSiniestro.cliente == 19">Electronico</span> <span ng-if="rg.datoSiniestro.cliente == 10">Segmentación</span> </label>
+            <label>Folio de  
+              <span ng-if="rg.datos.cliente == '19'">Electronico</span> 
+              <span ng-if="rg.datos.cliente == '10'">Segmentación</span> 
+              <span ng-if="rg.datos.cliente != '19' && rg.datos.cliente != '10'">Derivación</span> 
+            </label>
             <input type="text" name="telefono" ng-model="rg.datoSiniestro.folioElec" mayusculas bloqueo="32">
           </md-input-container>
 
@@ -157,25 +161,19 @@
 
         <section layout="row" layout-xs="column">
           
-          <md-input-container flex="20">
+          <md-input-container flex>
             <label>Fecha de expedición del pase</label>
-            <md-datepicker name="fechaExp" ng-change="rg.verificaVigencia()" ng-model="rg.datoSiniestro.fechaExp" required></md-datepicker>
+            <md-datepicker name="fechaExp" ng-change="rg.verificaVigencia()" ng-model="rg.datoSiniestro.fechaExp" md-open-on-focus required></md-datepicker>
             <div class="validation-messages" ng-messages="rg.registroForm.fechaExp.$error" ng-if="rg.registroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>
             </div>
             
           </md-input-container>
 
-          <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" flex>
+          <!-- <md-switch ng-model="rg.datoSiniestro.extemporaneo" aria-label="extemporaneo" class="md-warn" flex>
             Folio Extemporaneo <span ng-if="rg.datoSiniestro.extemporaneo">Si</span> <span ng-if="!rg.datoSiniestro.extemporaneo">No</span> 
           </md-switch>
 
-          <!-- <mdp-date-picker mdp-open-on-click ng-required="rg.datoSiniestro.extemporaneo" name="fechaAtn" mdp-placeholder="Fecha de Atención" mdp-format="DD/MM/YYYY" ng-model="rg.datoSiniestro.fechaAtencion" class="md-block" ng-if="rg.datoSiniestro.extemporaneo" flex>
-            <div ng-messages="rg.registroForm.fechaAtn.$error" ng-if="rg.registroForm.$submitted">
-              <div ng-message="required">El campo es requerido</div>
-              <div ng-message="format">Formato de fecha invalido</div>
-            </div>
-          </mdp-date-picker> -->
           <md-input-container ng-if="rg.datoSiniestro.extemporaneo" flex>
             <label>Fecha de Atención</label>
             <md-datepicker name="fechaAtn" ng-model="rg.datoSiniestro.fechaAtencion" required md-open-on-focus></md-datepicker>
@@ -191,7 +189,7 @@
             <div ng-messages="rg.siniestroForm.motivoEx.$error" ng-if="rg.siniestroForm.$submitted">
               <div ng-message="required">El campo es requerido</div>            
             </div>
-          </md-input-container>
+          </md-input-container> -->
 
 
         </section>

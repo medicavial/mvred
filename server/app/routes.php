@@ -41,7 +41,7 @@ Route::group(array('prefix' => 'api'), function()
         // PDF::Output(public_path() . 'hello_world.pdf','FD');
 
         // return Expediente::where('Exp_folio' ,'PRMV000121')->select('*')->first()
-        return ExpedienteLesion::where('Exp_folio','PRMV000136')->count();
+        return Imagenes::where(array('ATN_clave'=> 8,'Arc_tipo'=>29))->first();
 
     });
 
@@ -84,10 +84,11 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('cancelacion', array('uses' => 'OperacionController@solicitaCancelacion'));
         Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));
-        Route::post('eliminaImagen', array('uses' => 'OperacionController@eliminaImagen'));
-        Route::get('portada/{folio}', array('uses' => 'OperacionController@generaPortada'));
+        Route::post('eliminaArchivo', array('uses' => 'OperacionController@eliminaArchivo'));
+        Route::post('factura', array('uses' => 'OperacionController@factura'));
         Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
-        Route::post('facturaXML', array('uses' => 'OperacionController@facturaXML'));
+        Route::get('muestraXML/{atencion}', array('uses' => 'OperacionController@muestraXML'));
+        Route::get('portada/{folio}', array('uses' => 'OperacionController@generaPortada'));
         Route::post('registraFolio', array('uses' => 'OperacionController@registraFolio'));
         Route::post('registraSiniestro', array('uses' => 'OperacionController@registraSiniestro'));
         Route::post('solicitud', array('uses' => 'OperacionController@solicitud'));

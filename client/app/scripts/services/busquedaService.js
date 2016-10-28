@@ -115,7 +115,10 @@
                     info:datos[0].data.info,
                     requisitos:datos[0].data.requisitos,
                     anotaciones:datos[0].data.anotaciones,
-                    lesiones:datos[1].data
+                    lesiones:datos[1].data,
+                    pdf:datos[0].data.pdf,
+                    xml:datos[0].data.xml,
+                    datosXML:datos[0].data.datosXML
                 }
 
                 promesa.resolve(datos);
