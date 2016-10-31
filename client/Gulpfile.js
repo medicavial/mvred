@@ -9,7 +9,7 @@ var gulp      = require('gulp'),
     gulpif    = require('gulp-if'),
     minifyCss = require('gulp-minify-css'),
     useref    = require('gulp-useref'),
-    uglify    = require('gulp-uglify'),
+    uglify 	  = require('gulp-uglify'),
     watch 	  = require('gulp-watch'),
     historyApiFallback = require('connect-history-api-fallback');
 
@@ -17,6 +17,18 @@ var gulp      = require('gulp'),
 gulp.task('server', function() {  
 	connect.server({    
 		root: './app',    
+		hostname: '0.0.0.0',    
+		port: 2000,    
+		livereload: true,    
+		middleware: function(connect, opt) {      
+			return [ historyApiFallback ];    
+		}  
+	}); 
+});
+
+gulp.task('server-produccion', function() {  
+	connect.server({    
+		root: './dist',    
 		hostname: '0.0.0.0',    
 		port: 2000,    
 		livereload: true,    
@@ -67,8 +79,6 @@ gulp.task('watch', function() {
 	watch('./app').pipe(connect.reload());
 });
 
-
-
 gulp.task('compress', function() {  
 	gulp.src('./app/index.html')    
 	.pipe(useref.assets())    
@@ -76,6 +86,7 @@ gulp.task('compress', function() {
 	.pipe(gulpif('*.js', uglify({mangle: false })))    
 	.pipe(gulp.dest('./dist')); 
 });
+
 
 gulp.task('copy', function() {  
 	gulp.src('./app/index.html')    
