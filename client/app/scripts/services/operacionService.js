@@ -12,7 +12,7 @@
 
         var operacion = {
             creaAtencion:creaAtencion,
-            eliminaImagen:eliminaImagen,
+            eliminaArchivo:eliminaArchivo,
             subirFactura:subirFactura,
             ingresaSolicitud:ingresaSolicitud,
             guardaDocumento:guardaDocumento,
