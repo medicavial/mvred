@@ -23,7 +23,7 @@
 		// atn.$onDestroy = destruccion;
 
 		atn.cargaInfo = cargaInfo;
-		atn.eliminarDigitales = eliminarDigitales;
+		atn.eliminarArchivos = eliminarArchivos;
 		atn.lesionMV = lesionMV;
 		atn.lesionCodificada = lesionCodificada;
 		atn.motivo = motivo;

@@ -44,11 +44,29 @@
 			controllerAs: 'sesion'
 		})
 
+		.state('autologin',{
+			url:'autologin?usuario&psw',
+			abstract: true,
+			templateUrl :'<p>Cargando...</p>',
+			controller:function(auth,$stateParams){
+
+				console.log($stateParams);
+				var datos = {
+					usuario:$stateParams.usuario,
+					psw:$stateParams.psw,
+					guardar:false
+				}
+
+				auth.login(datos);
+			}
+		})
+
 		.state('index', {
 			url: '/',
 			abstract:true,
 			templateUrl: 'views/base.html'
 		})
+
 
 
 		.state('index.ayuda',{

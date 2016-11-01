@@ -85,7 +85,7 @@
 				col:'2',
 				row:'1',
 				size:'84',
-				permiso:false,
+				permiso:true,
 				url:'index.busquedaGeneral'
 			},
 			{
