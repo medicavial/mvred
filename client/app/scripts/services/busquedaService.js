@@ -163,7 +163,7 @@
 
         //productos por compañia y localidad
         function productosCliente(cliente,localidad){
-            return $http.get(api + 'busqueda/productos/'+ cliente + '/' + localidad ,{timeout: 10000});
+            return $http.get(api + 'busqueda/productos/'+ cliente + '/' + localidad + '/' + $rootScope.unidad ,{timeout: 10000});
         };
 
         //consulta de riesgos afectados

@@ -6,7 +6,7 @@
           <tr md-row>
             <th md-column>Folio MV</th>
             <th md-column>Folio Interno</th>
-            <th md-column ng-if="es.tipo != 'expedientes' " >Tipo Atención</th>
+            <th md-column ng-if="es.tipo != 'expedientes' && es.tipo != 'sinAtn' " >Tipo Atención</th>
             <th md-column>Lesionado</th>
             <th md-column>Cliente</th>
             <th md-column>Fecha de Registro</th>
@@ -17,12 +17,12 @@
             
             <td md-cell>{{ dato.Exp_folio }}</td>
             <td md-cell>{{ dato.Exp_fq }}</td>
-            <td md-cell ng-if="es.tipo != 'expedientes' ">{{ dato.TIA_nombre }}</td>
+            <td md-cell ng-if="es.tipo != 'expedientes' && es.tipo != 'sinAtn' ">{{ dato.TIA_nombre }}</td>
             <td md-cell>{{ dato.Exp_completo }}</td>
             <td md-cell>{{ dato.Cia_nombrecorto }}</td>
             <td md-cell>
-               <span ng-if="!es.tipo == 'expedientes' ">{{ dato.ATN_fecreg }}</span>
-               <span ng-if=" es.tipo == 'expedientes' ">{{ dato.Exp_fecreg }}</span>
+               <span ng-if="!es.tipo == 'expedientes' && !es.tipo == 'sinAtn' ">{{ dato.ATN_fecreg }}</span>
+               <span ng-if=" es.tipo == 'expedientes' || es.tipo == 'sinAtn' ">{{ dato.Exp_fecreg }}</span>
             </td>
        
           </tr>

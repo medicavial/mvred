@@ -14,7 +14,7 @@
                 $http.post(api+'login',credenciales)
                 .success(function (data){
 
-                    console.log(data);
+                    // console.log(data);
                     webStorage.local.clear();
                     $rootScope.cargando = false;
                     

@@ -10,6 +10,8 @@
 
 	function config($stateProvider, $urlRouterProvider, $locationProvider,$mdThemingProvider,$httpProvider,$compileProvider, $mdDateLocaleProvider, $sceDelegateProvider) {
 
+
+		// console.log($templateCache);
 		$compileProvider.debugInfoEnabled(true);
 
 		$sceDelegateProvider.resourceUrlWhitelist([
@@ -39,24 +41,22 @@
 
 		.state('login', {
 			url: '/login',
-			templateUrl: 'views/login.html',
+			templateUrl: 'login.html',
 			controller: 'loginCtrl',
 			controllerAs: 'sesion'
 		})
 
 		.state('autologin',{
-			url:'autologin?usuario&psw',
-			abstract: true,
-			templateUrl :'<p>Cargando...</p>',
+			url:'/autologin?usuario&psw',
+			template :'<p>Cargando...</p>',
 			controller:function(auth,$stateParams){
 
-				console.log($stateParams);
+				// console.log($stateParams);
 				var datos = {
 					usuario:$stateParams.usuario,
 					psw:$stateParams.psw,
 					guardar:false
 				}
-
 				auth.login(datos);
 			}
 		})
@@ -64,35 +64,35 @@
 		.state('index', {
 			url: '/',
 			abstract:true,
-			templateUrl: 'views/base.html'
+			templateUrl: 'base.html'
 		})
 
 
 
 		.state('index.ayuda',{
 			url:'ayuda',
-			templateUrl :'views/ayuda.html',
+			templateUrl :'ayuda.html',
 			controller:'ayudaCtrl',
 			controllerAs:'au'
 		})
 
 		.state('index.busqueda',{
 			url:'busqueda',
-			templateUrl :'views/busqueda.html',
+			templateUrl :'busqueda.html',
 			controller:'busquedaCtrl',
 			controllerAs:'bs'
 		})
 
 		.state('index.busquedaGeneral',{
 			url:'busquedaGeneral',
-			templateUrl :'views/busqueda.html',
+			templateUrl :'busqueda.html',
 			controller:'busquedaGeneralCtrl',
 			controllerAs:'bs'
 		})
 
 		.state('index.documentos',{
 			url:'documentos',
-			templateUrl :'views/documentos.html',
+			templateUrl :'documentos.html',
 			controller:'documentosCtrl',
 			controllerAs:'dc',
 			resolve : {
@@ -115,7 +115,7 @@
 
 		.state('index.estadisticas',{
 			url:'estadisticas',
-			templateUrl :'views/estadisticas.html',
+			templateUrl :'estadisticas.html',
 			controller:'estadisticasCtrl',
 			controllerAs:'et',
 			resolve : {
@@ -138,7 +138,7 @@
 
 		.state('index.estadistica',{
 			url:'estadistica?tipo',
-			templateUrl :'views/estadistica.html',
+			templateUrl :'estadistica.html',
 			controller:'estadisticaCtrl',
 			controllerAs:'es',
 			resolve : {
@@ -150,21 +150,21 @@
 
 		.state('index.formatos',{
 			url:'formatos',
-			templateUrl :'views/formatos.html',
+			templateUrl :'formatos.html',
 			controller:'formatosCtrl',
 			controllerAs:'fr'
 		})
 
 		.state('index.home',{
 			url:'home',
-			templateUrl :'views/home.html',
+			templateUrl :'home.html',
 			controller:'homeCtrl',
 			controllerAs:'hm'
 		})
 
 		.state('index.registro',{
 			url:'registro',
-			templateUrl :'views/registro.html',
+			templateUrl :'registro.html',
 			controller:'registroCtrl',
 			controllerAs:'rg',
 			resolve: {
@@ -191,7 +191,7 @@
 
 		.state('index.detalle',{			
 			url:'detalle?folio',
-			templateUrl :'views/detalle.html',
+			templateUrl :'detalle.html',
 			controller:'detalleCtrl',
 			controllerAs:'dt',
 			resolve: {
@@ -204,7 +204,7 @@
 
 		// .state('detalle', {
 		// 	url: '/detalle?folio',
-		// 	templateUrl :'views/detalle.html',
+		// 	templateUrl :'detalle.html',
 		// 	controller:'detalleCtrl',
 		// 	controllerAs:'dt',
 		// 	resolve: {

@@ -18,7 +18,7 @@
         function registro1(titulo){
 
             $mdDialog.show({
-                templateUrl: 'views/ayudaDialog.html',
+                templateUrl: 'ayudaDialog.html',
                 controllerAs:'vm',
                 controller: function($mdDialog){
                     var vm = this;

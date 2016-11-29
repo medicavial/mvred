@@ -5,7 +5,7 @@
 	angular
 	.module('app')
 	.component('atencion',{
-		templateUrl:'views/atencion.html',
+		templateUrl:'atencion.html',
 		controller: atencionCtrl,
 		controllerAs:'atn',
 		bindings: {
@@ -24,6 +24,7 @@
 
 		atn.cargaInfo = cargaInfo;
 		atn.eliminarArchivos = eliminarArchivos;
+		atn.eliminaFactura = eliminaFactura;
 		atn.lesionMV = lesionMV;
 		atn.lesionCodificada = lesionCodificada;
 		atn.motivo = motivo;
@@ -31,6 +32,7 @@
 		atn.subirDigitales = subirDigitales;
 		atn.subirFactura = subirFactura;
 		atn.solicitaAutorizacion = solicitaAutorizacion;
+		atn.solicitaRevisionFactura = solicitaRevisionFactura;
 
 		function inicio(){
 
@@ -69,11 +71,12 @@
 			atn.opacidad = {'opacity':0.3};
 			busqueda.detalleAtencion(atn.clave).then(
 				function (data){
-					// console.log(data);
 					atn.datos = data.info;
 					atn.tiposDocumento = data.tipos;
 					atn.imagenes = data.imagenes;
 					atn.cargando = false;
+					atn.eliminandoXML = false;
+					atn.eliminandoPDF = false;
 					atn.anotaciones = data.anotaciones;
 					atn.requisitos = data.requisitos;
 					atn.lesiones = data.lesiones;
@@ -83,6 +86,8 @@
 					atn.archivoXML = data.xml;
 					atn.xmlData = data.factura; 
 					atn.opacidad = {};
+					console.log(atn.pdf);
+					console.log(atn.xml);
 				},
 				function (error){
 					mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
@@ -155,7 +160,7 @@
 							atn.xml = true;
 							atn.archivoXML = datos.datosArchivo;
 							validaPDF(datos.datosXML);
-						}else if (datos.pdf) {
+						}else{
 							atn.pdf = true;
 							atn.archivoPDF = datos.datosArchivo;
 						};
@@ -194,10 +199,26 @@
 			})
 		}
 
-		function eliminarArchivos(file,ev,historico,estatus){
+		function solicitaRevisionFactura(){
+
+			atn.solicitando = true;
+
+			operacion.cambiarEstatus(atn.clave,5).success(function (data){
+				atn.datos.ATN_estatus = 5;
+				atn.solicitando = false;
+				mensajes.alerta(data.respuesta,'success','top right','done_all');
+			}).error(function (error){
+				atn.solicitando = false;
+				mensajes.alerta('Ocurrio un error vuelve a intentarlo por favor','error','top right','error');
+			})
+		}
+
+		function eliminarArchivos(file,ev,historico,estatus,respaldo){
 
 			historico = historico || true;
 			estatus = estatus || true;
+			respaldo = respaldo || true;
+
 
 			var confirm = $mdDialog.confirm()
 				.title('Deseas eliminar este archivo?')
@@ -214,6 +235,7 @@
 		      	file.atencion = atn.clave;
 		      	file.historico = historico;
 		      	file.cambiarEstatus = estatus;
+		      	file.respaldo = respaldo;
 		      	
 				operacion.eliminaArchivo(file).then(
 					function (resp){
@@ -234,29 +256,56 @@
 			
 		}
 
-		function eliminaFactura(file,tipo){
+		function eliminaFactura(file,tipo,ev){
 
-			file.usuario = $rootScope.id;
-	      	file.atencion = atn.clave;
-	      	file.historico = false;
-	      	file.cambiarEstatus = false;
+			var confirm = $mdDialog.confirm()
+				.title('Deseas eliminar este archivo?')
+				.textContent('')
+				.ariaLabel('¿Deseas eliminar archivo?')
+				.targetEvent(ev)
+				.ok('SI')
+				.cancel('NO');
 
+				
+		    $mdDialog.show(confirm).then(function() {
+		      	
+				file.usuario = $rootScope.id;
+		      	file.atencion = atn.clave;
+		      	file.historico = true;
+		      	file.cambiarEstatus = false;
+		      	file.respaldo = false;
 
-			operacion.eliminaArchivo(file).then(
-				function (resp){
-					if (xml) {
-						atn.archivoXML = '';
-						atn.xml = false;						
-					}else{
-						atn.archivoPDF = '';
-						atn.pdf = false;
-					}
-
-				},	
-				function (error){
-					mensajes.alerta(error,'error','top right','error');
+		      	if (tipo == 'xml') {
+					file.tipo = 29;	
+					atn.eliminandoXML = true;				
+				}else{
+					file.tipo = 30;					
+					atn.eliminandoPDF = true;				
 				}
-			)
+
+
+				console.log(file);
+				operacion.eliminaArchivo(file).then(
+					function (resp){
+						if (tipo == 'xml') {
+							atn.archivoXML = '';
+							atn.xml = false;						
+						}else{
+							atn.archivoPDF = '';
+							atn.pdf = false;
+						}
+
+						mensajes.alerta( tipo + ' eliminado','','top right','done');
+
+
+					},	
+					function (error){
+						mensajes.alerta(error,'error','top right','error');
+					}
+				)
+		    	
+		    });
+
 		}
 
 		function motivo(motivo,ev){
@@ -274,7 +323,7 @@
 		function muestraArchivo(imagen,ev){
 
 			$mdDialog.show({
-				templateUrl: 'views/visor.html',
+				templateUrl: 'visor.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose:true,

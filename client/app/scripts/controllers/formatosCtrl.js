@@ -36,7 +36,7 @@
 			$mdDialog.show({
 		      controller: 'archivoCtrl',
 		      controllerAs:'vi',
-		      templateUrl: 'views/videos.html',
+		      templateUrl: 'videos.html',
 		      locals: { video: video },
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
@@ -49,7 +49,7 @@
 		au.directorio = function(ev){
 
 			$mdDialog.show({
-				templateUrl: 'views/directorio.html',
+				templateUrl: 'directorio.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose:true,

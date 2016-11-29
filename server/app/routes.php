@@ -41,7 +41,14 @@ Route::group(array('prefix' => 'api'), function()
         // PDF::Output(public_path() . 'hello_world.pdf','FD');
 
         // return Expediente::where('Exp_folio' ,'PRMV000121')->select('*')->first()
-        return Imagenes::where(array('ATN_clave'=> 8,'Arc_tipo'=>29))->first();
+        // return Imagenes::where(array('ATN_clave'=> 8,'Arc_tipo'=>29))->first();
+        $fechaRegistro = '2016-12-01 00:00:00';
+
+        if(date($fechaRegistro) >= date('2016-11-01 00:00:00')){
+            return 'Fecha es mayor o igual';
+        }else{
+            return 'Fecha es menor';
+        }
 
     });
 
@@ -65,7 +72,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('lesionMV/{tipoLES}', array('uses' => 'BusquedasController@lesionMV'));
         Route::get('productoAtencionDocumentos', array('uses' => 'BusquedasController@productoAtencionDocumentos'));
         Route::get('productos', array('uses' => 'BusquedasController@productos'));
-        Route::get('productos/{cliente}/{localidad}', array('uses' => 'BusquedasController@productosCliente'));
+        Route::get('productos/{cliente}/{localidad}/{unidad}', array('uses' => 'BusquedasController@productosCliente'));
         Route::get('riesgos', array('uses' => 'BusquedasController@riesgos'));
         Route::get('registros', array('uses' => 'BusquedasController@registros'));
         Route::get('registrosGlobales', array('uses' => 'BusquedasController@registrosGlobales'));
@@ -81,6 +88,7 @@ Route::group(array('prefix' => 'api'), function()
 
     Route::group(array('prefix' => 'operacion'), function(){
         Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
+        Route::get('cambiarEstatus/{clave}/{estatus}/{usuario}', array('uses' => 'OperacionController@cambiarEstatus'));
         Route::post('cancelacion', array('uses' => 'OperacionController@solicitaCancelacion'));
         Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));

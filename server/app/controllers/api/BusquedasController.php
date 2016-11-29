@@ -61,17 +61,17 @@ class BusquedasController extends BaseController {
 
 		//cargamos las facturas
 		$xml =  Imagenes::where(array('ATN_clave'=>$clave,'Arc_tipo'=>29))
-				->select('Arc_archivo as archivo,
-						  REG_folio as folio,
-                          Arc_clave as clave,
-                          Arc_motivo as motivo')
+				->select('Arc_archivo as archivo',
+						  'REG_folio as folio',
+                          'Arc_clave as clave',
+                          'Arc_motivo as motivo')
 				->first();
 
 		$pdf =  Imagenes::where(array('ATN_clave'=>$clave,'Arc_tipo'=>30))
-				->select('Arc_archivo as archivo,
-						  REG_folio as folio,
-                          Arc_clave as clave,
-                          Arc_motivo as motivo')
+				->select('Arc_archivo as archivo',
+						  'REG_folio as folio',
+                          'Arc_clave as clave',
+                          'Arc_motivo as motivo')
 				->first();
 
 		$datosXML = '';
@@ -109,7 +109,35 @@ class BusquedasController extends BaseController {
 					     ->join('Producto','Producto.Pro_clave','=','Expediente.Pro_clave')
 					     ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
 					     ->leftJoin('RiesgoAfectado','RiesgoAfectado.RIE_clave','=','Expediente.RIE_clave')
-						 ->where('Exp_folio',$folio)
+					     ->leftJoin('ExpedienteLesion','ExpedienteLesion.Exp_folio','=','Expediente.Exp_folio')
+					     ->leftJoin('TipoLesion','TipoLesion.TLE_claveint','=','ExpedienteLesion.TLE_claveint')
+					     ->leftJoin('LesionMV','LesionMV.LES_clave','=','ExpedienteLesion.LES_clave')
+					     ->leftJoin('LesionCodificada','LesionCodificada.LCO_cve','=','ExpedienteLesion.LCO_cve')
+					     ->leftJoin('CieOrtopedico','LesionCodificada.CIE_cve','=','CieOrtopedico.CIE_cve')
+						 ->leftJoin('LesionEquivalencia','LesionCodificada.LesE_clave','=','LesionEquivalencia.Clave_lesionCia')
+					     ->select(  'Expediente.Exp_folio',
+									'Cia_logo',
+									'Pro_img',
+									'Exp_completo',
+									'Exp_poliza',
+									'RIE_nombre',
+									'Usu_registro',
+									'Cia_nombrecorto',
+									'Exp_siniestro',
+									'Exp_reporte',
+									'Exp_fecreg',
+									'UNI_nombreMV',
+									'Exp_obs',
+									'Exp_extemporaneo',
+									'Exp_motivo',
+									'Exp_fechaAtn',
+									'Exp_cancelado',
+									'Exp_solCancela',
+									'TLE_nombre',
+									'LES_nombre',
+									'LesionCodificada.CIE_cve',
+									'CIE_descripcion')
+						 ->where('Expediente.Exp_folio',$folio)
 						 ->first();
 	}
 
@@ -265,55 +293,73 @@ class BusquedasController extends BaseController {
 
 
 	// muestra los productos activos segun el cliente
-	public function productosCliente($cliente,$localidad){
+	public function productosCliente($cliente,$localidad,$unidad){
 
 		$productosDisponibles = array();
 
 		//verificar la referencia existente segun el cliente
 		$productosCliente = referenciaProducto::where('Cia_clave',$cliente);
 
+		//validacion de qualitas exclusiva para estas unidades
+		if ($cliente == 19 && ($unidad == 266 || $unidad == 110) ) {
+			
+			return Producto::where('Pro_clave',1)->get();
+			
+		}else{
 
-		//si existe alguna referencia entra
-		if ($productosCliente->count() > 0) {
-			# code...
-			foreach ($productosCliente->get() as $producto) {
-				
-				$claveProducto = $producto->Pro_clave;
-				$claves = explode("," , $producto->REF_clave);
-
-				// si el producto es aplicable a todas las localidades
-				if ($producto->REF_condicion == 'todo') {
-
-					$datosProducto = Producto::find($claveProducto);
-
-					array_push($productosDisponibles,$datosProducto);
-
-				// si el producto es aplicable a una localidad en especifico
-				}elseif ($producto->REF_condicion == 'igual' && in_array($localidad, $claves) ) {
-
-					$datosProducto = Producto::find($claveProducto);
-
-					array_push($productosDisponibles,$datosProducto);
-
-				// si el producto es aplicable a una localidad exceptuando las localidades clave
-				}elseif ($producto->REF_condicion == 'menos' && !in_array($localidad, $claves) ) {
+			//si existe alguna referencia entra
+			if ($productosCliente->count() > 0) {
+				# code...
+				foreach ($productosCliente->get() as $producto) {
 					
-					$datosProducto = Producto::find($claveProducto);
+					$claveProducto = $producto->Pro_clave;
+					$claves = explode("," , $producto->REF_clave);
 
-					array_push($productosDisponibles,$datosProducto);
+					// si el producto es aplicable a todas las localidades
+					if ($producto->REF_condicion == 'todo') {
+
+						$datosProducto = Producto::find($claveProducto);
+
+						array_push($productosDisponibles,$datosProducto);
+
+					// si el producto es aplicable a una localidad en especifico
+					}elseif ($producto->REF_condicion == 'igual' && in_array($localidad, $claves) ) {
+
+						$datosProducto = Producto::find($claveProducto);
+
+						array_push($productosDisponibles,$datosProducto);
+
+					// si el producto es aplicable a una localidad exceptuando las localidades clave
+					}elseif ($producto->REF_condicion == 'menos' && !in_array($localidad, $claves) ) {
+						
+						$datosProducto = Producto::find($claveProducto);
+
+						array_push($productosDisponibles,$datosProducto);
+
+					}
+
+					// si el producto es aplicable a unidades especificas
+					// elseif ($producto->REF_condicion == 'unidades'  && in_array($unidad, $claves) ) {
+
+					// 	$datosProducto = Producto::find($claveProducto);
+
+					// 	array_push($productosDisponibles,$datosProducto);
+
+					// }
 
 				}
 
+				return $productosDisponibles;
+
+			// si no hay refrencias manda solo producto accidente vial
+			}else{
+
+				//regresar solo accidente vial por defecto
+				return Producto::where('Pro_clave',1)->get();
 			}
 
-			return $productosDisponibles;
-
-		// si no hay refrencias manda solo producto accidente vial
-		}else{
-
-			//regresar solo accidente vial por defecto
-			return Producto::where('Pro_clave',1)->get();
 		}
+
 
 	}
 

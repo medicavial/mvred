@@ -5,7 +5,7 @@
 	angular
 	.module('app')
 	.component('menu',{
-		templateUrl:'views/menu.html',
+		templateUrl:'menu.html',
 		controller: MenuCtrl,
 		controllerAs:'mn'
 	});

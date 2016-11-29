@@ -63,6 +63,18 @@ class ReportesController extends BaseController {
                             'Uni_clave' => $unidad
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
+
+        // registros sin atenciones dadas de alta
+        $respuesta['expedientesSA'] = Expediente::where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))
+                        ->whereNotIn('Exp_folio', function($q){
+                              $q->select('Exp_folio')
+                                ->from('Atenciones');
+                        })
+                        ->count();
+
         $respuesta['atencionesEt1SD'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
@@ -89,6 +101,13 @@ class ReportesController extends BaseController {
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 3
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        $respuesta['atencionesEt1RF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 5
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
 
@@ -147,13 +166,9 @@ class ReportesController extends BaseController {
     }
 
     public function listado($unidad,$tipo){
-        
-
-
 
         $fechaini = date('Y-m-01') . ' 00:00:00';
         $fechafin = date('Y-m-d') . ' 23:59:59';
-
 
         if($tipo == 'expedientes'){
 
@@ -162,6 +177,21 @@ class ReportesController extends BaseController {
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+
+        if($tipo == 'sinAtn'){
+
+            $datos = Expediente::join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad
+                        ) )
+                        ->whereNotIn('Exp_folio', function($q){
+                              $q->select('Exp_folio')
+                                ->from('Atenciones');
+                        })
+                        ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
         }
 
         if($tipo == 'documentos'){
@@ -209,6 +239,19 @@ class ReportesController extends BaseController {
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 3
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+
+        if($tipo == 'revisionFac'){
+
+            $datos = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')
+                        ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 5
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
         }
 

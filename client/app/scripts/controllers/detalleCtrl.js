@@ -37,7 +37,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				page:'views/atenciones.html'
+				page:'atenciones.html'
 			},
 			{
 				nombre:'Autorizaciones',
@@ -46,7 +46,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				page:'views/autorizaciones.html'
+				page:'autorizaciones.html'
 			},
 			{
 				nombre:'Problemas',
@@ -55,7 +55,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				page:'views/tickets.html'
+				page:'tickets.html'
 			},
 			// {
 			// 	nombre:'Pagos',
@@ -64,7 +64,7 @@
 			// 	col:'1',
 			// 	row:'1',
 			// 	size:'84',
-			// 	page:'views/pagosExpediente.html'
+			// 	page:'pagosExpediente.html'
 			// },
 			{
 				nombre:'Linea de Tiempo',
@@ -73,7 +73,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				page:'views/timeline.html'
+				page:'timeline.html'
 			}
 			// {
 			// 	nombre:'Interaccion',
@@ -82,7 +82,7 @@
 			// 	col:'1',
 			// 	row:'1',
 			// 	size:'84',
-			// 	page:'views/comunicacion.html'
+			// 	page:'comunicacion.html'
 			// }
 		];
 
@@ -178,7 +178,7 @@
 
 		function nuevaAtencion(){
 			$mdBottomSheet.show({
-				templateUrl: 'views/opcionesGrid.html',
+				templateUrl: 'opcionesGrid.html',
 				controllerAs: 'opt',
 				clickOutsideToClose:true,
 				locals:{primera:dt.primera},
@@ -238,7 +238,7 @@
 		function solicitudAutorizacion(imagen,ev){
 
 			$mdDialog.show({
-				templateUrl: 'views/solicitudAutorizacion.html',
+				templateUrl: 'solicitudAutorizacion.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				clickOutsideToClose:false,

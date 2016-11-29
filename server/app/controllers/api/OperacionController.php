@@ -13,6 +13,47 @@ class OperacionController extends BaseController {
 	    // $this->rutaArchivos = public_path().'../../../../registro/';
 	}
 
+	// se solicita la revision de os documentos
+	public function cambiarEstatus($atencion,$valor,$usuario){
+		
+		$atn = Atencion::find($atencion);
+		$folio = $atn->Exp_folio;
+		$tipoAtn = $atn->TIA_clave;
+		$entrega = $atn->ATN_cons;
+
+		$atn->ATN_estatus = $valor;
+		$atn->save();
+
+		if ($valor == 1) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la primera atención';
+		}elseif ($valor == 2) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la Subsecuencia';
+		}elseif ($valor == 3) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la Rehabilitación';
+		}elseif ($valor == 4) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la Rehabilitación';
+		}elseif ($valor == 5) {
+			$titulo = 'Se solicitó revisión de facturas';
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de facturas de la primera atención';
+		}elseif ($valor == 6) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la Subsecuencia';
+		}elseif ($valor == 7) {
+			$descripcion = 'El usuario ' . $usuario . ' solicitó revisión de documentos de la Rehabilitación';
+		}
+
+		$Historico = new Historico;
+		$Historico->usuario = $usuario;
+		$Historico->titulo = $titulo;
+		$Historico->descripcion = $descripcion;
+		$Historico->folio = $folio;
+		$Historico->etapa = $tipoAtn;
+		$Historico->entrega = $entrega;
+		$Historico->guardar();
+
+		return Response::json(array('respuesta' => 'Facturas Enviadas Correctamente'));
+
+	}
+
 	//creamos una nueva atencion
 	public function creaAtencion(){
 
@@ -67,6 +108,7 @@ class OperacionController extends BaseController {
 			$atencionDoc->Pro_clave = $producto;
 			$atencionDoc->TIA_clave = $atencion;
 			$atencionDoc->TID_clave = $claveDoc;
+			$atencionDoc->ATD_requerido = 1;
 			$atencionDoc->save();
 
 		}
@@ -85,15 +127,20 @@ class OperacionController extends BaseController {
 		$archivo = Input::get('archivo');
 		$usuario = Input::get('usuario');
 
-		//estos son manejadores para las facturas
+		//estos son manejadores para las acciones que se tomaran por archivo 
 		$historico = Input::get('historico');
 		$estatus = Input::get('cambiarEstatus');
+		$respaldo = Input::get('respaldo');
+
+		//ruta para preparar los rechazos de imagenes
+		$rutaRechazo = $this->rutaArchivos . $archivo . '/rechazos';
 
 		//generamos la ruta a eliminar 
 		$archivo = $this->rutaArchivos . $archivo . '/' .$clave;
+		$respaldo = $rutaRechazo . '/'. date('Y-m-d') . '_' .$clave;
 
-		// lo eliminamos
-		File::delete($archivo);
+		// si no existe ruta la crea
+		if(!is_dir($rutaRechazo)) mkdir($rutaRechazo);
 
 		// eliminamos registro en base de datos
 		Imagenes::where( array('Arc_clave' => $clave, 'Arc_tipo' => $tipo, 'ATN_clave' => $atencion) )->delete();
@@ -127,6 +174,18 @@ class OperacionController extends BaseController {
 			if ($tipoDocumento->count() > 0) {
 				$tipoDocumento->update(array('ATD_estatus' => 0,'ATD_motivo' => ''));
 			}
+
+		}
+
+		if ($respaldo) {
+
+			// lo renombramos para tener respaldo
+			File::move($archivo, $respaldo);
+
+		}else{
+
+			// lo eliminamos
+			File::delete($archivo);
 		}
 
 		return Response::json(array('flash' => 'Archivo eliminado'));
@@ -193,13 +252,12 @@ class OperacionController extends BaseController {
 
 			$imagen = Imagenes::imagen($folio,$tipo,$consecutivo);
 		
-			$contenido =  file_get_contents($archivo);
 
-			return Response::json(array('archivo' => $imagen, 'contenido' => $contenido, 'ubicacion' => $archivo));
+			return Response::json(array('archivo' => $imagen, 'ubicacion' => $archivo));
 
         }else{
 
-        	return Response::json(array('flash' => 'XML no valido'),500);
+        	return Response::json(array('flash' => 'Sin Archivo'),500);
 
         }
 

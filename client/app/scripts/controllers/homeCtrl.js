@@ -55,16 +55,16 @@
 				permiso:true,
 				url:'index.busqueda'
 			},
-			// {
-			// 	nombre:'Conciliación',
-			// 	background:'grayG',
-			// 	icon:'attach_money',
-			// 	col:'1',
-			// 	row:'1',
-			// 	size:'84',
-			// 	permiso:true,
-			// 	url:'index.registro'
-			// },
+			{
+				nombre:'Conciliación',
+				background:'grayG',
+				icon:'attach_money',
+				col:'1',
+				row:'1',
+				size:'84',
+				permiso:$rootScope.permisos.Per_admin == 'S' ? true:false,
+				url:'index.registro'
+			},
 			{
 				nombre:'Estadistica',
 				background:'yellowG',
@@ -85,7 +85,7 @@
 				col:'2',
 				row:'1',
 				size:'84',
-				permiso:true,
+				permiso:$rootScope.permisos.Per_buscarUnidades == 'S' ? true:false,
 				url:'index.busquedaGeneral'
 			},
 			{
@@ -95,7 +95,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				permiso:false,
+				permiso:$rootScope.permisos.Per_admin == 'S' ? true:false,
 				url:'index.documentos'
 			},
 			{
@@ -105,7 +105,7 @@
 				col:'1',
 				row:'1',
 				size:'84',
-				permiso:false,
+				permiso:$rootScope.permisos.Per_admin == 'S' ? true:false,
 				url:'index.requisitos'
 			}
 		];

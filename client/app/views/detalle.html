@@ -51,6 +51,21 @@
         </div>
       
     </section>
+
+    <section layout-gt-xs="row" layout="column" layout-padding layout-align="center center">
+
+        <div class="text-center" flex="100" flex-gt-xs="33">          
+            <strong>Tipo de Lesión: {{ dt.dato.TLE_nombre }}</strong> <br>
+        </div>
+        <div class="text-center" flex="100" flex-gt-xs="33">
+            
+            <strong>Lesión: {{ dt.dato.LES_nombre }}</strong> <br>
+        </div>
+        <div class="text-center" flex="100" flex-gt-xs="33">
+            <strong>Lesión Codificada: {{ dt.dato.CIE_cve }} - {{ dt.dato.CIE_descripcion }}</strong> <br>
+        </div>
+      
+    </section>
     
     <section layout="row" layout-align="center center">
       <md-button ng-href="http://medicavial.net/mvnuevo/api/classes/formatoFolio.php?fol={{ dt.dato.Exp_folio }}" target="_blank" >Imprimir Portada</md-button>

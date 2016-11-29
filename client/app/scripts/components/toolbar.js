@@ -5,7 +5,7 @@
 	angular
 	.module('app')
 	.component('toolbar',{
-		templateUrl:'views/toolbar.html',
+		templateUrl:'toolbar.html',
 		controller: toolbarCtrl,
 		controllerAs:'tb',
 		bindings: {

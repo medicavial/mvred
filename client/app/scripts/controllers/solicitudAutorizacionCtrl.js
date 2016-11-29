@@ -42,8 +42,8 @@
 			sol.step4block = true;
 			sol.step5block = true;
 
-			sol.paso1 = 'views/solicitudPaso1.html';
-			sol.paso2 = 'views/solicitudPaso2.html';
+			sol.paso1 = 'solicitudPaso1.html';
+			sol.paso2 = 'solicitudPaso2.html';
 
 
 			sol.datos = {

@@ -5,7 +5,7 @@
 	angular
 	.module('app')
 	.component('interaccion',{
-		templateUrl:'views/interaccion.html',
+		templateUrl:'interaccion.html',
 		controller: InteraccionCtrl,
 		controllerAs:'it'
 	});

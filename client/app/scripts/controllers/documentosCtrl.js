@@ -31,7 +31,7 @@
  			$mdDialog.show({
 		      controller: 'altaDocumentoCtrl',
 		      controllerAs:'ad',
-		      templateUrl: 'views/altaDocumento.html',
+		      templateUrl: 'altaDocumento.html',
 		      locals: { datos: {tiposDocumento:dc.tiposDocumento,tiposAtencion:dc.tiposAtencion,productos:dc.productos} },
 		      parent: angular.element(document.body),
 		      targetEvent: ev,

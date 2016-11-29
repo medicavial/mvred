@@ -11,6 +11,7 @@
     function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro){
 
         var operacion = {
+            cambiarEstatus:cambiarEstatus,
             creaAtencion:creaAtencion,
             eliminaArchivo:eliminaArchivo,
             subirFactura:subirFactura,
@@ -25,6 +26,10 @@
 
         return operacion;
 
+        //funcion para cambiar de estatus la atencion
+        function cambiarEstatus(atencion,valor){
+            return $http.get(api + 'operacion/cambiarEstatus/'+ atencion + '/' + valor + '/' + $rootScope.id ,{timeout: 10000});
+        };
 
         //funcion para crear nueva atencion
         function creaAtencion(datos){
@@ -42,18 +47,22 @@
 
             var promesa = $q.defer(),
                 factura = archivo[0];
+
+            var xmlSubido = false;
+            var pdfSubido  = false;
+                
             //mandamos el tipo de archivo segun sea el archivo
             if (factura.type == 'text/xml') {
                 if (!xml) {
                     var tipo = 29;
-                    xml = true;                    
+                    xmlSubido = true;                    
                 }else{
                     promesa.reject('No puedes subir mas de un archivo de XML');
                 }
             }else{
                 if (!pdf) {
                     var tipo = 30; 
-                    pdf = true;                   
+                    pdfSubido  = true;                   
                 }else{
                     promesa.reject('No puedes subir mas de un archivo de PDF');
                 }                
@@ -73,8 +82,8 @@
                 console.log(resp);
 
                 var respuesta = {
-                    xml : xml,
-                    pdf : pdf,
+                    xml : xmlSubido,
+                    pdf : pdfSubido,
                     datosArchivo:'',
                     datosXML : ''
                 }

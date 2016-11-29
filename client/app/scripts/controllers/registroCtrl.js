@@ -34,10 +34,10 @@
 		// inicializacion de variables
 		vm.clientes = datos.clientes;
 
-		vm.paso1 = 'views/registroPaso1.html';
-		vm.paso2 = 'views/registroPaso2.html';
-		vm.paso3 = 'views/registroPaso3.html';
-		vm.paso4 = 'views/registroPaso4.html';
+		vm.paso1 = 'registroPaso1.html';
+		vm.paso2 = 'registroPaso2.html';
+		vm.paso3 = 'registroPaso3.html';
+		vm.paso4 = 'registroPaso4.html';
 
 		// se definen las funciones
 		vm.inicio = inicio; //funcion para limpiar todos los campos
@@ -60,7 +60,7 @@
 			$mdDialog.show({
 				controller: 'telefonoCtrl',
 				controllerAs: 'tel',
-				templateUrl: 'views/agregaTelefono.html',
+				templateUrl: 'agregaTelefono.html',
 				parent: angular.element(document.body),
 				targetEvent: ev,
 				locals: {

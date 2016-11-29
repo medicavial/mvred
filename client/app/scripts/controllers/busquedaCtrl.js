@@ -107,7 +107,7 @@
 	  		$mdDialog.show({
 		      controller: 'cancelacionCtrl',
 		      controllerAs:'can',
-		      templateUrl: 'views/cancelacion.html',
+		      templateUrl: 'cancelacion.html',
 		      locals: { folio: folio.Exp_folio },
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
@@ -218,7 +218,7 @@
 	  		$mdDialog.show({
 		      controller: 'cancelacionCtrl',
 		      controllerAs:'can',
-		      templateUrl: 'views/cancelacion.html',
+		      templateUrl: 'cancelacion.html',
 		      locals: { folio: folio },
 		      parent: angular.element(document.body),
 		      targetEvent: ev,

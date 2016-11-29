@@ -3,6 +3,7 @@
 	'use strict';
 
 	angular.module('app', [
+		'app.templates',
 		'ui.router',
 		'ngMaterial',
 		'ngMdIcons',
@@ -19,14 +20,15 @@
 		'amChartsDirective'
 	])
 	
-	// .constant('api', 'http://localhost/mvred/server/public/api/')
+	//ip produccion
+	
 	.constant('api', 'http://api.medicavial.net/api/')
-
-	// .constant('registro', 'http://localhost/registro/')
 	.constant('registro', 'http://medicavial.net/registro/')
-
-	// .constant('publicfiles','http://localhost/mvred/server/public/');
 	.constant('publicfiles','http://api.medicavial.net/');
+
+	// .constant('api', 'http://localhost/mvred/server/public/api/')
+	// .constant('registro', 'http://localhost/registro/')
+	// .constant('publicfiles','http://localhost/mvred/server/public/');
 	
 
 })();

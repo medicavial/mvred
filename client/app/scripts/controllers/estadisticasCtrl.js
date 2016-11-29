@@ -83,6 +83,10 @@
 			$rootScope.titulo = 'Detalle de Atenciones Autorizadas Sin Facturar';
 		}else if (es.tipo == 'rechazo'){
 			$rootScope.titulo = 'Detalle de Atenciones Rechazadas';
+		}else if (es.tipo == 'sinAtn'){
+			$rootScope.titulo = 'Detalle de Expedientes Sin Registrar Atención';
+		}else if (es.tipo == 'revisionFac'){
+			$rootScope.titulo = 'Detalle de Atenciones Con Factura en Revisión';
 		}
 	}
 
