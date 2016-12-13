@@ -12,6 +12,8 @@
 
 	function visorCtrl($scope,$mdDialog,imagen,registro){
 
+		console.log(imagen);
+
 		$scope.archivo = imagen.archivo;
 		$scope.imagen = imagen.clave;
 

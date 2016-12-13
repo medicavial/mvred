@@ -1,0 +1,68 @@
+<md-toolbar layout="row" md-scroll-shrink>
+	<div class="md-toolbar-tools">
+		<md-button ng-click="tb.menuSwitch('left')" class="md-icon-button">
+			<ng-md-icon icon="{{tb.menu}}" style="fill:white" aria-label="Menu" options='{"rotation": "Clockwise"}'></ng-md-icon> 
+		</md-button>
+	  	<img ng-if="tb.url !== 'index.home' " src="img/logomini.png" alt="MedicaVial" style="margin-right: 10px">
+	  	<h1>{{ tb.titulo }}</h1>
+	  	<span flex></span>
+	  	<h2 hide show-gt-sm> {{ tb.nombre }} </h2>
+	  	<small hide show-gt-sm class="nombre-unidad">( {{ tb.unidad }} ) </small>
+		<md-button class="md-icon-button" aria-label="Inicio" ui-sref="index.home">
+	  		<ng-md-icon icon="home" style="fill:white"></ng-md-icon>
+	  		<md-tooltip>
+				Inicio
+			</md-tooltip> 
+		</md-button>
+		<md-button class="md-icon-button" aria-label="Notificaciones" ng-click="tb.notificaciones($event)" hide show-gt-sm>
+	  		<ng-md-icon icon="notifications" style="fill:white"> <span>¡</span> </ng-md-icon>
+	  		<md-tooltip>
+				Notificaciones
+			</md-tooltip> 
+		</md-button>
+		<md-button class="md-icon-button" aria-label="Configuracion" ng-click="tb.configSwitch('right')" hide show-gt-sm>
+	  		<ng-md-icon icon="settings" style="fill:white"></ng-md-icon>
+	  		<md-tooltip>
+				Configuración
+			</md-tooltip> 
+		</md-button>
+		<md-button class="md-icon-button" aria-label="Cerrar Sesion" ng-click="tb.logout()" hide show-gt-sm>
+	  		<ng-md-icon icon="logout" style="fill:white"></ng-md-icon>
+	  		<md-tooltip>
+				Cerrar Sesión
+			</md-tooltip> 
+		</md-button>
+	  	<md-menu md-position-mode="target-right target" hide-gt-sm>
+		    <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+	      		<ng-md-icon md-menu-origin icon="more_vert" style="fill:white"></ng-md-icon> 
+		    </md-button>
+		    <md-menu-content width="3">
+		    	<md-menu-item>
+		    		<span md-menu-align-target>{{ tb.nombre }}</span>
+		    	</md-menu-item>
+		    	<md-menu-item>
+		    		<span md-menu-align-target>Unidad: {{ tb.unidad }}</span>
+		    	</md-menu-item>
+		    	<md-menu-divider></md-menu-divider>
+				<md-menu-item>
+					<md-button ng-click="tb.configSwitch('right')">
+					    <ng-md-icon icon="settings" style="fill:gray"></ng-md-icon>
+					    Configuración
+					</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button ng-click="">
+					    <ng-md-icon icon="notifications" style="fill:gray"></ng-md-icon>
+					    Notificaciones
+					</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button ng-click="tb.logout()">
+					    <ng-md-icon icon="logout" style="fill:gray"></ng-md-icon>
+					    Salir
+					</md-button>
+				</md-menu-item>
+		    </md-menu-content>
+	  	</md-menu>
+	</div>
+</md-toolbar>

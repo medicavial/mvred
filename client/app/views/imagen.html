@@ -1,0 +1,19 @@
+<md-content layout="column" layout-gt-sm="row" layout-margin class="md-whiteframe-2dp">
+  
+  <div class="drop-box"  ngf-drop accept="'image/*'" ngf-drag-over-class="dragover" ngf-multiple="false" ngf-pattern="'image/*'" ngf-change="img.analizaArchivo($files,$event)" flex>
+      Arrastra tu imagen aqui
+      <md-button  aria-label="subir archivo"
+                class="md-raised"
+                ngf-select="img.analizaArchivo($files,$event)" 
+                ngf-change="img.analizaArchivo($files,$event)" 
+                ngf-multiple="false" 
+                ngf-pattern="'image/*'"
+                ngf-accept="'image/*'" 
+                ng-model-options="{allowInvalid: false}">
+      Seleccionar Archivos</md-button>
+  </div>
+    
+</md-content>
+
+
+

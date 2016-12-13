@@ -33,7 +33,7 @@
 		$mdDateLocaleProvider.parseDate = function(dateString) {
 		    var m = moment(dateString, 'DD/MM/YYYY', true);
 		    return m.isValid() ? m.toDate() : new Date(NaN);
-		};      
+		};     
 
 		$urlRouterProvider.otherwise('/home');
 
@@ -119,19 +119,10 @@
 			controller:'estadisticasCtrl',
 			controllerAs:'et',
 			resolve : {
-				datos : function(reportes,$q){
-					var promesa 		= $q.defer(),
-						estadisticas 	= reportes.estadisticas(),
-						atencionesMes 	= reportes.atencionesMes(),
-						atencionesAnio 	= reportes.atencionesAnio();
+				datos : function(reportes){
+					// debugger;
+					return reportes.estadisticas();
 
-					$q.all([atencionesMes,atencionesAnio,estadisticas]).then(function (data){
-						promesa.resolve(data);
-					},function (error){
-						promesa.reject('Error');
-					});
-
-					return promesa.promise;
 				}
 			}
 		})
@@ -160,6 +151,13 @@
 			templateUrl :'home.html',
 			controller:'homeCtrl',
 			controllerAs:'hm'
+		})
+
+		.state('index.imagen',{
+			url:'imagen',
+			templateUrl :'imagen.html',
+			controller:'imagenCtrl',
+			controllerAs:'img'
 		})
 
 		.state('index.registro',{

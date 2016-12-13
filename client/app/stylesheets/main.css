@@ -126,6 +126,10 @@ md-tabs.TabPanel md-tabs-wrapper {
     background-color: rgba(0, 0, 0, 0.77);
 }
 
+.mouseClick{
+  cursor: pointer;
+}
+
 
 .nombre-unidad{
   font-size: 16px;

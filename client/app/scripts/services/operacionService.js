@@ -6,17 +6,19 @@
     angular.module('app')
     .factory('operacion',operacion);
 
-    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles', 'registro'];
+    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles', 'registro','filtro'];
 
-    function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro){
+    function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro,filtro){
 
         var operacion = {
             cambiarEstatus:cambiarEstatus,
             creaAtencion:creaAtencion,
             eliminaArchivo:eliminaArchivo,
             subirFactura:subirFactura,
+            imagenOCR:imagenOCR,
             ingresaSolicitud:ingresaSolicitud,
             guardaDocumento:guardaDocumento,
+            guardaNotas:guardaNotas,
             registroPaciente:registroPaciente,
             registroSiniestro:registroSiniestro,
             solicitaAutorizacion:solicitaAutorizacion,
@@ -121,6 +123,18 @@
             return $http.post(api+'operacion/documentos',datos);
         }
 
+        //function para guardar la relacion producto , atencion y tipo de documento 
+        function guardaNotas(nota,atencion){
+
+            var datos = {
+                nota:nota,
+                atencion:atencion
+            }
+
+            return $http.post(api+'operacion/guardaNotas',datos);
+
+        }
+
 
         function leeXML(atencion){
 
@@ -211,6 +225,127 @@
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 promesa.notify(progressPercentage);
+            });
+
+            return promesa.promise;
+        }
+
+        function imagenOCR(files){
+
+            var promesa = $q.defer(),
+                file = files[0];
+
+            Upload.base64DataUrl(file).then(function (url){
+
+                var textos = url.split('data:image/png;base64,');
+
+                // console.log(textos);
+                
+                var body = {
+                    requests: {
+                        image: {
+                            content: textos[1]
+                        },
+                        features: [
+                            {
+                                type: 'TEXT_DETECTION',
+                                maxResults: 10
+                            },
+                            {
+                                type: 'LOGO_DETECTION',
+                                maxResults: 10
+                            }
+                        ]
+                    }
+                }
+
+                var url = 'https://vision.googleapis.com/v1/images:annotate\?key\=AIzaSyBv-xkwdgjF7xND0CjOF4EFN9jccXC8fJg'
+
+
+                $http.post(url,body).then(
+                    function (resp){    
+
+                        var datos = resp.data.responses[0];
+
+                        console.log(datos);
+
+                        var logo = datos.logoAnnotations[0].description;
+
+                        var info = datos.textAnnotations;
+
+                        // console.log(logo);
+                        // console.log(info);
+
+                        if (logo == 'Qualitas') {
+
+
+                            // la palabra autorizacion se encuentra 3 veces 
+                            var encontradasAut = filtro.buscaParametro(info,'Autorizacion');
+                            //tomamos el index
+                            var index = info.indexOf(encontradasAut[3]);
+                            //y le sumamos 4 posiciones
+                            var folioAutorizacion = info[index + 4].description;
+
+                            // la palabra  
+                            var encontradasPol = filtro.buscaParametro(info,'Polizia');
+                            //tomamos el index
+                            var indexPol = info.indexOf(encontradasPol[1]);
+                            //y le sumamos 4 posiciones
+                            var poliza = info[indexPol + 1].description;
+
+                            // la palabra 
+                            var encontradasSin = filtro.buscaParametro(info,'Siniestro');
+                            //tomamos el index
+                            var indexSin = info.indexOf(encontradasSin[1]);
+                            //y le sumamos 4 posiciones
+                            var siniestro = info[indexSin + 1].description;
+
+                            // la palabra 
+                            var encontradasRep = filtro.buscaParametro(info,'Reporte');
+                            //tomamos el index
+                            var indexRep = info.indexOf(encontradasRep[1]);
+                            //y le sumamos 4 posiciones
+                            var reporte = info[indexRep + 1].description;
+
+
+                            // la palabra 
+                            var encontradasEl = filtro.buscaParametro(info,'Electronico');
+                            //tomamos el index
+                            var indexEl = info.indexOf(encontradasEl[1]);
+                            //y le sumamos 4 posiciones
+                            var folioElec = info[indexEl + 1].description + info[indexEl + 2].description;
+
+
+                            // la palabra 
+                            var encontradasCo = filtro.buscaParametro(info,'Cobertura');
+                            //tomamos el index
+                            var indexCo = info.indexOf(encontradasCo[1]);
+                            //y le sumamos 4 posiciones
+                            var cobertura = info[indexCo + 1].description;
+
+                            // la palabra 
+                            var encontradasNo = filtro.buscaParametro(info,'Nombre');
+                            //tomamos el index
+                            var indexNo = info.indexOf(encontradasNo[1]);
+                            //y le sumamos 4 posiciones
+                            var Lesionado = info[indexNo + 1].description + ' ' + info[indexNo + 2].description + ' ' + info[indexNo + 3].description;
+
+                            console.log(folioAutorizacion);
+                            console.log(reporte);
+                            console.log(poliza);
+                            console.log(siniestro);
+                            console.log(folioElec);
+
+                            console.log(cobertura);
+                            console.log(Lesionado);
+
+                        };
+
+                    },function (err){
+                        console.log(err);
+                    }
+                );
+                
             });
 
             return promesa.promise;

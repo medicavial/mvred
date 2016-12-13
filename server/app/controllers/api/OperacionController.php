@@ -117,6 +117,21 @@ class OperacionController extends BaseController {
 		
 	}
 
+	//guarda nota de la atencion
+	public function guardaNotas(){
+
+		$atencion = Input::get('atencion');
+		$notas  = Input::get('notas');
+
+		$atencion = Atencion::find($atencion);
+		$atencion->ATN_mensaje = $notas;
+		$atencion->ATN_ayuda = 1;
+		$atencion->save();
+
+		return Response::json(array('flash' => 'Notas Guardadas'));
+		
+	}
+
 
 	//funcion para elminar Archivos ya sean imagenes o pdf/xml
 	public function eliminaArchivo(){

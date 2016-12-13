@@ -27,7 +27,8 @@
             tiposCancelacion:tiposCancelacion,
             tiposDocumento:tiposDocumento,
             tiposAtencion:tiposAtencion,
-            tipoLesion:tipoLesion
+            tipoLesion:tipoLesion,
+            unidades:unidades
         };
 
         return servicio;
@@ -102,6 +103,7 @@
 
         //consulta el detalle de la atencion
         function detalleAtencion(atencion){
+            
             var promesa  = $q.defer(),
                 lesion   = tipoLesion(),
                 detalle  = $http.get( api + 'busqueda/detalleAtencion/' + atencion );
@@ -236,6 +238,11 @@
         //tipos de lesiones
         function tipoLesion(){
             return $http.get(api + 'busqueda/tipoLesion',{timeout: 10000});
+        };
+
+        //tipos de lesiones
+        function unidades(){
+            return $http.get(api + 'busqueda/unidades',{timeout: 10000});
         };
 
 

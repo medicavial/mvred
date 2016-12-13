@@ -64,6 +64,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('clientes', array('uses' => 'BusquedasController@clientes'));
         Route::get('detalleAtencion/{clave}', array('uses' => 'BusquedasController@detalleAtencion'));
         Route::get('detalleFolio/{folio}', array('uses' => 'BusquedasController@detalleFolio'));
+        Route::get('documentos', array('uses' => 'BusquedasController@documentosRegistrados'));
         Route::get('documentos/{atencion}/{producto}', array('uses' => 'BusquedasController@documentos'));
         Route::get('documentoSolicitud', array('uses' => 'BusquedasController@documentoSolicitud'));
         Route::get('historial/{folio}', array('uses' => 'BusquedasController@historial'));
@@ -83,7 +84,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('tiposDocumento', array('uses' => 'BusquedasController@tiposDocumento'));
         Route::get('tipoLesion', array('uses' => 'BusquedasController@tipoLesion'));
         Route::get('tiposTelefono', array('uses' => 'BusquedasController@tiposTelefono'));
-        
+        Route::get('unidades', array('uses' => 'BusquedasController@unidades'));
     });
 
     Route::group(array('prefix' => 'operacion'), function(){
@@ -94,6 +95,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));
         Route::post('eliminaArchivo', array('uses' => 'OperacionController@eliminaArchivo'));
         Route::post('factura', array('uses' => 'OperacionController@factura'));
+        Route::post('guardaNotas', array('uses' => 'OperacionController@guardaNotas'));
         Route::post('imagenes', array('uses' => 'OperacionController@imagenes'));
         Route::get('muestraXML/{atencion}', array('uses' => 'OperacionController@muestraXML'));
         Route::get('portada/{folio}', array('uses' => 'OperacionController@generaPortada'));
@@ -107,8 +109,10 @@ Route::group(array('prefix' => 'api'), function()
         Route::get('atenciones/{unidad}', array('uses' => 'ReportesController@atencionesUnidad'));
         Route::get('atenciones/anio/{unidad}', array('uses' => 'ReportesController@atencionesUnidadAnio'));
         Route::get('atenciones/mes/{unidad}', array('uses' => 'ReportesController@atencionesUnidadMes'));
-        Route::get('estadistica/{unidad}', array('uses' => 'ReportesController@estadisticaUnidad'));
-        Route::get('listado/{unidad}/{tipo}', array('uses' => 'ReportesController@listado'));
+        Route::get('estadistica', array('uses' => 'ReportesController@estadisticaUnidad'));
+        Route::get('listado', array('uses' => 'ReportesController@listado'));
+        Route::get('notificacionUnidad/{unidad}', array('uses' => 'ReportesController@notificacionUnidad'));
+        
     });
 
 

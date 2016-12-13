@@ -13,10 +13,12 @@
 		}
 	});
 
-	atencionCtrl.$inject = ['$rootScope','mensajes','$mdDialog','operacion','busqueda','webStorage'];
+	atencionCtrl.$inject = ['$rootScope','mensajes','$mdDialog','operacion','busqueda','webStorage', 'filtro'];
 
-	function atencionCtrl($rootScope,mensajes,$mdDialog,operacion,busqueda,webStorage){
+	function atencionCtrl($rootScope,mensajes,$mdDialog,operacion,busqueda,webStorage, filtro){
 		var atn = this;
+
+		atn.permisos = $rootScope.permisos;
 
 		//al cargar el el componente se ejecuta la funcion inicio
 		atn.$onInit = inicio;
@@ -25,6 +27,7 @@
 		atn.cargaInfo = cargaInfo;
 		atn.eliminarArchivos = eliminarArchivos;
 		atn.eliminaFactura = eliminaFactura;
+		atn.guardaNotas = guardaNotas;
 		atn.lesionMV = lesionMV;
 		atn.lesionCodificada = lesionCodificada;
 		atn.motivo = motivo;
@@ -38,17 +41,6 @@
 
 			atn.solicitando = false;
 			cargaInfo();
-
-			// if ( webStorage.local.has(atn.clave) ) {
-
-			// 	var data = JSON.parse( webStorage.local.get(atn.clave) ); 
-			// 	atn.datos = data.info;
-			// 	atn.tiposDocumento = data.tipos;
-			// 	atn.imagenes = data.imagenes;
-
-			// }else{
-
-			// }
 
 		}
 
@@ -96,6 +88,14 @@
 				}
 			);
 		
+		}
+
+		function guardaNotas(){
+			operacion.guardaNotas(atn.datos.ATN_mensaje,atn.clave).then(function (res){
+
+			},function (err){
+
+			});	
 		}
 
 		function lesionMV(){
@@ -178,25 +178,36 @@
 
 		function solicitaAutorizacion(){
 
-			var datos = {
-				atencion:atn.clave,
-				usuario:$rootScope.id,
-				requisitos: atn.anotaciones.length > 0 ? '':atn.requisitos,
-				tipoLes:atn.tipoLes,
-				lesionMV:atn.lesionMV,
-				lesionCod:atn.lesionCod
-			}
+			
+			filtro.verificaRequeridos(atn.tiposDocumento,atn.imagenes).then(function (res){
 
-			atn.solicitando = true;
+				var datos = {
+					atencion:atn.clave,
+					usuario:$rootScope.id,
+					requisitos: atn.anotaciones.length > 0 ? '':atn.requisitos,
+					tipoLes:atn.tipoLes,
+					lesionMV:atn.lesionMV,
+					lesionCod:atn.lesionCod
+				}
 
-			operacion.solicitaAutorizacion(datos).success(function (data){
-				atn.datos.ATN_estatus = 1;
-				atn.solicitando = false;
-				mensajes.alerta(data.respuesta,'success','top right','done_all');
-			}).error(function (error){
-				atn.solicitando = false;
-				mensajes.alerta('Ocurrio un error vuelve a intentarlo por favor','error','top right','error');
-			})
+				atn.solicitando = true;
+
+				operacion.solicitaAutorizacion(datos).success(function (data){
+					atn.datos.ATN_estatus = 1;
+					atn.solicitando = false;
+					mensajes.alerta(data.respuesta,'success','top right','done_all');
+				}).error(function (error){
+					atn.solicitando = false;
+					mensajes.alerta('Ocurrio un error vuelve a intentarlo por favor','error','top right','error');
+				})
+				
+			},function (err){
+
+				mensajes.alerta('Faltan ' + err + ' imagene(s) por subir','error','top right','error');
+
+			});
+			
+
 		}
 
 		function solicitaRevisionFactura(){

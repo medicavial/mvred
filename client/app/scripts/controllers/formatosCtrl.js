@@ -11,7 +11,7 @@
 
 	function formatosCtrl($rootScope, $mdDialog){
 
-		var au = this;
+		var fr = this;
 
 		$rootScope.tema = 'theme1';
 		$rootScope.titulo = 'Fomatos';
@@ -19,7 +19,19 @@
 		$rootScope.atras = true;
 		$rootScope.menu = 'arrow_back';
 
-		au.video = function(ev,opcion){
+		fr.ejercicios = [
+            {carpeta:'ejercicios',nombre:'Cadera y Rodilla',archivo:'Cadera_Rodilla.pdf'},
+            {carpeta:'ejercicios',nombre:'Higiene de Columna',archivo:'Higiene_Columna.pdf'},
+            {carpeta:'ejercicios',nombre:'Columna Cervical',archivo:'Columna_Cervical.pdf'},
+            {carpeta:'ejercicios',nombre:'Hombro',archivo:'Hombro.pdf'},
+            {carpeta:'ejercicios',nombre:'Codo, Mano , y Muñeca',archivo:'Codo_Mano_Muneca.pdf'},
+            {carpeta:'ejercicios',nombre:'Tobillo y Pie',archivo:'Tobillo_Pie.pdf'},
+            {carpeta:'ejercicios',nombre:'Columna Dorsolumbar',archivo:'Columna_Dorsolumbar.pdf'}
+        ];
+
+		fr.muestraArchivo = muestraArchivo;
+
+		fr.video = function(ev,opcion){
 
 			switch(opcion){
 				case 1:
@@ -46,7 +58,7 @@
 
 		}
 
-		au.directorio = function(ev){
+		fr.directorio = function(ev){
 
 			$mdDialog.show({
 				templateUrl: 'directorio.html',
@@ -59,6 +71,25 @@
 						$mdDialog.cancel();
 					}
 				}
+		    });
+
+		}
+
+		function muestraArchivo(archivo,carpeta,ev){
+
+			var imagen = {
+				archivo:carpeta,
+				clave:archivo
+			}
+
+			$mdDialog.show({
+				templateUrl: 'visor.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:true,
+				locals:{imagen:imagen},
+				fullscreen: true,
+				controller: 'visorCtrl'
 		    });
 
 		}

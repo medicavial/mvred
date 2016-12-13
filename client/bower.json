@@ -26,6 +26,7 @@
     "ngMorph": "angular-morph#^0.1.0",
     "vjs-video": "^0.1.6",
     "amcharts-angular": "*",
-    "abdmob/x2js": "^1.2.0"
+    "abdmob/x2js": "^1.2.0",
+    "angular-i18n": "^1.5.9"
   }
 }

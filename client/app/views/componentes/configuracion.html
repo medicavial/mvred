@@ -1,0 +1,22 @@
+<md-toolbar class="md-warn">
+  <h1 class="md-toolbar-tools">Configuración</h1>
+</md-toolbar>
+<md-content layout-padding>
+  <md-list-item ng-click="conf.cambiaModo()">
+    <p> Modo Guiado </p>
+    <md-switch class="md-secondary" ng-change="conf.cambiaModo()" ng-model="conf.modoGuiado"></md-switch>
+  </md-list-item>
+  <md-input-container class="md-block" flex ng-if=" conf.permisos.Per_buscarUnidades == 'S' ">
+      <label>Unidad de Referencia</label>
+      <md-select ng-model="conf.unidad" name="unidad" md-on-close="conf.seleccionaUnidad()">
+        <md-option ng-repeat="unidad in conf.unidades" ng-value="{{unidad.Uni_clave}}">{{unidad.Uni_nombrecorto}}</md-option>
+      </md-select>
+      <div ng-messages="rg.registroForm.tipoTel.$error" ng-if="rg.registroForm.$submitted">
+        <div ng-message="required">El campo es requerido</div>
+      </div>
+  </md-input-container>
+
+  <md-button ng-click="conf.cerrar()">
+    Cerrar
+  </md-button>
+</md-content>

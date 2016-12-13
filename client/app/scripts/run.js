@@ -6,9 +6,9 @@
 	.module('app')
 	.run(run);
 
-	run.$inject = ['$rootScope', '$state', '$mdSidenav','$mdBottomSheet','auth','webStorage','$window', 'api','$mdMedia', 'mensajes', '$templateCache'];
+	run.$inject = ['$rootScope', '$state', '$mdSidenav','$mdBottomSheet','auth','webStorage','$window', 'api','$mdMedia', 'mensajes', 'fechas'];
 
-	function run($rootScope, $state,$mdSidenav,$mdBottomSheet,auth,webStorage,$window, api,$mdMedia, mensajes, $templateCache) {
+	function run($rootScope, $state,$mdSidenav,$mdBottomSheet,auth,webStorage,$window, api,$mdMedia, mensajes, fechas) {
 
 		//seteo inicial de la app
 		var url = '';
@@ -29,10 +29,6 @@
 		    $state.go(ruta);
 		};
 
-
-		$rootScope.cambiaModo = function(){
-			$rootScope.modoGuiado = !$rootScope.modoGuiado;
-		}
 		// $rootScope.$on('$viewContentLoaded', function() {
 	 //      	$templateCache.removeAll();
 	 //   	});
@@ -77,8 +73,6 @@
 		$rootScope.$on('$viewContentLoaded', function() {
       		// $templateCache.removeAll();
 	   	});
-
-	   	// console.log($templateCache.get('login.html'));
 
 		
 

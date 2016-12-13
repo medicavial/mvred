@@ -1,6 +1,6 @@
 <md-content class="bg-transparent height-full">
 
-  <toolbar titulo="titulo" menu="menu" url="url"></toolbar>
+  <toolbar titulo="titulo" menu="menu" url="url" unidad="nombreUni"></toolbar>
 
   <div ng-if="!cargando" ui-view class="paginas"></div>
 
@@ -17,18 +17,7 @@
 
 </md-sidenav>
 
+<!-- menu derecho -->
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-  <md-toolbar class="md-warn">
-    <h1 class="md-toolbar-tools">Configuración</h1>
-  </md-toolbar>
-  <md-content layout-padding>
-    <md-list-item ng-click="cambiaModo()">
-      <p> Modo Guiado </p>
-      <md-switch class="md-secondary" ng-change="cambiaModo()" ng-model="modoGuiado"></md-switch>
-    </md-list-item>
-
-    <md-button ng-click="close()">
-      Cerrar
-    </md-button>
-  </md-content>
+  <configuracion></configuracion>    
 </md-sidenav>

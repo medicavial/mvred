@@ -47,16 +47,66 @@ class ReportesController extends BaseController {
 
 	}
 
-    public function estadisticaUnidad($unidad){
+    //funcion para mostrarles cuanto tienen de faltantes
+    public function notificacionUnidad($unidad){
+
+        $respuesta = array();
+
+        // registros sin atenciones dadas de alta
+        $respuesta['expedientesSA'] = Expediente::where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad
+                        ) )
+                        ->whereNotIn('Exp_folio', function($q){
+                              $q->select('Exp_folio')
+                                ->from('Atenciones');
+                        })
+                        ->count();
+
+        //atenciones sin documentos
+        $respuesta['atencionesSD'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 0
+                        ) )
+                        ->whereNotIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->count();
+
+        //atenciones con documentos sin enviar a revision 
+        $respuesta['atencionesCDSL'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 0
+                        ) )
+                        ->whereIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->count();
+
+        return $respuesta;
+
+    }
+
+    public function estadisticaUnidad(){
         
 
         $respuesta = array();
 
-        $fechaini = date('Y-m-01') . ' 00:00:00';
-        $fechafin = date('Y-m-d') . ' 23:59:59';
+        $unidad = Input::get('unidad');
+        $fechaini = Input::get('fechaIni') . ' 00:00:00';
+        $fechafin = Input::get('fechaFin') . ' 23:59:59';
 
         // $fechaini = date('2016-01-01') . ' 00:00:00';
         // $fechafin = date('Y-m-d') . ' 23:59:59';
+
+        $respuesta['fechaIni'] = $fechaini;
+        $respuesta['fechaFin'] = $fechafin;
 
         $respuesta['expedientes'] = Expediente::where( array(
                             'Exp_cancelado' => 0,
@@ -75,12 +125,31 @@ class ReportesController extends BaseController {
                         })
                         ->count();
 
+        //atenciones sin documentos
         $respuesta['atencionesEt1SD'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 0
-                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+                        ) )
+                        ->whereNotIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        //atenciones con documentos sin enviar a revision 
+        $respuesta['atencionesEt1CDSL'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 0
+                        ) )
+                        ->whereIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
         $respuesta['atencionesEt1CDSR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
@@ -165,10 +234,12 @@ class ReportesController extends BaseController {
 
     }
 
-    public function listado($unidad,$tipo){
+    public function listado(){
 
-        $fechaini = date('Y-m-01') . ' 00:00:00';
-        $fechafin = date('Y-m-d') . ' 23:59:59';
+        $tipo = Input::get('tipo');
+        $unidad = Input::get('unidad');
+        $fechaini = Input::get('fechaIni') . ' 00:00:00';
+        $fechafin = Input::get('fechaFin') . ' 23:59:59';
 
         if($tipo == 'expedientes'){
 
@@ -203,7 +274,29 @@ class ReportesController extends BaseController {
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 0
-                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+                        ) )
+                        ->whereNotIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+        if($tipo == 'documentosSinA'){
+            
+            $datos = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')
+                        ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 0
+                        ) )
+                        ->whereIn('Atenciones.Exp_folio', function($q){
+                              $q->select('REG_folio')
+                                ->from('DocumentosDigitales');
+                        })
+                        ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
         }
 
         if($tipo == 'autorizar'){

@@ -1,0 +1,14 @@
+{
+  "name": "angular-i18n",
+  "version": "1.5.9",
+  "license": "MIT",
+  "main": [
+    "angular-locale_es-mx.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "precommit.sh"
+  ]
+}

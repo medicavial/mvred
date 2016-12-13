@@ -107,7 +107,18 @@
 				size:'84',
 				permiso:$rootScope.permisos.Per_admin == 'S' ? true:false,
 				url:'index.requisitos'
+			},
+			{
+				nombre:'Valida Imagen',
+				background:'bgm-green',
+				icon:'image',
+				col:'1',
+				row:'1',
+				size:'84',
+				permiso:$rootScope.permisos.Per_admin == 'S' ? true:false,
+				url:'index.imagen'
 			}
+
 		];
 
 	};

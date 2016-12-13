@@ -46,6 +46,8 @@ class BusquedasController extends BaseController {
 		return Compania::activos();
 	}
 
+
+
 	//da el detalle de una atencion
 	public function detalleAtencion($clave){
 
@@ -58,6 +60,7 @@ class BusquedasController extends BaseController {
 
 		$tiposDocumento = $this->documentos($tipoAtn,$producto);
 		$imagenes = $this->imagenes($clave);
+
 
 		//cargamos las facturas
 		$xml =  Imagenes::where(array('ATN_clave'=>$clave,'Arc_tipo'=>29))
@@ -143,6 +146,44 @@ class BusquedasController extends BaseController {
 
 	public function documentoSolicitud(){
 		return DocumentoSolicitud::activos();
+	}
+
+	// funcion para ver los documentos registrados de todos los productos por tipo de atencion
+	public function documentosRegistrados(){
+
+		$productos = Producto::activos();
+		$datos = array();
+
+		//verificamos todos los productos activos
+		foreach ($productos as $producto) {
+			
+			//consultamos los tipos de atencion disponibles
+			$tiposAtencion = TipoAtencion::all();
+
+			$claveProducto = $producto['Pro_clave'];
+			$productoNombre = $producto['Pro_nombre'];
+
+			foreach ($tiposAtencion as $tipoAtn) {
+
+				$data = array();
+
+				$atn = $tipoAtn['TIA_clave'];
+				$atnNombre = $tipoAtn['TIA_nombre'];
+
+				$documentos = $this->documentos($atn,$claveProducto);
+
+				$data['producto_id'] = $claveProducto;
+				$data['producto_nombre'] = $productoNombre;
+				$data['atencion_id'] = $atn;
+				$data['atencion_nombre'] = $atnNombre;
+				$data['documentos'] = $documentos;
+				array_push($datos,$data);
+				
+			}
+
+		}
+
+		return $datos;
 	}
 
 
@@ -301,7 +342,7 @@ class BusquedasController extends BaseController {
 		$productosCliente = referenciaProducto::where('Cia_clave',$cliente);
 
 		//validacion de qualitas exclusiva para estas unidades
-		if ($cliente == 19 && ($unidad == 266 || $unidad == 110) ) {
+		if ($cliente == 19 && ($unidad == 266 || $unidad == 110 || $unidad == 65) ) {
 			
 			return Producto::where('Pro_clave',1)->get();
 			
@@ -516,5 +557,10 @@ class BusquedasController extends BaseController {
 	//busqueda de tipo de lesion
 	public function tipoLesion(){
 		return TipoLesion::where('TLE_cat',1)->get();
+	}
+
+	// busqueda de unidades de red activas
+	public function unidades(){
+		return Unidad::activosRed();
 	}
 }

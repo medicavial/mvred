@@ -11,6 +11,7 @@ var gulp      = require('gulp'),
     useref    = require('gulp-useref'),
     uglify 	  = require('gulp-uglify'),
     watch 	  = require('gulp-watch'),
+    gutil 	  = require('gulp-util'),
     templateCache = require('gulp-angular-templatecache'),
     historyApiFallback = require('connect-history-api-fallback');
 
@@ -56,10 +57,15 @@ gulp.task('html', function() {
 // manejo de templates 
 gulp.task('templates', function () {
   return gulp.src('./app/views/**/*.html')
-    .pipe(templateCache({
-    	 root: '',      
-    	 module: 'app.templates',      
-    	 standalone: true 
+    .pipe(templateCache({      
+			module: 'app.templates',      
+			standalone: true,
+			base:function(file){				
+				var ruta = file.relative;
+				var fic = ruta.replace(/^.*[\\\/]/,'').split('/');
+				var fileOnly = fic[fic.length - 1];
+				return fileOnly;
+			}
     }))
     .pipe(gulp.dest('./app/scripts'));
 });
@@ -95,7 +101,7 @@ gulp.task('compress', function() {
 	gulp.src('./app/index.html')    
 	.pipe(useref.assets())    
 	.pipe(gulpif('*.css', minifyCss()))    
-	.pipe(gulpif('*.js', uglify({mangle: false })))    
+	.pipe(gulpif('*.js', uglify({mangle: false }).on('error', gutil.log)))    
 	.pipe(gulp.dest('./dist')); 
 });
 
