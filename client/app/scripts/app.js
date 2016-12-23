@@ -22,13 +22,13 @@
 	
 	//ip produccion
 	
-	.constant('api', 'http://api.medicavial.net/api/')
-	.constant('registro', 'http://medicavial.net/registro/')
-	.constant('publicfiles','http://api.medicavial.net/')
+	// .constant('api', 'http://api.medicavial.net/api/')
+	// .constant('registro', 'http://medicavial.net/registro/')
+	// .constant('publicfiles','http://api.medicavial.net/')
 
-	// .constant('api', 'http://localhost/mvred/server/public/api/')
-	// .constant('registro', 'http://localhost/registro/')
-	// .constant('publicfiles','http://localhost/mvred/server/public/')
+	.constant('api', 'http://localhost/mvred/server/public/api/')
+	.constant('registro', 'http://localhost/registro/')
+	.constant('publicfiles','http://localhost/mvred/server/public/')
 
 
 	.constant('fechas',{

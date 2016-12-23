@@ -12,7 +12,7 @@
 
 
 		// console.log($templateCache);
-		$compileProvider.debugInfoEnabled(true);
+		$compileProvider.debugInfoEnabled(false);
 
 		$sceDelegateProvider.resourceUrlWhitelist([
 	        'self',

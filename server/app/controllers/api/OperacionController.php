@@ -121,15 +121,31 @@ class OperacionController extends BaseController {
 	public function guardaNotas(){
 
 		$atencion = Input::get('atencion');
-		$notas  = Input::get('notas');
+		$nota  = Input::get('nota');
 
 		$atencion = Atencion::find($atencion);
-		$atencion->ATN_mensaje = $notas;
+		$atencion->ATN_mensaje = $nota;
 		$atencion->ATN_ayuda = 1;
 		$atencion->save();
 
 		return Response::json(array('flash' => 'Notas Guardadas'));
 		
+	}
+
+
+	//
+	public function autorizaImagen($atencion){
+
+		// return Input::all();
+		$tipo = Input::get('tipo');
+		$clave = Input::get('clave');
+		$folio = Input::get('folio');
+		$usuario = Input::get('usuario');
+		$fecha = date('Y-m-d H:i');
+
+		$imagen = Imagenes::where(array('ATN_clave' => $atencion,'Arc_tipo' => $tipo,'REG_folio' => $folio,'Arc_clave' => $clave))->update( array('Arc_estatus' => 1,'Arc_autorizado' => 1,'USU_autorizo' => $usuario,'Arc_fechaAut' => $fecha) );
+		
+		return Response::json(array('flash' => 'Archivo autorizado'));	
 	}
 
 

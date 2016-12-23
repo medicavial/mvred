@@ -302,7 +302,7 @@
                 <label>Notas</label>
                 <textarea ng-model="atn.datos.ATN_mensaje" md-select-on-focus></textarea>
               </md-input-container>
-              <md-button class="md-raised md-primary"  aria-label="Enviar a revisión" ng-click="atn.guardarNotas()">Guardar Nota</md-button>
+              <md-button class="md-raised md-primary"  aria-label="Enviar a revisión" ng-click="atn.guardaNotas()">Guardar Nota</md-button>
 
             </section>
             
@@ -316,6 +316,11 @@
                   <md-list-item ng-repeat="imagen in value" ng-click="atn.muestraArchivo(imagen,$event)">
                     <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
                     <p class="padding-left">{{ $index + 1 }} ({{ imagen.estatus }})</p>
+                    <ng-md-icon aria-label="Autorizar Archivo" icon="done" class="md-secondary" ng-click="atn.autorizarImagen(imagen)" ng-if="atn.datos.ATN_estatus == 2 && imagen.estatusImagen == 0 ">
+                      <md-tooltip md-direction="top">
+                        Autorizar
+                      </md-tooltip>
+                    </ng-md-icon>
                     <ng-md-icon aria-label="Elminar Archivo" icon="delete" class="md-secondary" ng-click="atn.eliminarArchivos(imagen,$event,true,false,true)">
                       <md-tooltip md-direction="top">
                         Eliminar Archivo

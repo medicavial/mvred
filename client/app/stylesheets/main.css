@@ -438,6 +438,7 @@ md-tooltip{
 
 .fondo{
 	background-image: url("../img/materialbg4.jpg");
+  /*background-color: #434343;*/
 	background-size: 100% 100%;
   background-repeat: no-repeat;
 	width: 100%;

@@ -439,7 +439,7 @@ class BusquedasController extends BaseController {
 
 		return $query->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
 					 ->select('Exp_folio','Exp_fecreg','Exp_completo','Exp_obs','Uni_clave','Expediente.Cia_clave','Cia_logo','Exp_cancelado','Exp_solCancela','Exp_fq')
-					 ->where('Uni_clave',$unidad)
+					 ->where('Uni_claveActual',$unidad)
 					 ->orderBy($order,$tipo)
 					 ->paginate($limite);
 

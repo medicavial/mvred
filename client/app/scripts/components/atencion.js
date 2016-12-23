@@ -24,6 +24,7 @@
 		atn.$onInit = inicio;
 		// atn.$onDestroy = destruccion;
 
+		atn.autorizarImagen = autorizarImagen;
 		atn.cargaInfo = cargaInfo;
 		atn.eliminarArchivos = eliminarArchivos;
 		atn.eliminaFactura = eliminaFactura;
@@ -36,6 +37,19 @@
 		atn.subirFactura = subirFactura;
 		atn.solicitaAutorizacion = solicitaAutorizacion;
 		atn.solicitaRevisionFactura = solicitaRevisionFactura;
+
+
+		function autorizarImagen(imagen){
+
+			imagen.usuario = $rootScope.id;
+			
+			operacion.autorizaImagen(imagen,atn.clave).then(function (res){
+				mensajes.alerta(res.data.flash,'success','top right','done_all');
+				cargaInfo();
+			},function (err){
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
+			});
+		}
 
 		function inicio(){
 
@@ -91,10 +105,10 @@
 		}
 
 		function guardaNotas(){
-			operacion.guardaNotas(atn.datos.ATN_mensaje,atn.clave).then(function (res){
-
+			operacion.guardaNotas(atn.datos.ATN_mensaje,atn.clave).then(function (resp){
+				mensajes.alerta(resp.data.flash,'success','top right','done_all');
 			},function (err){
-
+				mensajes.alerta('Error de Conexión vuelve a intentar','error','top right','error');
 			});	
 		}
 
@@ -226,10 +240,11 @@
 
 		function eliminarArchivos(file,ev,historico,estatus,respaldo){
 
-			historico = historico || true;
-			estatus = estatus || true;
-			respaldo = respaldo || true;
+			console.log(historico,estatus,respaldo);
 
+			historico = historico == undefined ? true : historico;
+			estatus = estatus == undefined ? true : estatus;
+			respaldo = respaldo == undefined ? true : respaldo;
 
 			var confirm = $mdDialog.confirm()
 				.title('Deseas eliminar este archivo?')
@@ -247,11 +262,15 @@
 		      	file.historico = historico;
 		      	file.cambiarEstatus = estatus;
 		      	file.respaldo = respaldo;
+
+		      	// console.log(file);
 		      	
 				operacion.eliminaArchivo(file).then(
 					function (resp){
 						
-						atn.datos.ATN_estatus = 0;
+						if (estatus) {
+							atn.datos.ATN_estatus = 0;							
+						};
 						mensajes.alerta(resp.data.flash,'success','top right','done_all');
 						
 						var index = atn.imagenes.indexOf(file);

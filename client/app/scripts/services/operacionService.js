@@ -11,6 +11,7 @@
     function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro,filtro){
 
         var operacion = {
+            autorizaImagen:autorizaImagen,
             cambiarEstatus:cambiarEstatus,
             creaAtencion:creaAtencion,
             eliminaArchivo:eliminaArchivo,
@@ -27,6 +28,11 @@
         };
 
         return operacion;
+
+        // funcion que aurotiza imagen 
+        function autorizaImagen(imagen,atencion){
+            return $http.post(api + 'operacion/autorizaImagen/'+ atencion,imagen);
+        }
 
         //funcion para cambiar de estatus la atencion
         function cambiarEstatus(atencion,valor){

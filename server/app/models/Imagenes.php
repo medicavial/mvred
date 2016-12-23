@@ -43,6 +43,7 @@ class Imagenes extends Eloquent {
                                 WHEN Arc_estatus = 1 THEN "check_box" 
                                 ELSE "check_box_outline_blank" END as  iconEstatus, 
                             Arc_clave as clave,
+                            Arc_estatus as estatusImagen,
                             Arc_motivo as motivo'
         			 	 ) )
         			 ->where('ATN_clave',$atencion)
