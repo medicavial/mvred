@@ -78,6 +78,7 @@
 
             </section>
             <section flex="50" ng-if="atn.datos.ATN_estatus == 2">
+              
               <div layout="column" layout-align="center center">  
                 
                 <ng-md-icon icon="check_circle" style="fill: green" size="128" class="big-button"></ng-md-icon>
@@ -86,6 +87,7 @@
                 <md-button class="md-raised md-warn md-hue-2" aria-label="Subir Factura" ng-click="atn.tabPrimera = 1"  md-ripple-size="full">Subir Factura</md-button>
 
               </div> 
+
             </section>  
 
             <section flex="50">
@@ -316,7 +318,12 @@
                   <md-list-item ng-repeat="imagen in value" ng-click="atn.muestraArchivo(imagen,$event)">
                     <ng-md-icon icon="insert_drive_file"></ng-md-icon> 
                     <p class="padding-left">{{ $index + 1 }} ({{ imagen.estatus }})</p>
-                    <ng-md-icon aria-label="Autorizar Archivo" icon="done" class="md-secondary" ng-click="atn.autorizarImagen(imagen)" ng-if="atn.datos.ATN_estatus == 2 && imagen.estatusImagen == 0 ">
+                    <ng-md-icon aria-label="Autorizar Archivo" icon="get_app" class="md-secondary" ng-click="atn.descargaArchivo(imagen)">
+                      <md-tooltip md-direction="top">
+                        Descargar
+                      </md-tooltip>
+                    </ng-md-icon>
+                    <ng-md-icon aria-label="Autorizar Archivo" icon="done" class="md-secondary" ng-click="atn.autorizarImagen(imagen)" ng-if="imagen.estatusImagen == 0 ">
                       <md-tooltip md-direction="top">
                         Autorizar
                       </md-tooltip>
@@ -330,6 +337,8 @@
                 </md-list>
 
               </div>
+
+              <md-button class="md-raised md-primary md-hue-2" ng-click="atn.descargaArchivos()">Descargar Archivos</md-button>
 
             </section>
 

@@ -91,6 +91,7 @@ Route::group(array('prefix' => 'api'), function()
         Route::post('autorizaImagen/{atencion}', array('uses' => 'OperacionController@autorizaImagen'));
         Route::post('autorizacion', array('uses' => 'OperacionController@solicitaAutorizacion'));
         Route::get('cambiarEstatus/{clave}/{estatus}/{usuario}', array('uses' => 'OperacionController@cambiarEstatus'));
+        Route::get('descargaArchivo', array('uses' => 'OperacionController@descargaArchivo'));
         Route::post('cancelacion', array('uses' => 'OperacionController@solicitaCancelacion'));
         Route::post('creaAtencion', array('uses' => 'OperacionController@creaAtencion'));
         Route::post('documentos', array('uses' => 'OperacionController@documentos'));

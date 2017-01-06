@@ -117,6 +117,12 @@ class OperacionController extends BaseController {
 		
 	}
 
+	public function descargaArchivo(){
+
+		$archivo = Input::get('archivo');
+		return Response::download($this->rutaArchivos . $archivo);
+	}
+
 	//guarda nota de la atencion
 	public function guardaNotas(){
 

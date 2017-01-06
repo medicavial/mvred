@@ -26,6 +26,7 @@
 
 		atn.autorizarImagen = autorizarImagen;
 		atn.cargaInfo = cargaInfo;
+		atn.descargaArchivo = descargaArchivo;
 		atn.eliminarArchivos = eliminarArchivos;
 		atn.eliminaFactura = eliminaFactura;
 		atn.guardaNotas = guardaNotas;
@@ -68,6 +69,12 @@
 			}
 
 			webStorage.local.add( atn.clave, JSON.stringify(datos) );
+
+		}
+
+		function descargaArchivo(imagen){
+
+			operacion.descargaArchivo(imagen.archivo + '/' + imagen.clave);
 
 		}
 

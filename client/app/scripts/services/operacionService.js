@@ -6,14 +6,15 @@
     angular.module('app')
     .factory('operacion',operacion);
 
-    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles', 'registro','filtro'];
+    operacion.$inject = ['$http', '$rootScope','$q','api','Upload', 'publicfiles', 'registro','filtro', '$window'];
 
-    function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro,filtro){
+    function operacion($http, $rootScope, $q, api, Upload, publicfiles, registro,filtro, $window){
 
         var operacion = {
             autorizaImagen:autorizaImagen,
             cambiarEstatus:cambiarEstatus,
             creaAtencion:creaAtencion,
+            descargaArchivo:descargaArchivo,
             eliminaArchivo:eliminaArchivo,
             subirFactura:subirFactura,
             imagenOCR:imagenOCR,
@@ -42,6 +43,10 @@
         //funcion para crear nueva atencion
         function creaAtencion(datos){
             return $http.post(api + 'operacion/creaAtencion',datos);
+        }
+
+        function descargaArchivo(archivo){
+            $window.open(api + 'operacion/descargaArchivo?archivo=' + archivo, '_balnk');
         }
 
         //function para eliminar imagen o PDF/XMl 
