@@ -31,7 +31,7 @@ Route::group(array('prefix' => 'api'), function()
 
 	Route::get('/', function()
 	{
-		// return View::make('hello');
+		//return View::make('hello');
         // $pdf = PDF2::loadView('registro.caratula');
         // return $pdf->stream();
 

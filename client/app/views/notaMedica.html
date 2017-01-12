@@ -1,0 +1,95 @@
+<md-content class="md-whiteframe-2dp" ng-init="nm.inicio()">
+ <md-progress-linear ng-if="nm.consultando" md-mode="indeterminate"></md-progress-linear>
+    <md-tabs class="white" md-selected="nm.tabActual" md-align-tabs="'top'" md-dynamic-height md-border-bottom>
+      <md-tab id="tab1" ng-disabled="nm.step1block">
+        <md-tab-label>Datos Generales</md-tab-label>
+        <md-tab-body>
+          <div ng-include="nm.paso1"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab2" ng-disabled="nm.step2block">
+        <md-tab-label>Accidente Anteriores y Signos Vitales:</md-tab-label>
+        <md-tab-body> 
+          <div ng-include="nm.paso2"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab3" ng-disabled="nm.step3block">
+        <md-tab-label>Apertura de Expediente</md-tab-label>
+        <md-tab-body>
+          <div ng-include="nm.paso3"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab4" ng-disabled="nm.step4block">
+        <md-tab-label>Datos del Siniestro</md-tab-label>
+        <md-tab-body>
+          <div ng-include="nm.paso4"></div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab id="tab5" ng-disabled="nm.step5block">
+        <md-tab-label>Resumen</md-tab-label>
+        <md-tab-body layout-padding>
+          <br><br>
+          <md-content flex-offset-gt-sm="10" flex-gt-sm="80" flex>
+            <md-card class="md-whiteframe-8dp">
+              <md-card-title>
+                <md-card-title-text layout-align="center center">
+                  <span class="md-headline">Resumen de Información</span>
+                </md-card-title-text>
+              </md-card-title>
+              <md-card-content>
+
+                <section layout-gt-sm="row" layout="column"  layout-align="space-between center" layout-manmin>
+
+                    <img ng-src="http://www.medicavial.net/mvred/imgs/logosregmv/{{ nm.imagenCliente }}" class="img-registro" alt="cliente">
+
+                    <img ng-src="{{ publicfiles +  nm.imagenFolio }}" class="img-registro" alt="folio">
+
+                    <img ng-src="http://www.medicavial.net/mvred/imgs/producto/{{ nm.imagenProducto }}" class="img-registro" alt="producto">
+
+                </section>
+
+                <section layout-gt-sm="row" layout="column" layout-padding layout-align="center start">
+
+                    <div flex>                      
+                        <strong>Folio MV: {{ nm.datoSiniestro.folio }}</strong> <br>
+                        Póliza: {{ nm.datoSiniestro.poliza }}  <br>
+                        Lesionado: {{ nm.datos.nombre }} {{ nm.datos.apaterno }} {{ nm.datos.amaterno }}  <br>
+                        Usuario: {{ username }} <br>
+                        Compañia: {{ nm.compania }} <br>
+                    </div>
+                    <div flex>
+                        Siniestro: {{ nm.datoSiniestro.siniestro }} <br>
+                        Reporte: {{ nm.datoSiniestro.reporte }} <br>
+                        <strong>Registro: {{ nm.registro }}</strong> <br>
+                        Unidad Médica: {{ nombreUni }} <br>
+                        Observaciones: {{ nm.datoSiniestro.observaciones }} <br>
+                    </div>
+                    <div flex>
+                        Extemporaneo: {{ nm.datoSiniestro.extemporaneo ? 'SI' : 'NO' }} <br>
+                        Motivo: {{ nm.datoSiniestro.motivoEx }} <br>
+                        Fecha Atención: {{ nm.datoSiniestro.fechaAtn }} <br>
+                    </div>
+                  
+                </section>
+                
+              </md-card-content>
+              <md-card-actions layout="row" layout-align="center center">
+                <md-button ui-sref="index.home">Regresar a Home</md-button>
+                <md-button>Imprimir</md-button>
+                <md-button ui-sref="index.detalle({folio:nm.datoSiniestro.folio})">Ir al Expediente</md-button>
+              </md-card-actions>
+            </md-card>
+          </md-content>
+          <br><br>
+
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+</md-content>
+
+
+
+
+
+
+

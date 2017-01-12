@@ -1,0 +1,411 @@
+
+    <form name="nm.notaMedicaForm" ng-submit="nm.guardaPaciente()" novalidate>
+      
+      <md-content layout-padding layout-wrap>
+        <h4>Datos Personales</h4>  
+        <section layout="row" layout-xs="column">
+          
+          <md-input-container flex>
+            <label>Nombre (s)</label>
+            <input type="text" name="nombre" ng-model="nm.datos.nombre" mayusculas required maxlength="50">
+            <div ng-messages="nm.notaMedicaForm.nombre.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div> 
+              <div ng-message="maxlength">El campo no puede ser mas grande</div>            
+            </div>
+          </md-input-container>         
+          <!-- <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="nm.datos.fechaNac" class="md-block" flex>
+            <div ng-messages="nm.notaMedicaForm.dateFormat.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+              <div ng-message="format">Formato de fecha invalido</div>
+            </div>
+          </mdp-date-picker> -->
+          <md-input-container flex>
+            <label>Fecha de Nacimiento</label>
+            <md-datepicker name="fechaNac" ng-model="nm.datos.fecha" required md-open-on-focus></md-datepicker>
+            <div class="validation-messages" ng-messages="nm.notaMedicaForm.fechaNac.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Años</label>
+            <input type="text" name="anios" ng-model="nm.datos.anios" mayusculas required>
+            <div ng-messages="nm.notaMedicaForm.anios.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>               
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Meses</label>
+            <input type="text" name="meses" ng-model="nm.datos.meses" mayusculas required>
+            <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>               
+            </div>
+          </md-input-container>
+
+
+        </section>
+        <section layout="row" layout-xs="column">
+
+              <div id="productName" flex="5">Sexo</div>
+              <md-input-container flex>              
+                  <md-radio-group name="sexo" ng-model="nm.datos.sexo" layout="row" required>
+                      <md-radio-button class="md-primary" value="F">
+                          Femenino
+                      </md-radio-button>
+                      <md-radio-button class="md-primary" value="M">
+                          Masculino
+                      </md-radio-button>                  
+                  </md-radio-group>
+                  <div ng-messages="nm.notaMedicaForm.sexo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                    <div ng-message="required">El campo es requerido</div>
+                  </div>
+              </md-input-container>
+
+              <md-input-container class="md-block" flex>
+                  <label>Tipo de Trabajo</label>
+                  <md-select ng-model="nm.datos.tipoTrabajo" name="tipoTrabajo" required>
+                    <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+                  </md-select>
+                    <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                    <div ng-message="required">El campo es requerido</div>
+                  </div>
+              </md-input-container>
+              <md-input-container class="md-block" flex>
+                  <label>Estado Civil</label>
+                  <md-select ng-model="nm.datos.edoCivil" name="edoCivil" required>
+                    <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+                  </md-select>
+                    <div ng-messages="nm.notaMedicaForm.edoCivil.$error" ng-if="nm.notaMedicaForm.$submitted">
+                    <div ng-message="required">El campo es requerido</div>
+                  </div>
+              </md-input-container>
+            
+             
+          <!-- <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="nm.datos.fechaNac" class="md-block" flex>
+            <div ng-messages="nm.notaMedicaForm.dateFormat.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+              <div ng-message="format">Formato de fecha invalido</div>
+            </div>
+          </mdp-date-picker> -->
+         
+          <md-input-container flex>
+            <label>Teléfono</label>
+            <input type="text" name="telefono" ng-model="nm.datos.telefono" mayusculas required>
+            <div ng-messages="nm.notaMedicaForm.telefono.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>               
+            </div>
+          </md-input-container>
+        </section>
+        <section layout="row" layout-xs="column">
+          <md-input-container flex>
+            <label>E-mail</label>
+            <input type="email" name="correo" ng-model="nm.datos.correo" bloqueo="32" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|onm$|gob$|me$)/" required>
+            <div ng-messages="nm.notaMedicaForm.correo.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="pattern">Formato invalido.</div>
+              <div ng-message="required">Campo obligatorio.</div>
+              <div ng-message="email">Correo invalido.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Obs. religiosas</label>
+            <input type="text" name="cp" ng-model="nm.datos.obsRelig">          
+          </md-input-container>
+        </section>
+      </md-content>
+    </form>
+    <form name="nm.notaMedicaForm" ng-submit="nm.guardaPaciente()" novalidate>
+      <md-content layout-padding layout-wrap>
+        <h4>Antecedentes Heredo-familiares</h4>  
+        <section layout="row" layout-xs="column">
+          <md-input-container class="md-block" flex="20">
+              <label>Enfermedad</label>
+              <md-select ng-model="nm.datos.tipoTrabajo" name="tipoTrabajo" required>
+                <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+              </md-select>
+                <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex="20">
+              <label>Familiar</label>
+              <md-select ng-model="nm.datos.tipoTrabajo" name="tipoTrabajo" required>
+                <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+              </md-select>
+                <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex="20">
+              <label>Estatus</label>
+              <md-select ng-model="nm.datos.tipoTrabajo" name="tipoTrabajo" required>
+                <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+              </md-select>
+                <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>
+          <md-input-container flex="30">
+            <label>Observaciones</label>
+            <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+            <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>               
+            </div>
+          </md-input-container>
+          <md-input-container flex="10">
+          <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+          </md-input-container>
+          <!-- <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="nm.datos.fechaNac" class="md-block" flex>
+            <div ng-messages="nm.notaMedicaForm.dateFormat.$error" ng-if="nm.notaMedicaForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+              <div ng-message="format">Formato de fecha invalido</div>
+            </div>
+          </mdp-date-picker> -->
+        </section>
+      </md-content>
+      </form>
+      <form name="nm.notaMedicaForm" ng-submit="nm.guardaPaciente()" novalidate>
+        <md-content layout-padding layout-wrap>
+          <h4>Antecedentes Personales</h4>  
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Otras enfermedades</label>
+                <md-select ng-model="nm.antPersonales.otrasEnf" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Respiratorias</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Alergias:</label>
+                <md-select ng-model="nm.antPersonales.alergias" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Alimentos</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <div id="productName" flex="30">Padecimiento Espalda</div>
+              <md-input-container flex="10">              
+                  <md-radio-group name="sexo" ng-model="nm.antPersonales.ad" layout="row" required>
+                      <md-radio-button class="md-primary" value="S">
+                          Si
+                      </md-radio-button>
+                      <md-radio-button class="md-primary" value="N">
+                          No
+                      </md-radio-button>                  
+                  </md-radio-group>
+                  <div ng-messages="nm.notaMedicaForm.sexo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                    <div ng-message="required">El campo es requerido</div>
+                  </div>
+              </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+          <section layout="row" layout-xs="column">
+            <md-input-container class="md-block" flex="40">
+                <label>Crónico-Degenerativos:</label>
+                <md-select ng-model="nm.antPersonales.cronDeg" name="tipoTrabajo" required>
+                  <md-option ng-value="1">Diabetes</md-option>                
+                </md-select>
+                  <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                  <div ng-message="required">El campo es requerido</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container flex="50" ng-show="nm.antPersonales.cronDeg">
+              <label>Observaciones</label>
+              <textarea name="meses" ng-model="nm.datos.obs" mayusculas></textarea>
+              <div ng-messages="nm.notaMedicaForm.meses.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>               
+              </div>
+            </md-input-container>
+            <md-input-container flex="10" class="mdl-grid" ng-show="nm.antPersonales.cronDeg">
+            <button class="mdl-button mdl-button--raised mdl-button--colored">Agregar</button>
+            </md-input-container>       
+          </section>
+        </md-content>
+      </form>
+
+      <section layout="column" layout-align="center center" layout-wrap>
+          <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="nm.guardando"></md-progress-circular>
+          <div layout="row">
+            <md-button id="nuevo" class="md-fab md-primary md-hue-2" ng-click="nm.guardaHistoria()"  aria-label="Guardar" type="button" ng-if="!nm.guardando">
+                <md-tooltip md-direction="top">
+                  Guardar
+                </md-tooltip>
+                <ng-md-icon icon="keyboard_arrow_right" style="fill:white"></ng-md-icon> 
+            </md-button>
+          </div>          
+      </section>
+      <br>
+      <br>
+      <br>    
+    
+

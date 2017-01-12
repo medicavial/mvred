@@ -170,6 +170,19 @@
 				}
 			},
 			reload:true
+		})
+
+		.state('index.notaMedica',{			
+			url:'notaMedica?folio',
+			templateUrl :'views/notaMedica.html',
+			controller:'notaMedicaCtrl',
+			controllerAs:'nm',
+			resolve: {
+				datos : function(busqueda,$stateParams){
+					return busqueda.detalleFolio($stateParams.folio);
+				}
+			},
+			reload:true
 		});
 
 		// .state('detalle', {

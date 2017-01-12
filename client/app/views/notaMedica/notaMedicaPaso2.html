@@ -1,0 +1,137 @@
+<md-content>
+
+    <form name="rg.registroForm" ng-submit="rg.guardaPaciente()" novalidate>
+      
+      <md-content layout-padding layout-wrap>
+        <h4>Accidentes Personales</h4>  
+        <section layout="row" layout-xs="column">
+          <label> Accidente</label>
+          <md-input-container flex>              
+              <md-radio-group name="sexo" ng-model="nm.datos.sexo" layout="row" required>
+                  <md-radio-button class="md-primary" value="S">
+                      Si
+                  </md-radio-button>
+                  <md-radio-button class="md-primary" value="N">
+                      No
+                  </md-radio-button>                  
+              </md-radio-group>
+              <div ng-messages="nm.notaMedicaForm.sexo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+              <label>Lugar</label>
+              <md-select ng-model="nm.datos.tipoTrabajo" name="tipoTrabajo" required>
+                <md-option ng-repeat="tipo in nm.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+              </md-select>
+                <div ng-messages="nm.notaMedicaForm.tipoTrabajo.$error" ng-if="nm.notaMedicaForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>               
+          <!-- <mdp-date-picker mdp-open-on-click required name="dateFormat" mdp-placeholder="Fecha de Nacimiento" mdp-format="DD/MM/YYYY" ng-model="rg.datos.fechaNac" class="md-block" flex>
+            <div ng-messages="rg.registroForm.dateFormat.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+              <div ng-message="format">Formato de fecha invalido</div>
+            </div>
+          </mdp-date-picker> -->
+          <md-input-container flex>
+            <label>Fecha de Nacimiento</label>
+            <md-datepicker name="fechaNac" ng-model="rg.datos.fechaNac" required md-open-on-focus></md-datepicker>
+            <div class="validation-messages" ng-messages="rg.registroForm.fechaNac.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>
+            </div>
+            
+          </md-input-container>
+
+
+        </section>
+
+        <section layout="row" layout-xs="column">
+
+          <md-input-container class="md-block" flex>
+              <label>Tipo Telefono</label>
+              <md-select ng-model="rg.datos.tipotel" name="tipoTel" required>
+                <md-option ng-repeat="tipo in rg.tipos" ng-value="{{tipo.TT_clave}}">{{tipo.TT_tipotelefono}}</md-option>
+              </md-select>
+              <div ng-messages="rg.registroForm.tipoTel.$error" ng-if="rg.registroForm.$submitted">
+                <div ng-message="required">El campo es requerido</div>
+              </div>
+          </md-input-container>
+
+          <md-input-container  class="md-block" flex>
+            <label>No. Telefono</label>
+            <input type="text" name="telefono" ng-model="rg.datos.telefono" maxlength="12" minlength="8" required numero>
+            <div ng-messages="rg.registroForm.telefono.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="required">El campo es requerido</div>  
+              <div ng-message="maxlength">El numero no debe ser mayor a 12</div>          
+              <div ng-message="minlength">El numero debe ser de 8 o más digitos</div>          
+            </div>
+          </md-input-container>
+          
+          <div flex>
+            <md-button ng-click="rg.agregaTelefono($event)">Agregar otro telefono</md-button>
+          </div>
+
+        </section>
+
+        <section layout="row" layout-xs="column">
+
+          <md-input-container flex>
+            <label>E-mail</label>
+            <input type="email" name="correo" ng-model="rg.datos.email" bloqueo="32" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.(gov$|gob.mx$|mx$|com.mx$|net$|com$|org$|gob$|me$)/" required>
+            <div ng-messages="rg.registroForm.correo.$error" ng-if="rg.registroForm.$submitted">
+              <div ng-message="pattern">Formato invalido.</div>
+              <div ng-message="required">Campo obligatorio.</div>
+              <div ng-message="email">Correo invalido.</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>Codigo postal</label>
+            <input type="text" name="cp" ng-model="rg.datos.cp" maxlength="5" numero>
+            <div ng-messages="rg.registroForm.cp.$error">
+              <div ng-message="maxlength">El numero no debe ser mayor a 5 digitos</div>          
+            </div>
+          </md-input-container>
+
+          <md-input-container flex>
+            <label>Folio Interno</label>
+            <input type="text" ng-model="rg.datos.folioInterno">
+          </md-input-container>
+
+        </section>
+
+      </md-content>
+
+      <section layout="column" layout-align="center center" layout-wrap>
+
+          <md-progress-circular md-mode="indeterminate" md-diameter="40" ng-if="rg.guardando"></md-progress-circular>
+          
+          <div layout="row">
+            
+            <md-button id="nuevo" class="md-fab md-primary md-hue-2"  aria-label="Guardar" type="button" ng-click="rg.inicio()" ng-if="!rg.guardando">
+                <md-tooltip md-direction="top">
+                  Regresar
+                </md-tooltip>
+                <ng-md-icon icon="keyboard_arrow_left" style="fill:white"></ng-md-icon> 
+            </md-button>
+
+            <md-button id="nuevo" class="md-fab md-primary md-hue-2"  aria-label="Guardar" type="submit" ng-if="!rg.guardando">
+                <md-tooltip md-direction="top">
+                  Guardar
+                </md-tooltip>
+                <ng-md-icon icon="keyboard_arrow_right" style="fill:white"></ng-md-icon> 
+            </md-button>
+
+          </div>
+          
+      </section>
+
+      <br>
+      <br>
+      <br>
+      
+
+    </form>
+
+</md-content>
+
