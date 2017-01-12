@@ -120,7 +120,6 @@
         </div>
     </div>
 
-
 </md-content>
 
 <md-content class="bg-transparent" layout-wrap layout-margin layout="column" layout-gt-sm="row" ng-if="!et.cargandoInfo">
@@ -182,6 +181,59 @@
                   <br>
                   <span>{{ et.datos.atencionesEt1RF }}</span>
                   <a ui-sref="index.estadistica({tipo:'revisionFac'})" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect right" md-ink-ripple>
+                    Ver detalles
+                  </a>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    
+</md-content>
+
+<md-content class="bg-transparent" layout-wrap layout-margin layout="column" layout-gt-sm="row" ng-if="!et.cargandoInfo">
+    
+    <div class="md-whiteframe-2p" flex>
+        <div class="mini-charts-item bgm-deeppurple">
+          <div class="clearfix">
+              <div class="chart stats-bar"></div>
+              <div class="count">
+                  <h3>Atn. con Facturas Autorizadas</h3>
+                  <br>
+                  <span>{{ et.datos.atencionesEt1FA }}</span>
+                  <a ui-sref="index.estadistica({tipo:'facturaAut'})" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect right" md-ink-ripple>
+                    Ver detalles
+                  </a>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="md-whiteframe-2p" flex>
+        <div class="mini-charts-item bgm-amber">
+          <div class="clearfix">
+              <div class="chart stats-bar"></div>
+              <div class="count">
+                  <h3>Atn. Con Facturas Rechazadas</h3>
+                  <br>
+                  <span>{{ et.datos.atencionesEt1FR }}</span>
+                  <a ui-sref="index.estadistica({tipo:'facturaRec'})" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect right" md-ink-ripple>
+                    Ver detalles
+                  </a>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="md-whiteframe-2p" flex>
+        <div class="mini-charts-item bgm-red">
+          <div class="clearfix">
+              <div class="chart stats-bar"></div>
+              <div class="count">
+                  <h3>Atenciones Pagadas</h3>
+                  <br>
+                  <span>{{ et.datos.atencionesEt1P }}</span>
+                  <a ui-sref="index.estadistica({tipo:'pagados'})" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect right" md-ink-ripple>
                     Ver detalles
                   </a>
               </div>

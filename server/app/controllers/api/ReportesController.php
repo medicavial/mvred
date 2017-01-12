@@ -151,6 +151,7 @@ class ReportesController extends BaseController {
                         })
                         ->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
+        //atenciones enviadas a revision
         $respuesta['atencionesEt1CDSR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
@@ -158,6 +159,7 @@ class ReportesController extends BaseController {
                             'ATN_estatus' => 1
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
+        //atenciones autorizadas
         $respuesta['atencionesEt1ASF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
@@ -165,6 +167,7 @@ class ReportesController extends BaseController {
                             'ATN_estatus' => 2
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
+        //atenciones rechazadas
         $respuesta['atencionesEt1R'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
@@ -172,11 +175,37 @@ class ReportesController extends BaseController {
                             'ATN_estatus' => 3
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
+        //atenciones enviadas a revsion la Factura
         $respuesta['atencionesEt1RF'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
                         ->where( array(                            
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 5
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+
+        //atenciones factura Autorizada
+        $respuesta['atencionesEt1FA'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 7
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        //atenciones factura Rechazada
+        $respuesta['atencionesEt1FR'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 6
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
+
+        //atenciones pagadas
+        $respuesta['atencionesEt1P'] = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->where( array(                            
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 4
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->count();
 
 
@@ -345,6 +374,42 @@ class ReportesController extends BaseController {
                             'Exp_cancelado' => 0,
                             'Uni_clave' => $unidad,
                             'ATN_estatus' => 5
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+        if($tipo == 'facturaAut'){
+
+            $datos = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')
+                        ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 7
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+        if($tipo == 'facturaRec'){
+
+            $datos = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')
+                        ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 6
+                        ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
+        }
+
+        if($tipo == 'pagados'){
+
+            $datos = Atencion::join('Expediente','Expediente.Exp_folio','=','Atenciones.Exp_folio')
+                        ->join('TipoAtencion','TipoAtencion.TIA_clave','=','Atenciones.TIA_clave')
+                        ->join('Compania','Compania.Cia_clave','=','Expediente.Cia_clave')
+                        ->where( array(
+                            'Exp_cancelado' => 0,
+                            'Uni_clave' => $unidad,
+                            'ATN_estatus' => 4
                         ) )->whereBetween('Exp_fecreg', array($fechaini, $fechafin))->get();
         }
 

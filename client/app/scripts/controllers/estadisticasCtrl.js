@@ -89,9 +89,7 @@
 		        }]
 		    }
 	    }
-
 	    
-
 	};
 
 
@@ -119,7 +117,14 @@
 			$rootScope.titulo = 'Detalle de Expedientes Sin Registrar Atención';
 		}else if (es.tipo == 'revisionFac'){
 			$rootScope.titulo = 'Detalle de Atenciones Con Factura en Revisión';
+		}else if (es.tipo == 'facturaAut'){
+			$rootScope.titulo = 'Detalle de Atenciones Con Factura Autorizada';
+		}else if (es.tipo == 'facturaRec'){
+			$rootScope.titulo = 'Detalle de Atenciones Con Factura Rechazada';
+		}else if (es.tipo == 'pagados'){
+			$rootScope.titulo = 'Detalle de Atenciones Pagadas';
 		}
+	
 	}
 
 
