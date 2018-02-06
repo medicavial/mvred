@@ -1,0 +1,63 @@
+<md-dialog aria-label="Pre registro" flex-sm="65" flex-gt-md="40" flex="100">
+
+  <md-toolbar style="background-color: rgba(156,39,176, 0.96);">
+    <div class="md-toolbar-tools">
+      <h2>Pre registro</h2>
+      <span flex></span>
+      <!-- <md-button class="md-icon-button" ng-click="cerrarDialogo()" aria-label="Cerrar Dialogo" ng-if="!trabajando">
+        <ng-md-icon icon="close" style="fill:white"></ng-md-icon>
+      </md-button> -->
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div layout-gt-sm="row" layout="column" layout-padding>
+      <div layout="column" flex>
+        <md-input-container>
+          <label>Lesionado</label>
+          <md-select name="sel" ng-model="seleccion" ng-change="datosPre( seleccion )">
+            <md-option value="0" disabled>* Seleccione</md-option>
+            <md-option ng-repeat="lesionado in listado" value="{{lesionado.QWS_id}}">{{lesionado.QWS_lesionado}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+
+    <div layout="row" layout-padding>
+        <table md-data-table ng-if="seleccion > 0" width="100%">
+          <thead>
+            <tr>
+              <th width="25%" name="Folio Electronico">Folio Electronico</th>
+              <th width="25%" name="Poliza">Poliza</th>
+              <th width="25%" name="Siniestro">Siniestro</th>
+              <th width="25%" name="Reporte">Reporte</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center">{{ datosLesionado.QWS_folioElectronico }}</td>
+              <td align="center">{{ datosLesionado.QWS_poliza }}</td>
+              <td align="center">{{ datosLesionado.QWS_siniestro }}</td>
+              <td align="center">{{ datosLesionado.QWS_reporte }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <div layout="row" layout-paddin layout-align="end center" flex>
+      <md-button ng-if="seleccion < 1" ng-click="cerrarDialogo()">
+        No encontrado
+      </md-button>
+
+      <md-button ng-if="seleccion > 0" ng-click="cerrarDialogo()">
+        No corresponde
+      </md-button>
+
+      <md-button ng-if="seleccion > 0" ng-click="confirmaDatos()"
+                 class="md-raised md-primary" style="background-color: rgba(156,39,176, 0.96);">
+        Seleccionar
+      </md-button>
+    </div>
+
+  </md-dialog-content>
+</md-dialog>

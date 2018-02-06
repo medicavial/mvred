@@ -7,15 +7,14 @@
 	angular.module('app')
 	.controller('registroCtrl',registroCtrl)
 	.controller('telefonoCtrl',telefonoCtrl)
+	.controller('preregistroCtrl',preregistroCtrl)
 
 	registroCtrl.$inject = ['$rootScope','datos','busqueda','$mdDialog','$q','$filter','operacion','mensajes', 'publicfiles', '$mdpDatePicker','ayuda'];
 	telefonoCtrl.$inject = ['$mdDialog','tipos','telefonos', 'mensajes'];
+	preregistroCtrl.$inject = ['$rootScope', '$scope','$mdDialog', 'listado'];
 
 	function registroCtrl($rootScope,datos,busqueda,$mdDialog, $q, $filter,operacion,mensajes, publicfiles, $mdpDatePicker,ayuda){
-
 		// console.log(datos);
-
-
 		// se inciliza el objeto del controlador y la vista
 		var vm = this;
 		vm.fecha = moment().subtract(25, "year");
@@ -43,20 +42,20 @@
 		vm.inicio = inicio; //funcion para limpiar todos los campos
 
 		vm.agregaTelefono 	   = agregaTelefono; //funcion que graga mas telefonos disponibles
-		vm.buscaAjustador      = buscaAjustador; // funcion que filtra la busqueda de ajustadores 
+		vm.buscaAjustador      = buscaAjustador; // funcion que filtra la busqueda de ajustadores
 		vm.confirmaProducto    = confirmaProducto; //funcion para seleccionar el producto segun el cliente
 		vm.guardaPaciente 	   = guardaPaciente; // funcion para guardar en base de datos los datos del paciente
 		vm.guardaSiniestro 	   = guardaSiniestro; // funcion para guardar en base de datos los datos del Siniestro
 		vm.verificaProducto    = verificaProducto; // funcion que consulta los productos disponibles segun el usuario
 		vm.detalleAjustador    = detalleAjustador; // si elijen a alguien de la lista de ajustadores rellena campos
-		vm.resetForms		   = resetForms;
-		vm.consultaInfo		   = consultaInfo;
+		vm.resetForms		   		 = resetForms;
+		vm.consultaInfo		   	 = consultaInfo;
 		vm.verificaObligatorio = verificaObligatorio;
 		vm.verificaVigencia    = verificaVigencia;
+		vm.preRegistro    		 = preRegistro;
 
 		// funciones del controlador
 		function agregaTelefono(ev){
-
 			$mdDialog.show({
 				controller: 'telefonoCtrl',
 				controllerAs: 'tel',
@@ -74,7 +73,6 @@
 	      		// console.log(telefonos);
 	      		vm.telefonos = telefonos;
 		    });
-
 		}
 
 		function buscaAjustador (query) {
@@ -88,9 +86,7 @@
 	    }
 
 		function confirmaProducto(producto){
-
 			// console.log(producto);
-
 			if (vm.errorInfo) {
 				mensajes.alerta(error,'error','top right','alert');
 				consultaInfo();
@@ -102,12 +98,48 @@
 				vm.imagenProducto = producto.Pro_img;
 				vm.datos.producto = producto.Pro_clave;
 				if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para llenar formato de registro');
-			}
 
+				// busqueda QualitasWS
+				console.log(vm.datos.cliente);
+				if ( vm.datos.cliente == 19 ) {
+					busqueda.listadoQWS().success(function(data){
+						// console.log(data);
+						if ( data.length > 0 ) {
+							// console.log( data );
+							preRegistro( data )
+						} else{
+							console.log('sin datos');
+						}
+					})
+				}
+			}
+		}
+
+		function preRegistro( datos ){
+			// console.log(datos);
+			$mdDialog.show({
+				controller: 'preregistroCtrl',
+				controllerAs: 'prereg',
+				templateUrl: 'preRegistro.html',
+				parent: angular.element(document.body),
+				locals:{listado: datos},
+				clickOutsideToClose:false,
+	      escapeToClose: false,
+				fullscreen: true
+		    })
+		}
+
+		$rootScope.prellenaDatos = function( datos ){
+			// console.log(datos);
+			vm.datoSiniestro.poliza			= datos.QWS_poliza;
+			vm.datoSiniestro.folioElec	= datos.QWS_folioElectronico;
+			vm.datoSiniestro.siniestro	= datos.QWS_siniestro;
+			vm.datoSiniestro.reporte		= datos.QWS_reporte;
+			console.log(vm.datoSiniestro);
 		}
 
 		function consultaInfo(){
-			
+
 			var tipos 	= busqueda.tipos(),
 			riesgos  	= busqueda.riesgos(),
 			ajustadores = busqueda.ajustadores();
@@ -117,7 +149,7 @@
 				vm.tipos    = data[0].data;
 				vm.riesgos    = data[1].data;
 				vm.ajustadores    = data[2].data;
-				
+
 			},function(error){
 				vm.errorInfo = true;
 			});
@@ -125,7 +157,7 @@
 		}
 
 		function detalleAjustador(ajustador){
-			
+
 			// console.log(ajustador);
 
 			if (ajustador != undefined) {
@@ -133,7 +165,7 @@
 				vm.datoSiniestro.ajustador = ajustador.AJU_nombre;
 				vm.datoSiniestro.telAjustador = ajustador.AJU_tel;
 				vm.datoSiniestro.cveAjustador = ajustador.AJU_clavease;
-				vm.datoSiniestro.cveAjustadorMv = ajustador.AJU_claveint; 
+				vm.datoSiniestro.cveAjustadorMv = ajustador.AJU_claveint;
 				vm.ajustadorExiste = true;
 
 			}else{
@@ -143,12 +175,24 @@
 				vm.datoSiniestro.cveAjustador = '';
 				vm.datoSiniestro.cveAjustadorMv = '';
 			}
-			
+
 		}
 
 		function guardaPaciente(){
-
 			if (vm.registroForm.$valid) {
+
+				console.log(vm.datos.fechaNac);
+				var d = new Date( vm.datos.fechaNac );
+				var dia = d.getDate();
+				var mes = d.getMonth() +1;
+				var anio = d.getFullYear();
+
+				if (dia < 10) {dia = '0'+dia;}
+				if (mes < 10) {mes = '0'+mes;}
+
+				vm.datos.fechaNacReg = anio+'-'+mes+'-'+dia;
+
+				console.log(vm.datos.fechaNacReg);
 
 				vm.guardando = true;
 				// console.log(vm.datos);
@@ -167,7 +211,7 @@
 					mensajes.alerta(data.respuesta,'success','top right','done_all');
 
 				}).error(function (error){
-					
+
 					vm.guardando = false;
 					if (error) {
 						mensajes.alerta(error,'error','top right','done_all');
@@ -175,34 +219,24 @@
 						mensajes.alerta(mensajeError,'error','top right','done_all');
 					}
 				});
-
 			};
-
 		}
 
 		function guardaSiniestro(){
-
 			if (vm.siniestroForm.$valid) {
-
 				vm.datoSiniestro.ajustador.toUpperCase();
 				// console.log(vm.datoSiniestro);
-
 				vm.guardando = true;
 
 				operacion.registroSiniestro(vm.datoSiniestro).success(function (data){
-
 					vm.guardando = false;
 					vm.step5block = false;
 					vm.tabActual = 4;
 					vm.step4block = true;
-
 					mensajes.alerta(data.respuesta,'success','top right','done_all');
-
 				}).error(function (error){
-					
 					vm.guardando = false;
 					mensajes.alerta(mensajeError,'error','top right','done_all');
-				
 				});
 			}
 
@@ -244,7 +278,8 @@
 				apaterno:'',
 				amaterno:'',
 				folioInterno:'',
-				fechaNac:new Date(vm.fecha)
+				fechaNac:new Date(vm.fecha),
+				fechaNacReg:''
 			}
 
 			vm.datoSiniestro = {
@@ -286,7 +321,7 @@
 			vm.registroForm.$setPristine();
 			vm.siniestroForm.$setPristine();
 			inicio();
-		
+
 		}
 
 		function verificaObligatorio(){
@@ -299,7 +334,6 @@
 		}
 
 		function verificaProducto(cliente){
-
 			// console.log(cliente);
 			vm.productos = [];
 			vm.consultando = true;
@@ -312,7 +346,7 @@
 			};
 
 			busqueda.productosCliente(cliente.Cia_clave,vm.datos.localidad).success(function(data){
-				
+
 				vm.productos = data;
 				vm.consultando = false;
 				vm.datos.cliente = cliente.Cia_clave;
@@ -327,14 +361,12 @@
 				}else{
 					if ($rootScope.modoGuiado) ayuda.registro1('Ayuda para selección de producto');
 				}
-
 			});
-
 		}
 
 		function verificaVigencia(){
-			
-			var fecha1 = moment(); 
+
+			var fecha1 = moment();
 			var fecha2 = moment(vm.datoSiniestro.fechaExp);
 
 			var dias = fecha1.diff(fecha2, 'days');
@@ -345,13 +377,37 @@
 			if (dias > vm.vigencia) {
 				mensajes.alerta('El pase esta vencido','error','top right','report_problem');
 			};
-			
+
 
 		}
-
-
 	};
 
+	function preregistroCtrl($rootScope, $scope, $mdDialog, listado){
+		$scope.listado = listado;
+		// console.log($scope.listado);
+		$scope.seleccion = 0;
+
+		$scope.datosPre = function( id ){
+			// console.log( id );
+
+			for (var i = 0; i < listado.length; i++) {
+				if ( listado[i].QWS_id == id ) {
+					$scope.datosLesionado = listado[i];
+					break;
+				}
+			}
+		}
+
+		$scope.cerrarDialogo = function(){
+			$mdDialog.hide();
+		}
+
+		$scope.confirmaDatos = function(){
+			$rootScope.prellenaDatos( $scope.datosLesionado );
+			$mdDialog.hide();
+		}
+
+	}
 
 	function telefonoCtrl($mdDialog,tipos,telefonos, mensajes){
 

@@ -2,7 +2,7 @@
 (function(){
 
     'use strict';
-    
+
     angular.module('app')
     .factory('busqueda',busqueda);
 
@@ -28,7 +28,8 @@
             tiposDocumento:tiposDocumento,
             tiposAtencion:tiposAtencion,
             tipoLesion:tipoLesion,
-            unidades:unidades
+            unidades:unidades,
+            listadoQWS:listadoQWS
         };
 
         return servicio;
@@ -74,7 +75,7 @@
                 tickets        = $http.get(api + 'busqueda/tickets/' + folio ,{timeout: 10000}),
                 //solicitudes
                 solicitudes    = $http.get(api + 'busqueda/solicitudes/' + folio ,{timeout: 10000});
-            
+
             $q.all([tickets,historial,autorizaciones,atenciones,solicitudes]).then(function (data){
 
                 var atenciones = data[3].data;
@@ -103,12 +104,12 @@
 
         //consulta el detalle de la atencion
         function detalleAtencion(atencion){
-            
+
             var promesa  = $q.defer(),
                 lesion   = tipoLesion(),
                 detalle  = $http.get( api + 'busqueda/detalleAtencion/' + atencion );
 
-            
+
             $q.all([detalle,lesion]).then(function (datos){
 
                 var datos = {
@@ -153,7 +154,7 @@
             return $http.get(api + 'busqueda/lesionCodificada/' + lesion ,{timeout: 10000});
         }
 
-        //busqueda lesion MV segun el tipo de lesion 
+        //busqueda lesion MV segun el tipo de lesion
         function lesionMV(tipo){
             return $http.get(api + 'busqueda/lesionMV/' + tipo ,{timeout: 10000});
         }
@@ -189,10 +190,10 @@
                 };
 
                 if (datos.lesionado) {
-                    parametros = parametros + '&lesionado=' + datos.lesionado;  
+                    parametros = parametros + '&lesionado=' + datos.lesionado;
                 };
             };
-            
+
             var consulta   = $http.get(api + 'busqueda/registros?' + parametros ,{timeout: 10000});
 
             $q.when(consulta).then(
@@ -208,7 +209,7 @@
                 });
 
             return promesa.promise;
-             
+
         }
 
         function documentosAtencion(producto,atencion){
@@ -245,6 +246,10 @@
             return $http.get(api + 'busqueda/unidades',{timeout: 10000});
         };
 
+        //consulta a QualitasWS
+        function listadoQWS(){
+            return $http.get('http://medicavial.net/mvnuevo/api/api.php?funcion=getListadoQWS&uni=' + $rootScope.unidad,{timeout: 10000});
+        };
 
     }
 
